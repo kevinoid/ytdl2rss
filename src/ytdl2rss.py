@@ -15,6 +15,20 @@ from xml.sax.saxutils import escape, quoteattr  # nosec
 
 __version__ = '0.1.0'
 
+_VERSION_MESSAGE = (
+    '%(prog)s '
+    + __version__
+    + '''
+
+Copyright 2020 Kevin Locke <kevin@kevinlocke.name>
+
+%(prog) is free and unencumbered software released into the public domain.
+
+%(prog) is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the Unlicense for details.'''
+)
+
 
 def _ymd_to_rfc2822(datestr):
     """Convert a date in YYYYMMDD format to RFC 2822 for RSS."""
@@ -378,6 +392,13 @@ def _parse_args(args, namespace=None):
         description=__doc__,
         # Use raw formatter to avoid mangling version text
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        '-V',
+        '--version',
+        action='version',
+        help='Output version and license information',
+        version=_VERSION_MESSAGE,
     )
     parser.add_argument(
         'json_files',

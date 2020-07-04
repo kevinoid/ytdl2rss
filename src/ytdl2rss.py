@@ -10,7 +10,7 @@ import traceback
 
 from datetime import datetime
 from email.utils import formatdate
-from xml.sax.saxutils import escape, quoteattr
+from xml.sax.saxutils import escape, quoteattr  # nosec
 
 __version__ = '0.1.0'
 

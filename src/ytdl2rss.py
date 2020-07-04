@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Create podcast RSS from youtube-dl info JSON."""
 
+import argparse
 import codecs
 import json
 import os
@@ -362,6 +363,31 @@ def _load_info(info_paths):
     return entries_to_playlist(entries)
 
 
+def _parse_args(args, namespace=None):
+    """
+    Parse command-line arguments.
+
+    :param args: command-line arguments (usually :py:data:`sys.argv`)
+    :param namespace: object to take the parsed attributes.
+
+    :return: parsed arguments
+    :rtype: argparse.Namespace
+    """
+    parser = argparse.ArgumentParser(
+        usage='%(prog)s [options] <JSON file...>',
+        description=__doc__,
+        # Use raw formatter to avoid mangling version text
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        'json_files',
+        nargs='+',
+        metavar='JSON file...',
+        help='youtube-dl .info.json files',
+    )
+    return parser.parse_args(args, namespace)
+
+
 def main(*argv):
     """
     Entry point for command-line use.
@@ -371,9 +397,7 @@ def main(*argv):
     :return: exit code
     :rtype: int
     """
-    if len(argv) == 0 or {'-h', '-?', '--help'} & set(argv):
-        print('Usage:', argv[0], '<.info.json file...>')
-        return 1 if len(argv) == 0 else 0
+    args = _parse_args(argv[1:])
 
     encoding = sys.stdout.encoding
     if encoding is not None:
@@ -395,7 +419,7 @@ def main(*argv):
         writer.write('\n')
 
     try:
-        playlist_to_rss(_load_info(argv[1:]), writer, indent=indent)
+        playlist_to_rss(_load_info(args.json_files), writer, indent=indent)
     except UnicodeEncodeError:
         # FIXME: Should use a proper XML writer which would represent
         # characters outside the file encoding using XML entities.

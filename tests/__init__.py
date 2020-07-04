@@ -1,1 +1,1 @@
-"""packagename unit tests."""
+"""ytdl2rss unit tests."""

@@ -19,7 +19,7 @@ try:
 except ImportError:
     from ConfigParser import ConfigParser
 
-# Add parent dir to path for importing __version__ from packagename below
+# Add parent dir to path for importing __version__ from ytdl2rss below
 _project_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, os.path.join(_project_path, 'src'))
 
@@ -45,7 +45,7 @@ copyright = _setup_cfg.get('metadata', 'copyright')
 
 # The full version, including alpha/beta/rc tags
 # pylint: disable=import-error
-from packagename import __version__ as release  # noqa: E402
+from ytdl2rss import __version__ as release  # noqa: E402
 
 # pylint: enable=import-error
 
@@ -139,7 +139,7 @@ html_theme = 'alabaster'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'python-project-templatedoc'
+htmlhelp_basename = 'ytdl2rssdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -168,8 +168,8 @@ latex_elements = {
 latex_documents = [
     (
         master_doc,
-        'python-project-template.tex',
-        'python-project-template Documentation',
+        'ytdl2rss.tex',
+        'ytdl2rss Documentation',
         'Kevin Locke \\textless{}kevin@kevinlocke.name\\textgreater{}',
         'manual',
     )
@@ -183,8 +183,8 @@ latex_documents = [
 man_pages = [
     (
         master_doc,
-        'python-project-template',
-        'python-project-template Documentation',
+        'ytdl2rss',
+        'ytdl2rss Documentation',
         [author],
         1,
     )
@@ -199,10 +199,10 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        'python-project-template',
-        'python-project-template Documentation',
+        'ytdl2rss',
+        'ytdl2rss Documentation',
         author,
-        'python-project-template',
+        'ytdl2rss',
         'One line description of project.',
         'Miscellaneous',
     )

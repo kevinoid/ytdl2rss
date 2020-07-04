@@ -11,8 +11,8 @@ Documentation Contents
    cli
    api/modules
    contributing
-   Issue Tracker <https://github.com/kevinoid/python-project-template/issues>
-   License <https://github.com/kevinoid/python-project-template/raw/master/LICENSE.txt>
+   Issue Tracker <https://github.com/kevinoid/ytdl2rss/issues>
+   License <https://github.com/kevinoid/ytdl2rss/raw/master/LICENSE.txt>
 
 
 Indices and Tables

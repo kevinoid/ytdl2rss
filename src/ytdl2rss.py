@@ -13,8 +13,16 @@ from datetime import datetime
 from email.utils import formatdate
 from xml.sax.saxutils import escape, quoteattr  # nosec
 
+try:
+    from urllib.parse import urlparse
+    from urllib.request import pathname2url, url2pathname
+except ImportError:
+    from urllib import pathname2url, url2pathname
+    from urlparse import urlparse
+
 __version__ = '0.1.0'
 
+_JSON_PATH_KEY = object()
 _VERSION_MESSAGE = (
     '%(prog)s '
     + __version__
@@ -102,6 +110,9 @@ def entry_to_rss(entry, rss, indent=None):
         indent3 = indent * 3
         eol = '\n'
 
+    json_path = entry[_JSON_PATH_KEY]
+    json_dir = os.path.dirname(json_path)
+
     rss.write(indent2)
     rss.write('<item>')
     rss.write(eol)
@@ -136,6 +147,12 @@ def entry_to_rss(entry, rss, indent=None):
         rss.write('</pubDate>')
         rss.write(eol)
 
+    filename = entry['_filename']
+    # Resolve filename relative to JSON
+    filename = os.path.join(json_dir, filename)
+    # Make relative to RSS file (curdir)
+    filename = os.path.relpath(filename)
+    fileurl = pathname2url(filename)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)
     rss.write(indent3)
@@ -147,12 +164,19 @@ def entry_to_rss(entry, rss, indent=None):
         rss.write(' length=')
         rss.write(quoteattr(str(filesize)))
     rss.write(' url=')
-    rss.write(quoteattr(entry['_filename']))
+    rss.write(quoteattr(fileurl))
     rss.write('/>')
     rss.write(eol)
 
     thumbnail = entry.get('thumbnail')
     if thumbnail is not None:
+        if not urlparse(thumbnail).scheme:
+            # Resolve thumbnail relative to JSON
+            thumbnail = url2pathname(thumbnail)
+            thumbnail = os.path.join(json_dir, thumbnail)
+            # Make relative to RSS file (curdir)
+            thumbnail = os.path.relpath(thumbnail)
+            thumbnail = pathname2url(thumbnail)
         rss.write(indent3)
         rss.write('<itunes:image href=')
         rss.write(quoteattr(thumbnail))
@@ -363,10 +387,13 @@ def _load_info(info_paths):
             raise ValueError('Unrecognized JSON in ' + info_path)
         if has_formats:
             # info for a single video
+            info[_JSON_PATH_KEY] = info_path
             entries.append(info)
         else:
             # info for a playlist
             last_playlist = info
+            for entry in info_entries:
+                entry[_JSON_PATH_KEY] = info_path
             entries.extend(info_entries)
 
     # If the user provided a single playlist, use it as-is

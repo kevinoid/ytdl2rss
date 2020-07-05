@@ -236,10 +236,12 @@ def playlist_to_rss(playlist, rss, indent=None):
     if indent is None:
         indent1 = ''
         indent2 = ''
+        indent3 = ''
         eol = ''
     else:
         indent1 = indent
         indent2 = indent * 2
+        indent3 = indent * 3
         eol = '\n'
 
     rss.write(
@@ -258,6 +260,15 @@ def playlist_to_rss(playlist, rss, indent=None):
         rss.write('<title>')
         rss.write(escape(title))
         rss.write('</title>')
+        rss.write(eol)
+
+    # Not produced by youtube-dl:
+    description = playlist.get('description')
+    if description is not None:
+        rss.write(indent2)
+        rss.write('<description>')
+        rss.write(escape(description))
+        rss.write('</description>')
         rss.write(eol)
 
     uploader = playlist.get('uploader')
@@ -288,9 +299,57 @@ def playlist_to_rss(playlist, rss, indent=None):
         rss.write('</pubDate>')
         rss.write(eol)
 
-    # TODO: Channel description
-    # TODO: Channel image
+    # Not produced by youtube-dl:
     # https://github.com/ytdl-org/youtube-dl/issues/16130
+    thumbnail = playlist.get('thumbnail')
+    if thumbnail is not None:
+        if not urlparse(thumbnail).scheme:
+            # Resolve thumbnail relative to JSON
+            json_path = playlist[_JSON_PATH_KEY]
+            json_dir = os.path.dirname(json_path)
+            thumbnail = url2pathname(thumbnail)
+            thumbnail = os.path.join(json_dir, thumbnail)
+            # Make relative to RSS file (curdir)
+            thumbnail = os.path.relpath(thumbnail)
+            thumbnail = pathname2url(thumbnail)
+        rss.write(indent2)
+        rss.write('<image>')
+        rss.write(eol)
+
+        rss.write(indent3)
+        rss.write('<url>')
+        rss.write(escape(thumbnail))
+        rss.write('</url>')
+        rss.write(eol)
+
+        # "Note, in practice the image <title> and <link> should have the
+        # same value as the channel's <title> and <link>."
+        # https://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+        if title is not None:
+            rss.write(indent3)
+            rss.write('<title>')
+            rss.write(escape(title))
+            rss.write('</title>')
+            rss.write(eol)
+
+        if webpage_url is not None:
+            rss.write(indent3)
+            rss.write('<link>')
+            rss.write(escape(webpage_url))
+            rss.write('</link>')
+            rss.write(eol)
+
+        rss.write(indent2)
+        rss.write('</image>')
+        rss.write(eol)
+
+        # Apple instructs podcasters to use <itunes:image>, doesn't document
+        # standardized <image>.  Include both.
+        rss.write(indent2)
+        rss.write('<itunes:image href=')
+        rss.write(quoteattr(thumbnail))
+        rss.write('/>')
+        rss.write(eol)
 
     age_limits = [entry.get('age_limit') for entry in playlist['entries']]
     if age_limits and None not in age_limits:
@@ -392,6 +451,7 @@ def _load_info(info_paths):
         else:
             # info for a playlist
             last_playlist = info
+            info[_JSON_PATH_KEY] = info_path
             for entry in info_entries:
                 entry[_JSON_PATH_KEY] = info_path
             entries.extend(info_entries)

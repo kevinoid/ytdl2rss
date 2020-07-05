@@ -377,6 +377,14 @@ def _load_info(info_paths):
     return entries_to_playlist(entries)
 
 
+def _parse_indent(indent):
+    """Parse indent argument to indent string."""
+    try:
+        return ' ' * int(indent)
+    except ValueError:
+        return indent
+
+
 def _parse_args(args, namespace=None):
     """
     Parse command-line arguments.
@@ -392,6 +400,13 @@ def _parse_args(args, namespace=None):
         description=__doc__,
         # Use raw formatter to avoid mangling version text
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        '-i',
+        '--indent',
+        help='XML indent string, or number of spaces to indent',
+        nargs='?',
+        type=_parse_indent,
     )
     parser.add_argument(
         '-V',
@@ -431,16 +446,18 @@ def main(*argv):
         encoding = 'UTF-8'
         writer = codecs.getwriter(encoding)(sys.stdout)
 
-    indent = '  '
-
     writer.write('<?xml version="1.0" encoding=')
     writer.write(quoteattr(encoding))
     writer.write('?>')
-    if indent is not None:
+    if args.indent is not None:
         writer.write('\n')
 
     try:
-        playlist_to_rss(_load_info(args.json_files), writer, indent=indent)
+        playlist_to_rss(
+            _load_info(args.json_files),
+            writer,
+            indent=args.indent,
+        )
     except UnicodeEncodeError:
         # FIXME: Should use a proper XML writer which would represent
         # characters outside the file encoding using XML entities.

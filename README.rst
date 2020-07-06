@@ -1,83 +1,40 @@
-================
-Project Template
-================
+========
+ytdl2rss
+========
 
-.. image:: https://img.shields.io/travis/kevinoid/python-project-template/master.svg?style=flat&label=build+on+linux
+.. image:: https://img.shields.io/travis/kevinoid/ytdl2rss/master.svg?style=flat&label=build+on+linux
    :alt: Build Status: Linux
-   :target: https://travis-ci.org/kevinoid/python-project-template
-.. image:: https://img.shields.io/appveyor/ci/kevinoid/python-project-template/master.svg?style=flat&label=build+on+windows
+   :target: https://travis-ci.org/kevinoid/ytdl2rss
+.. image:: https://img.shields.io/appveyor/ci/kevinoid/ytdl2rss/master.svg?style=flat&label=build+on+windows
    :alt: Build Status: Windows
-   :target: https://ci.appveyor.com/project/kevinoid/python-project-template
-.. image:: https://img.shields.io/codecov/c/github/kevinoid/python-project-template.svg?style=flat
+   :target: https://ci.appveyor.com/project/kevinoid/ytdl2rss
+.. image:: https://img.shields.io/codecov/c/github/kevinoid/ytdl2rss.svg?style=flat
    :alt: Coverage
-   :target: https://codecov.io/github/kevinoid/python-project-template?branch=master
-.. image:: https://img.shields.io/david/kevinoid/python-project-template.svg?style=flat
+   :target: https://codecov.io/github/kevinoid/ytdl2rss?branch=master
+.. image:: https://img.shields.io/david/kevinoid/ytdl2rss.svg?style=flat
    :alt: Dependency Status
-   :target: https://david-dm.org/kevinoid/python-project-template
-.. image:: https://img.shields.io/pypi/pyversions/python-project-template.svg?style=flat
+   :target: https://david-dm.org/kevinoid/ytdl2rss
+.. image:: https://img.shields.io/pypi/pyversions/ytdl2rss.svg?style=flat
    :alt: Python Versions
-   :target: https://pypi.org/project/python-project-template/
-.. image:: https://img.shields.io/pypi/v/python-project-template.svg?style=flat
+   :target: https://pypi.org/project/ytdl2rss/
+.. image:: https://img.shields.io/pypi/v/ytdl2rss.svg?style=flat
    :alt: Version on PyPI
-   :target: https://pypi.org/project/python-project-template/
+   :target: https://pypi.org/project/ytdl2rss/
 
-A Python project template with pytest_, tox_, Sphinx_ (with sphinx-apidoc_ and
-sphinx-argparse_), AppVeyor_, `Travis CI`_, coveralls_, Codecov_, and several
-linters including flake8_ (with many plugins), Bandit_, Black_, pyroma_, and
-others.
-
-This template is the basis of my own Python projects, representing my current
-preferences.  I am not advocating for these choices nor this template
-specifically, although I am happy to discuss or explain any choices made
-herein.  It is being published both for my own convenience and in case it may
-be useful to others with similar tastes.
+Create podcast_ RSS_ of media downloaded from YouTube_, Vimeo_, Twitch_ or
+any other site supported by youtube-dl_.
 
 
 Introductory Example
 ====================
 
-.. code:: python
+To create an audio podcast from videos in GoogleTechTalks_ `Make the Web
+Faster`_ playlist:
 
-   import packagename
+.. code:: sh
 
-   packagename.foo()
-
-
-(Mis-)Features
-==============
-
-* All module sources are in ``src`` rather than the top-level directory.
-  I was initially against this idea, but was swayed by Ionel Cristian Mărieș'
-  `Packaging a python library`_, Hynek Schlawack's `Testing & Packaging`_, and
-  pytest `Good Integration Practices`_.
-* Minimally constrained top-level dependencies are declared in
-  ``requirements*.in`` files.  Full, exact, known-good dependency versions
-  are stored in ``requirements*.txt``.  These can be generated using
-  ``pip-compile`` from pip-tools_ or ``pip install && pip freeze`` in a fresh
-  virtual environment:
-
-  .. code:: sh
-
-      for requirements in requirements*.in ; do
-          pip-compile "$requirements"
-      done
-
-  This system has the benefit of allowing easy installation of fully or
-  minimally constrained dependencies from many tools (``setup.py``, ``pip``,
-  ``tox``, etc.) without duplication.
-
-  I have experimented with several other approaches, including `pip constraint
-  files`_ (``constraints.txt``), Pipenv_ (``Pipfile``/``Pipfile.lock``),
-  Poetry_ (``pyproject.toml``), and a few others, along with other tools to
-  sync with or generate ``requirements.txt`` and ``setup.cfg``.  Although these
-  approaches have several benefits, I think the additional complexity (both
-  inherent and when integrating with other tools like tox) currently outweighs
-  their value.
-* `tox`_ (used for CI) is configured to use minimally constrained dependencies.
-  This is desirable for library packages, since user installs are minimally
-  constrained.  If the package will be deployed as an application using
-  ``requirements.txt``, consider changing ``requirements*.in`` to
-  ``requirements*.txt`` in ``tox.ini`` to test using exact dependency versions.
+   youtube-dl --write-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
+   ytdl2rss *.info.json >podcast.rss
 
 
 Installation
@@ -87,19 +44,65 @@ Installation
 
 .. code:: sh
 
-   pip install python-project-template
+   pip install ytdl2rss
+
+Or by saving ytdl2rss.py as an executable file in ``$PATH``.
 
 
 Recipes
 =======
 
-.. code:: python
+A podcast can be periodically updated by running ``youtube-dl`` and ``ytdl2rss``
+from cron_.  Using ``--download-archive`` is recommended.  For example, to
+update the introductory example daily at 5 a.m., the following can be added to
+``crontab``:
 
-   import packagename
+.. code:: crontab
 
-   packagename.bar(packagename.baz())
+   0 5 * * * cd path/to/podcast && youtube-dl --download-archive ytdl-archive.txt --write-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4 && ytdl2rss *.info.json >|podcast.rss
+
+Episode thumbnail images can be hosted alongside downloaded media, so
+podcatchers will not download them from the original host, by using
+``--write-thumbnail`` and modifying the ``.info.json`` files to use the
+downloaded thumbnails:
+
+.. code:: sh
+
+   youtube-dl --write-info-json --write-thumbnail -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
+   for info in *.info.json; do
+       jq --arg t "${info%.info.json}.webp" '.thumbnail = $t' "$info" >"$info.new"
+       mv -f "$info.new" "$info"
+   done
+   ytdl2rss *.info.json >podcast.rss
+
+
+In addition to JSON for individual videos, ``ytdl2rss`` accepts JSON for
+playlists (produced by ``youtube-dl --print-json`` for channel/playlist/user
+URLs).  This can be used to define a podcast metadata not currently saved by ``youtube-dl``, such as a description, thumbnail, and webpage URL.  To
+combine info JSON into a playlist with custom metadata:
+
+.. code:: sh
+
+   jq -s \
+       --arg desc "My awesome podcast." \
+       --arg thumb "channel_thumbnail.jpg" \
+       --arg url "http://example.com/podcast-home.html" \
+       '{
+     _type: "playlist",
+     entries: .,
+     # Copy playlist metadata from info for first video
+     id: .[0].playlist_id,
+     title: .[0].playlist_title,
+     uploader: .[0].playlist_uploader,
+     uploader_id: .[0].playlist_uploader_id,
+     # Add custom playlist metadata
+     webpage_url: $url,
+     description: $desc,
+     thumbnail: $thumb
+   }' ./*.info.json | ytdl2rss - >|podcast.rss
 
 .. === End of Sphinx index content ===
+
 
 API Docs
 ========
@@ -110,8 +113,17 @@ To use this module as a library, see the generated `API Documentation`_.
 Contributing
 ============
 
-Contributions are welcome and very much appreciated!  See the `contributing
+Contributions are welcome and appreciated!  See the `contributing
 guidelines`_ for recommendations.
+
+
+Alternatives
+============
+
+If you are looking for an all-in-one podcast media download, conversion, and hosting tool, you may be interested in:
+
+- Podsync_
+- YouCast_
 
 
 License
@@ -121,28 +133,19 @@ This template is available under the terms of `CC0 1.0 Universal`_.
 
 .. === Begin reference names ===
 
-.. _API documentation: https://kevinoid.github.io/python-project-template/api
-.. _AppVeyor: https://appveyor.com/
-.. _Bandit: https://github.com/PyCQA/bandit
-.. _Black: https://github.com/ambv/black
+.. _API documentation: https://kevinoid.github.io/ytdl2rss/api
 .. _CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
-.. _Codecov: https://codecov.io/
-.. _Good Integration Practices: https://docs.pytest.org/en/latest/goodpractices.html#tests-outside-application-code
-.. _Packaging a python library: https://blog.ionelmc.ro/2014/05/25/python-packaging/#the-structure
-.. _Pipenv: https://pipenv.readthedocs.io/
-.. _Poetry: https://poetry.eustace.io/
-.. _Sphinx: https://www.sphinx-doc.org/
-.. _Testing & Packaging: https://hynek.me/articles/testing-packaging/
-.. _Travis CI: https://travis-ci.org/
+.. _Podsync: https://github.com/mxpv/podsync
+.. _RSS: https://en.wikipedia.org/wiki/RSS
+.. _Twitch: https://www.twitch.tv/
+.. _Vimeo: https://vimeo.com/
+.. _YouCast: https://github.com/i3arnon/YouCast
+.. _YouTube: https://www.youtube.com/
 .. _contributing guidelines: CONTRIBUTING.rst
-.. _coveralls: https://coveralls.io/
-.. _flake8: https://flake8.readthedocs.io/
-.. _pip constraint files: https://pip.pypa.io/en/stable/user_guide/#constraints-files
-.. _pip-tools: https://github.com/jazzband/pip-tools
+.. _cron: https://help.ubuntu.com/community/CronHowto
 .. _pip: https://pip.pypa.io/
-.. _pyroma: https://github.com/regebro/pyroma
-.. _pytest: https://pytest.org/
-.. _sphinx-apidoc: https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
-.. _sphinx-argparse: https://sphinx-argparse.readthedocs.io
-.. _this package: https://pypi.org/project/python-project-template/
-.. _tox: https://tox.readthedocs.io
+.. _podcast: https://en.wikipedia.org/wiki/Podcast
+.. _this package: https://pypi.org/project/ytdl2rss/
+.. _GoogleTechTalks: https://www.youtube.com/c/googletechtalks
+.. _Make the Web Faster: https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
+.. _youtube-dl: https://ytdl-org.github.io/youtube-dl/

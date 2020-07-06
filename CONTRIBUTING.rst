@@ -2,12 +2,19 @@
 Contributing Guidelines
 =======================
 
-Thanks for your interest in contributing to this project!  Contributions are
-welcome and very much appreciated.  If this is your first time contributing to a
-Free and Open Source Software project, consider reading `How to Contribute to
-Open Source`_ in the Open Source Guides.  Additionally, to maximize the chance
-that your contribution will be accepted and minimize wasted effort, consider the
-following guidelines:
+Thanks for your interest in contributing to this project!  If this is your first
+time contributing to a Free and Open Source Software project, consider reading
+`How to Contribute to Open Source`_ in the Open Source Guides.  Additionally, to
+maximize the chance that your contribution will be accepted and minimize wasted
+effort, consider the following guidelines:
+
+
+Keep ytdl2rss Minimal
+=====================
+
+``ytdl2rss`` aims to be a simple tool for creating RSS from ``youtube-dl``
+metadata.  If a task can be easily accomplished by another tool, operating on
+``ytdl2rss`` input or output, it is likely not a good candidate for inclusion.
 
 
 Tests Must Pass

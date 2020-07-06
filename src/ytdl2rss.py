@@ -3,6 +3,7 @@
 
 import argparse
 import codecs
+import io
 import json
 import os
 import sys
@@ -247,6 +248,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     https://help.apple.com/itc/podcasts_connect/#/itcb54353390
     https://support.google.com/podcast-publishers/answer/9476656
     https://podcasters.spotify.com/terms/Spotify_Podcast_Delivery_Specification_v1.6.pdf
+    https://validator.w3.org/feed/
     """
     if indent is None:
         indent1 = ''
@@ -511,6 +513,11 @@ def _parse_args(args, namespace=None):
         type=_parse_indent,
     )
     parser.add_argument(
+        '-o',
+        '--output',
+        help='Output RSS file.',
+    )
+    parser.add_argument(
         '-V',
         '--version',
         action='version',
@@ -553,7 +560,9 @@ def main(*argv):
     # and for wider podcast distributor/aggregator support.
     # (e.g. Apple instructs podcasters to use UTF-8.)
     encoding = 'UTF-8'
-    if sys.stdout.isatty():
+    if args.output:
+        writer = io.open(args.output, 'w', encoding=encoding)
+    elif sys.stdout.isatty():
         # TTY unlikely to interpret XML declaration.  Use Python's encoding.
         if sys.stdout.encoding is not None:
             encoding = sys.stdout.encoding
@@ -569,13 +578,13 @@ def main(*argv):
     else:
         writer = codecs.getwriter(encoding)(sys.stdout)
 
-    writer.write('<?xml version="1.0" encoding=')
-    writer.write(quoteattr(encoding))
-    writer.write('?>')
-    if args.indent is not None:
-        writer.write('\n')
-
     try:
+        writer.write('<?xml version="1.0" encoding=')
+        writer.write(quoteattr(encoding))
+        writer.write('?>')
+        if args.indent is not None:
+            writer.write('\n')
+
         playlist_to_rss(
             _load_info(args.json_files),
             writer,
@@ -590,6 +599,9 @@ def main(*argv):
             'Consider specifying a different encoding in PYTHONIOENCODING.\n'
         )
         return 1
+    finally:
+        if args.output:
+            writer.close()
 
     return 0
 

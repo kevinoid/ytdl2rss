@@ -264,8 +264,9 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     json_path = playlist.get(_JSON_PATH_KEY)
 
     rss.write(
-        '<rss version="2.0" '
-        + 'xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"'
+        '<rss version="2.0"'
+        + ' xmlns:atom="http://www.w3.org/2005/Atom"'
+        + ' xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"'
         + '>'
     )
     rss.write(eol)
@@ -371,6 +372,15 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
         # W3C Feed Validator wants yes/no/clean
         rss.write('yes' if max(age_limits) > 0 else 'clean')
         rss.write('</itunes:explicit>')
+        rss.write(eol)
+
+    # Provide self link, as recommended
+    # https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html
+    if base:
+        rss.write(indent2)
+        rss.write('<atom:link rel="self" type="application/rss+xml" href=')
+        rss.write(quoteattr(base))
+        rss.write('/>')
         rss.write(eol)
 
     rss.write(indent2)

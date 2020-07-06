@@ -52,6 +52,9 @@ Or by saving ytdl2rss.py as an executable file in ``$PATH``.
 Recipes
 =======
 
+Periodic Updates
+----------------
+
 A podcast can be periodically updated by running ``youtube-dl`` and ``ytdl2rss``
 from cron_.  Using ``--download-archive`` is recommended.  For example, to
 update the introductory example daily at 5 a.m., the following can be added to
@@ -60,6 +63,9 @@ update the introductory example daily at 5 a.m., the following can be added to
 .. code:: crontab
 
    0 5 * * * cd path/to/podcast && youtube-dl --download-archive ytdl-archive.txt --write-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4 && ytdl2rss *.info.json >|podcast.rss
+
+Hosted Thumbnails
+-----------------
 
 Episode thumbnail images can be hosted alongside downloaded media, so
 podcatchers will not download them from the original host, by using
@@ -78,6 +84,8 @@ downloaded thumbnails:
 See `<contrib/ytdl-thumbnails.sh>`_ for an example that includes conversion from
 WebP to JPEG.
 
+Podcast Metadata
+----------------
 
 In addition to JSON for individual videos, ``ytdl2rss`` accepts JSON for
 playlists (produced by ``youtube-dl --print-json`` for channel/playlist/user

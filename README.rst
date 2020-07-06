@@ -75,6 +75,9 @@ downloaded thumbnails:
    done
    ytdl2rss *.info.json >podcast.rss
 
+See `<contrib/ytdl-thumbnails.sh>`_ for an example that includes conversion from
+WebP to JPEG.
+
 
 In addition to JSON for individual videos, ``ytdl2rss`` accepts JSON for
 playlists (produced by ``youtube-dl --print-json`` for channel/playlist/user

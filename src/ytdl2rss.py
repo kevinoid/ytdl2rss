@@ -14,11 +14,11 @@ from email.utils import formatdate
 from xml.sax.saxutils import escape, quoteattr  # nosec
 
 try:
-    from urllib.parse import urlparse
+    from urllib.parse import urljoin, urlparse
     from urllib.request import pathname2url, url2pathname
 except ImportError:
     from urllib import pathname2url, url2pathname
-    from urlparse import urlparse
+    from urlparse import urljoin, urlparse
 
 __version__ = '0.1.0'
 
@@ -36,6 +36,32 @@ Copyright 2020 Kevin Locke <kevin@kevinlocke.name>
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE.  See the Unlicense for details.'''
 )
+
+
+def _resolve_path(path, src_path, dst_path, dst_base):
+    """Resolve a path in src_path to a URL in dst_path served at dst_base."""
+    src_dir = os.path.dirname(src_path)
+    cur_path = os.path.join(src_dir, path)
+    dst_dir = os.path.dirname(dst_path)
+    rel_path = os.path.relpath(cur_path, dst_dir)
+    rel_url = pathname2url(rel_path)
+    return urljoin(dst_base, rel_url)
+
+
+def _resolve_url(url, src_path, dst_path, dst_base):
+    """Resolve a URL in src_path to a URL in dst_path served at dst_base."""
+    url_parts = urlparse(url)
+    if url_parts.scheme:
+        # url is absolute
+        return url
+
+    if url_parts.netloc:
+        # url is scheme-relative
+        return urljoin(dst_base, url)
+
+    # Resolve url from containing file
+    url_path = url2pathname(url)
+    return _resolve_path(url_path, src_path, dst_path, dst_base)
 
 
 def _ymd_to_rfc2822(datestr):
@@ -99,7 +125,7 @@ def get_entry_media_type(entry):
     return media_type
 
 
-def entry_to_rss(entry, rss, indent=None):
+def entry_to_rss(entry, rss, base=None, indent=None):
     """Convert youtube-dl entry info object to podcast RSS."""
     if indent is None:
         indent2 = ''
@@ -111,7 +137,6 @@ def entry_to_rss(entry, rss, indent=None):
         eol = '\n'
 
     json_path = entry[_JSON_PATH_KEY]
-    json_dir = os.path.dirname(json_path)
 
     rss.write(indent2)
     rss.write('<item>')
@@ -148,11 +173,7 @@ def entry_to_rss(entry, rss, indent=None):
         rss.write(eol)
 
     filename = entry['_filename']
-    # Resolve filename relative to JSON
-    filename = os.path.join(json_dir, filename)
-    # Make relative to RSS file (curdir)
-    filename = os.path.relpath(filename)
-    fileurl = pathname2url(filename)
+    fileurl = _resolve_path(filename, json_path, rss.name, base)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)
     rss.write(indent3)
@@ -170,13 +191,7 @@ def entry_to_rss(entry, rss, indent=None):
 
     thumbnail = entry.get('thumbnail')
     if thumbnail is not None:
-        if not urlparse(thumbnail).scheme:
-            # Resolve thumbnail relative to JSON
-            thumbnail = url2pathname(thumbnail)
-            thumbnail = os.path.join(json_dir, thumbnail)
-            # Make relative to RSS file (curdir)
-            thumbnail = os.path.relpath(thumbnail)
-            thumbnail = pathname2url(thumbnail)
+        thumbnail = _resolve_url(thumbnail, json_path, rss.name, base)
         rss.write(indent3)
         rss.write('<itunes:image href=')
         rss.write(quoteattr(thumbnail))
@@ -219,7 +234,7 @@ def entry_to_rss(entry, rss, indent=None):
     rss.write(eol)
 
 
-def playlist_to_rss(playlist, rss, indent=None):
+def playlist_to_rss(playlist, rss, base=None, indent=None):
     """
     Convert youtube-dl playlist info object to podcast RSS.
 
@@ -243,6 +258,8 @@ def playlist_to_rss(playlist, rss, indent=None):
         indent2 = indent * 2
         indent3 = indent * 3
         eol = '\n'
+
+    json_path = playlist.get(_JSON_PATH_KEY)
 
     rss.write(
         '<rss version="2.0" '
@@ -303,15 +320,7 @@ def playlist_to_rss(playlist, rss, indent=None):
     # https://github.com/ytdl-org/youtube-dl/issues/16130
     thumbnail = playlist.get('thumbnail')
     if thumbnail is not None:
-        if not urlparse(thumbnail).scheme:
-            # Resolve thumbnail relative to JSON
-            json_path = playlist[_JSON_PATH_KEY]
-            json_dir = os.path.dirname(json_path)
-            thumbnail = url2pathname(thumbnail)
-            thumbnail = os.path.join(json_dir, thumbnail)
-            # Make relative to RSS file (curdir)
-            thumbnail = os.path.relpath(thumbnail)
-            thumbnail = pathname2url(thumbnail)
+        thumbnail = _resolve_url(thumbnail, json_path, rss.name, base)
         rss.write(indent2)
         rss.write('<image>')
         rss.write(eol)
@@ -369,7 +378,7 @@ def playlist_to_rss(playlist, rss, indent=None):
     rss.write(eol)
 
     for entry in playlist['entries']:
-        entry_to_rss(entry, rss, indent=indent)
+        entry_to_rss(entry, rss, base=base, indent=indent)
 
     rss.write(indent1)
     rss.write('</channel>')
@@ -488,6 +497,12 @@ def _parse_args(args, namespace=None):
         # Use raw formatter to avoid mangling version text
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    # Note: Match name of wget -B/--base option with similar purpose
+    parser.add_argument(
+        '-B',
+        '--base',
+        help='URL from which files will be served, to resolve relative URLs',
+    )
     parser.add_argument(
         '-i',
         '--indent',
@@ -522,6 +537,17 @@ def main(*argv):
     """
     args = _parse_args(argv[1:])
 
+    if not args.base or not urlparse(args.base).scheme:
+        # Note: Not just a spec compliance issue.  Affects real aggregators:
+        # https://github.com/AntennaPod/AntennaPod/issues/2880
+        sys.stderr.write(
+            'Warning: URLs in RSS 2.0 must start with a URI scheme per:\n'
+            '- https://www.rssboard.org/rss-specification#comments\n'
+            '- https://cyber.harvard.edu/rss/rss.html#comments\n'
+            'Use -B,--base to specify an absolute URL at which the RSS will '
+            'be served.\n'
+        )
+
     encoding = sys.stdout.encoding
     if encoding is not None:
         writer = sys.stdout
@@ -543,6 +569,7 @@ def main(*argv):
         playlist_to_rss(
             _load_info(args.json_files),
             writer,
+            base=args.base,
             indent=args.indent,
         )
     except UnicodeEncodeError:

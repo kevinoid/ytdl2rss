@@ -548,15 +548,25 @@ def main(*argv):
             'be served.\n'
         )
 
-    encoding = sys.stdout.encoding
-    if encoding is not None:
+    # Note: Could use default locale.getpreferredencoding().  Many users would
+    # "prefer" ISO-8859-1.  UTF-8 is a safer default to support more characters
+    # and for wider podcast distributor/aggregator support.
+    # (e.g. Apple instructs podcasters to use UTF-8.)
+    encoding = 'UTF-8'
+    if sys.stdout.isatty():
+        # TTY unlikely to interpret XML declaration.  Use Python's encoding.
+        if sys.stdout.encoding is not None:
+            encoding = sys.stdout.encoding
+            writer = sys.stdout
+        else:
+            import locale
+            encoding = locale.getpreferredencoding()
+            writer = codecs.getwriter(encoding)(sys.stdout)
+    elif sys.stdout.encoding and sys.stdout.encoding.upper() == encoding:
         writer = sys.stdout
+    elif hasattr(sys.stdout, 'buffer'):
+        writer = codecs.getwriter(encoding)(sys.stdout.buffer)
     else:
-        # Note: Could use locale.getpreferredencoding().  Most users likely
-        # "prefer" ISO-8859-1.  UTF-8 is a safer default to support more
-        # characters and for wider podcast distributor/aggregator support.
-        # (e.g. Apple instructs podcasters to use UTF-8.)
-        encoding = 'UTF-8'
         writer = codecs.getwriter(encoding)(sys.stdout)
 
     writer.write('<?xml version="1.0" encoding=')

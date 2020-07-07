@@ -112,6 +112,9 @@ combine info JSON into a playlist with custom metadata:
      thumbnail: $thumb
    }' ./*.info.json | ytdl2rss - >|podcast.rss
 
+See `<contrib/ytdl-playlist-meta.sh>`_ for an example which gets playlist
+metadata from `Open Graph Metadata`_ in the playlist HTML.
+
 .. === End of Sphinx index content ===
 
 
@@ -146,6 +149,7 @@ This template is available under the terms of `CC0 1.0 Universal`_.
 
 .. _API documentation: https://kevinoid.github.io/ytdl2rss/api
 .. _CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+.. _Open Graph Metadata: https://ogp.me/
 .. _Podsync: https://github.com/mxpv/podsync
 .. _RSS: https://en.wikipedia.org/wiki/RSS
 .. _Twitch: https://www.twitch.tv/

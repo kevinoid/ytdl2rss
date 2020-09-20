@@ -98,18 +98,30 @@ def get_entry_media_type(entry):
             'f4a',
             'f4b',
             'f4p',
-            'f4v',
             'm4a',
             'm4b',
             'm4p',
             'm4r',
-            'm4v',
     ):
+        # These extensions are intended for audio.
+        # If codecs are not known, assume it is audio.
+        if not acodec and not vcodec:
+            media_type = 'audio/mp4'
+        else:
+            media_type += 'mp4'
+    elif ext in ('f4v', 'm4v'):
         media_type += 'mp4'
     elif ext == 'flv':
         media_type = 'video/x-flv'
-    elif ext in ('mk3d', 'mka', 'mks', 'mkv'):
+    elif ext in ('mk3d', 'mks', 'mkv'):
         media_type += 'x-matroska'
+    elif ext == 'mka':
+        # This extension is intended for audio.
+        # If codecs are not known, assume it is audio.
+        if not acodec and not vcodec:
+            media_type = 'audio/x-matroska'
+        else:
+            media_type += 'x-matroska'
     elif ext == 'mp3':
         media_type += 'mpeg'
     elif ext == 'ogv':

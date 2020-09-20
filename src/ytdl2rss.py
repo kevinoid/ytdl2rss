@@ -88,8 +88,10 @@ def get_entry_media_type(entry):
         vcodec = None
 
     media_type = 'audio/' if acodec and not vcodec else 'video/'
-    if ext == '3gp':
-        media_type += '3gpp'    # FIXME: How to recognize 3gpp2?
+    if ext == '3g2':
+        media_type += '3gpp2'
+    elif ext == '3gp':
+        media_type += '3gpp'
     elif ext == 'avi':
         media_type = 'video/vnd.avi'
     elif ext in (

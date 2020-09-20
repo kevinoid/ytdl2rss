@@ -131,10 +131,14 @@ def get_entry_media_type(entry):
     else:
         media_type += ext
 
-    # Add codecs parameter from https://tools.ietf.org/html/rfc4281
+    # Add codecs parameter from https://tools.ietf.org/html/rfc6381
     if (acodec or vcodec) and ext not in ('flv', 'mp3', 'opus'):
+        # Note: Add space after ; as in RFC 6381 section 3.6 Examples
         media_type += '; codecs='
         if acodec and vcodec:
+            # Note: Add space after , as in RFC 6381 section 3.6 Examples
+            # TODO: Apply encoding from RFC 2231 if required, see examples
+            # in RFC 6381 section 3.1
             media_type += '"' + vcodec + ', ' + acodec + '"'
         else:
             media_type += acodec or vcodec

@@ -132,7 +132,7 @@ def get_entry_media_type(entry):
         media_type += ext
 
     # Add codecs parameter from https://tools.ietf.org/html/rfc4281
-    if (acodec or vcodec) and ext not in ('3gp', 'flv', 'mp3', 'opus'):
+    if (acodec or vcodec) and ext not in ('flv', 'mp3', 'opus'):
         media_type += '; codecs='
         if acodec and vcodec:
             media_type += '"' + vcodec + ', ' + acodec + '"'

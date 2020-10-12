@@ -152,6 +152,11 @@ def get_entry_media_type(entry):
 
     # Add codecs parameter from https://tools.ietf.org/html/rfc6381
     if (acodec or vcodec) and ext not in ('flv', 'gif', 'mp3'):
+        # Some extractors (e.g. media.ccc.de) use vcodec: h264
+        # Section 3.3 of RFC 6381 specifies codecs must be a FOURCC
+        if vcodec == 'h264':
+            vcodec = 'avc1'
+
         # Note: Add space after ; as in RFC 6381 section 3.6 Examples
         media_type += '; codecs='
         if acodec and vcodec:

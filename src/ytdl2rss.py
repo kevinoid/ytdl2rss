@@ -131,6 +131,18 @@ def get_entry_media_type(entry):
         if not vcodec:
             media_type = 'audio/'
         media_type += 'ogg'
+    elif ext == 'opus':
+        # Note: ext: opus could be used to refer to "raw" audio/opus.
+        # However, this has not been observed on ytdl-supported sites.
+        # Since Xiph recommends .opus for Opus-in-Ogg
+        # https://wiki.xiph.org/index.php/MIMETypesCodecs
+        # and the ytdl extractor for media.ccc.de uses it this way,
+        # unconditionally convert to ogg.
+        # If uses of audio/opus are found, consider how to differentiate.
+        ext = 'ogg'
+        if acodec is None:
+            acodec = 'opus'
+        media_type = 'audio/ogg'
     elif ext == 'ogv':
         media_type += 'ogg'
     elif ext == 'wav':
@@ -139,7 +151,7 @@ def get_entry_media_type(entry):
         media_type += ext
 
     # Add codecs parameter from https://tools.ietf.org/html/rfc6381
-    if (acodec or vcodec) and ext not in ('flv', 'gif', 'mp3', 'opus'):
+    if (acodec or vcodec) and ext not in ('flv', 'gif', 'mp3'):
         # Note: Add space after ; as in RFC 6381 section 3.6 Examples
         media_type += '; codecs='
         if acodec and vcodec:

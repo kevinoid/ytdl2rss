@@ -113,6 +113,8 @@ def get_entry_media_type(entry):
         media_type += 'mp4'
     elif ext == 'flv':
         media_type = 'video/x-flv'
+    elif ext == 'gif':
+        media_type = 'image/gif'
     elif ext in ('mk3d', 'mks', 'mkv'):
         media_type += 'x-matroska'
     elif ext == 'mka':
@@ -132,7 +134,7 @@ def get_entry_media_type(entry):
         media_type += ext
 
     # Add codecs parameter from https://tools.ietf.org/html/rfc6381
-    if (acodec or vcodec) and ext not in ('flv', 'mp3', 'opus'):
+    if (acodec or vcodec) and ext not in ('flv', 'gif', 'mp3', 'opus'):
         # Note: Add space after ; as in RFC 6381 section 3.6 Examples
         media_type += '; codecs='
         if acodec and vcodec:

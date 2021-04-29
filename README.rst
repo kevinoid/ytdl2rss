@@ -2,15 +2,12 @@
 ytdl2rss
 ========
 
-.. image:: https://img.shields.io/travis/kevinoid/ytdl2rss/master.svg?style=flat&label=build+on+linux
-   :alt: Build Status: Linux
-   :target: https://travis-ci.org/kevinoid/ytdl2rss
-.. image:: https://img.shields.io/appveyor/ci/kevinoid/ytdl2rss/master.svg?style=flat&label=build+on+windows
-   :alt: Build Status: Windows
-   :target: https://ci.appveyor.com/project/kevinoid/ytdl2rss
+.. image:: https://img.shields.io/github/workflow/status/kevinoid/ytdl2rss/Tox/main.svg?style=flat&label=build
+   :alt: Build Status
+   :target: https://github.com/kevinoid/ytdl2rss/actions?query=branch%3Amain
 .. image:: https://img.shields.io/codecov/c/github/kevinoid/ytdl2rss.svg?style=flat
    :alt: Coverage
-   :target: https://codecov.io/github/kevinoid/ytdl2rss?branch=master
+   :target: https://codecov.io/github/kevinoid/ytdl2rss?branch=main
 .. image:: https://img.shields.io/david/kevinoid/ytdl2rss.svg?style=flat
    :alt: Dependency Status
    :target: https://david-dm.org/kevinoid/ytdl2rss

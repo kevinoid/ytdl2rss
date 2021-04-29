@@ -22,3 +22,31 @@ line-length = 80
 # Note: Would prefer normalization to single quote strings, double docstrings
 # Not supported:  https://github.com/ambv/black/issues/373
 skip-string-normalization = true
+
+[tool.isort]
+known_first_party = "ytdl2rss"
+# For compatibility with black (from black README.md) and
+# https://pycqa.github.io/isort/docs/configuration/profiles/#black
+ensure_newline_before_comments = true
+force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 80
+lines_between_types = 1
+multi_line_output = 3
+use_parentheses = true
+
+[tool.pytest.ini_options]
+addopts = [
+    "--strict-config",
+    "--strict-markers",
+]
+# https://docs.pytest.org/en/stable/warnings.html
+# Note: last matches first (opposite of python -W)
+filterwarnings = [
+    # Print all warnings
+    "always",
+    # Treat warnings caused by this module (or submodules) as errors
+    'error:::packagename(\.|$)',
+]
+markers = [
+]

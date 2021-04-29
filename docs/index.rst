@@ -12,7 +12,7 @@ Documentation Contents
    api/modules
    contributing
    Issue Tracker <https://github.com/kevinoid/ytdl2rss/issues>
-   License <https://github.com/kevinoid/ytdl2rss/raw/master/LICENSE.txt>
+   License <https://github.com/kevinoid/ytdl2rss/raw/main/LICENSE.txt>
 
 
 Indices and Tables

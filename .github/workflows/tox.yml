@@ -1,0 +1,104 @@
+# GitHub Actions Workflow configuration
+# https://docs.github.com/actions/reference/workflow-syntax-for-github-actions
+# https://docs.github.com/actions/guides/building-and-testing-python
+
+name: Tox
+
+# Note: on key treated as boolean key by YAML
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-454313233
+# However, GitHub Actions documentation is consistent in using it unquoted.
+on:   # yamllint disable-line rule:truthy
+  pull_request: {}
+  push: {}
+  schedule:
+  # Run once a day (at 8:20 AM UTC) to check for exogenous breakage.
+  # TODO: Run when dependencies are updated.  (Like Dependabot, but on
+  # in-range updates and without sending a PR.)
+  - cron: '20 8 * * *'
+
+jobs:
+  test-primary:
+    name: Lint, Docs, Test on Python 3
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+    - name: Display Python version
+      run: python --version
+    - name: Install dependencies
+      run: python -m pip install --upgrade setuptools tox wheel
+    - name: Run tox
+      run: python -m tox -e lint,docs,py3
+    - name: Build wheel
+      run: python setup.py bdist_wheel
+    - name: Archive wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheel
+        path: dist/*.whl
+
+  test-secondary:
+    # Only test secondary platforms if primary test platform passed
+    needs:
+    - test-primary
+    name: >-
+      Test on Python ${{ matrix.python.version }} ${{ matrix.arch }}
+      on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        arch:
+        # Uncomment if package needs testing on different architectures
+        # - x86
+        - x64
+        os:
+        # Uncomment if package needs testing on macOS:
+        # - macos-latest
+        - ubuntu-latest
+        - windows-latest
+        python:
+        - version: 2.7
+          exe: python
+          toxenv: py27
+        - version: 3.5
+          exe: python
+          toxenv: py35
+        - version: 3.x
+          exe: python
+          toxenv: py3
+        - version: pypy-2.7
+          exe: pypy
+          toxenv: pypy
+        - version: pypy-3.7
+          exe: pypy3
+          toxenv: pypy3
+        exclude:
+        # Exclude os/version already run in test-primary
+        - arch: x64
+          os: ubuntu-latest
+          python:
+            version: 3.x
+            exe: python
+            toxenv: py3
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python.version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python.version }}
+        architecture: ${{ matrix.arch }}
+    - name: Display Python version
+      run: python --version
+    - name: Install dependencies
+      run: |-
+        ${{ matrix.python.exe }} -m pip install --upgrade setuptools tox wheel
+    - name: Run tox
+      run: ${{ matrix.python.exe }} -m tox -e ${{ matrix.python.toxenv }}
+    - name: Build wheel
+      run: ${{ matrix.python.exe }} setup.py bdist_wheel
+    - name: Archive wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: wheel
+        path: dist/*.whl

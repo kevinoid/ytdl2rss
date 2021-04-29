@@ -95,13 +95,13 @@ def get_entry_media_type(entry):
     elif ext == 'avi':
         media_type = 'video/vnd.avi'
     elif ext in (
-            'f4a',
-            'f4b',
-            'f4p',
-            'm4a',
-            'm4b',
-            'm4p',
-            'm4r',
+        'f4a',
+        'f4b',
+        'f4p',
+        'm4a',
+        'm4b',
+        'm4p',
+        'm4r',
     ):
         # These extensions are intended for audio.
         # If codecs are not known, assume it is audio.
@@ -452,7 +452,7 @@ def _load_json(json_path):
         except Exception as ex:
             if sys.version_info[0] >= 3:
                 ex2 = Exception('Error loading ' + json_path)
-                exec('raise ex2 from ex')   # nosec
+                exec('raise ex2 from ex')  # nosec
             else:
                 ex2 = Exception('Error loading ' + json_path + ': ' + str(ex))
                 ex2.__cause__ = ex
@@ -623,6 +623,7 @@ def main(*argv):
             writer = sys.stdout
         else:
             import locale
+
             encoding = locale.getpreferredencoding()
             writer = codecs.getwriter(encoding)(sys.stdout)
     elif sys.stdout.encoding and sys.stdout.encoding.upper() == encoding:

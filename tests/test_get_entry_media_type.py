@@ -4,6 +4,9 @@ import pytest
 
 from ytdl2rss import get_entry_media_type
 
+# Allow long lines for fixture data so it can be one test per line
+# pylint: disable=line-too-long
+
 entry_types = (
     ({'ext': '3g2', 'vcodec': 'none', 'acodec': 'mp4a.40.2'}, 'audio/3gpp2; codecs=mp4a.40.2'),
     ({'ext': '3g2', 'vcodec': 'avc1.64001F', 'acodec': 'mp4a.40.2'}, 'video/3gpp2; codecs="avc1.64001F, mp4a.40.2"'),
@@ -64,6 +67,8 @@ entry_types = (
     ({'ext': 'webm', 'vcodec': 'none', 'acodec': 'opus'}, 'audio/webm; codecs=opus'),
     ({'ext': 'webm', 'vcodec': 'vp9', 'acodec': 'none'}, 'video/webm; codecs=vp9'),
 )
+
+# pylint: enable=line-too-long
 
 
 def entry_type_to_id(entry_type):

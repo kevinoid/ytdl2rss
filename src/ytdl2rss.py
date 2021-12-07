@@ -588,10 +588,10 @@ def _parse_args(args, namespace=None):
 
 
 def main(*argv):
-    """
+    r"""
     Entry point for command-line use.
 
-    :param argv: command-line arguments (usually :py:data:`sys.argv`)
+    :param \*argv: command-line arguments (usually :py:data:`sys.argv`)
 
     :return: exit code
     :rtype: int

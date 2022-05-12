@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # This file is part of ytdl2rss <https://github.com/kevinoid/ytdl2rss>
 # Made available under the terms of the MIT License, see LICENSE.txt
-# Copyright 2019-2020 Kevin Locke <kevin@kevinlocke.name>
+# Copyright 2019-2022 Kevin Locke <kevin@kevinlocke.name>
 """
 Distutils/Setuptools Setup Script.
 

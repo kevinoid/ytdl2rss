@@ -140,12 +140,13 @@ If you are looking for an all-in-one podcast media download, conversion, and hos
 License
 =======
 
-This template is available under the terms of `CC0 1.0 Universal`_.
+This project is available under the terms of the `MIT License`_.
+See the `summary at TLDRLegal`_
 
 .. === Begin reference names ===
 
 .. _API documentation: https://kevinoid.github.io/ytdl2rss/api
-.. _CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+.. _MIT License: LICENSE.txt
 .. _Open Graph Metadata: https://ogp.me/
 .. _Podsync: https://github.com/mxpv/podsync
 .. _RSS: https://en.wikipedia.org/wiki/RSS
@@ -157,6 +158,7 @@ This template is available under the terms of `CC0 1.0 Universal`_.
 .. _cron: https://help.ubuntu.com/community/CronHowto
 .. _pip: https://pip.pypa.io/
 .. _podcast: https://en.wikipedia.org/wiki/Podcast
+.. _summary at TLDRLegal: https://tldrlegal.com/license/mit-license
 .. _this package: https://pypi.org/project/ytdl2rss/
 .. _GoogleTechTalks: https://www.youtube.com/c/googletechtalks
 .. _Make the Web Faster: https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4

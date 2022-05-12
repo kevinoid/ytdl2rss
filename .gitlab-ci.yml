@@ -51,10 +51,10 @@ test:py27:
   script: $PYTHON -m tox -vv -e py27
 
 # Test with earliest supported version of Python 3
-test:py35:
+test:py37:
   stage: test:secondary
-  image: python:3.5-slim
-  script: $PYTHON -m tox -vv -e py35
+  image: python:3.7-slim
+  script: $PYTHON -m tox -vv -e py37
 
 # Test with earliest supported version of PyPy 2
 test:pypy:

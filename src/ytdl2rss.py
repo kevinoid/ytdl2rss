@@ -10,8 +10,20 @@ import sys
 import time
 import traceback
 
+from collections.abc import Iterable
 from datetime import datetime
 from email.utils import formatdate
+from typing import (
+    IO,
+    Any,
+    NotRequired,
+    Optional,
+    Protocol,
+    Sequence,
+    TypedDict,
+    TypeVar,
+    cast,
+)
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec
@@ -34,7 +46,65 @@ FOR A PARTICULAR PURPOSE.  See the MIT License for details.'''
 )
 
 
-def _resolve_path(path, src_path, dst_path, dst_base):
+AnyStr_contra = TypeVar('AnyStr_contra', str, bytes, contravariant=True)
+
+
+class _Writer(Protocol[AnyStr_contra]):
+    """
+    Prototol for objects which support writing a string type.
+
+    Based on https://github.com/python/typing/issues/564
+    """
+
+    def write(self, s: AnyStr_contra) -> int:
+        pass
+
+
+class _YtdlFormat(TypedDict):
+    """
+    Type of formats in JSON produced by --write-info-json for a video.
+
+    Note: Only includes attributes used in this script.
+    """
+
+    ext: str
+    acodec: NotRequired[str | None]
+    vcodec: NotRequired[str | None]
+    filesize: NotRequired[int]
+
+
+class _YtdlEntry(_YtdlFormat):
+    """
+    Type of JSON produced by --write-info-json for a video.
+
+    Note: Only includes attributes used in this script.
+    """
+
+    id: str
+    webpage_url: str
+    title: str
+    upload_date: str
+    duration: int
+    age_limit: int
+    description: str
+    formats: list[_YtdlFormat]
+    thumbnail: str
+    _filename: NotRequired[str]
+
+
+class _YtdlPlaylist(TypedDict):
+    """
+    Type of JSON produced by --write-info-json for a playlist.
+
+    Note: Only includes attributes used in this script.
+    """
+
+    entries: list[_YtdlEntry]
+
+
+def _resolve_path(
+    path: str, src_path: str, dst_path: str, dst_base: str
+) -> str:
     """Resolve a path in src_path to a URL in dst_path served at dst_base."""
     src_dir = os.path.dirname(src_path)
     cur_path = os.path.join(src_dir, path)
@@ -44,7 +114,7 @@ def _resolve_path(path, src_path, dst_path, dst_base):
     return urljoin(dst_base, rel_url)
 
 
-def _resolve_url(url, src_path, dst_path, dst_base):
+def _resolve_url(url: str, src_path: str, dst_path: str, dst_base: str) -> str:
     """Resolve a URL in src_path to a URL in dst_path served at dst_base."""
     url_parts = urlparse(url)
     if url_parts.scheme:
@@ -60,7 +130,7 @@ def _resolve_url(url, src_path, dst_path, dst_base):
     return _resolve_path(url_path, src_path, dst_path, dst_base)
 
 
-def _ymd_to_rfc2822(datestr):
+def _ymd_to_rfc2822(datestr: str) -> str:
     """Convert a date in YYYYMMDD format to RFC 2822 for RSS."""
     tt = time.strptime(datestr, '%Y%m%d')
     ts = time.mktime(tt)
@@ -70,13 +140,13 @@ def _ymd_to_rfc2822(datestr):
     return formatdate(ts + offset.total_seconds())
 
 
-def get_entry_media_type(entry):
+def get_entry_media_type(entry: _YtdlFormat) -> str:
     """Get media type (i.e. MIME type) from youtube-dl JSON entry info."""
     ext = entry['ext']
-    acodec = entry.get('acodec')
+    acodec: Optional[str] = entry.get('acodec')
     if acodec == 'none':
         acodec = None
-    vcodec = entry.get('vcodec')
+    vcodec: Optional[str] = entry.get('vcodec')
     if vcodec == 'none':
         vcodec = None
 
@@ -158,12 +228,14 @@ def get_entry_media_type(entry):
             # in RFC 6381 section 3.1
             media_type += '"' + vcodec + ', ' + acodec + '"'
         else:
-            media_type += acodec or vcodec
+            media_type += cast('str', acodec or vcodec)
 
     return media_type
 
 
-def entry_to_rss(entry, rss, base, indent=None):
+def entry_to_rss(
+    entry: _YtdlEntry, rss: _Writer[str], base: str, indent: Optional[str] = None
+) -> None:
     """Convert youtube-dl entry info object to podcast RSS."""
     if indent is None:
         indent2 = ''
@@ -174,7 +246,7 @@ def entry_to_rss(entry, rss, base, indent=None):
         indent3 = indent * 3
         eol = '\n'
 
-    json_path = entry[_JSON_PATH_KEY]
+    json_path = entry[_JSON_PATH_KEY]  # type: ignore[literal-required]
 
     rss.write(indent2)
     rss.write('<item>')
@@ -273,7 +345,12 @@ def entry_to_rss(entry, rss, base, indent=None):
     rss.write(eol)
 
 
-def playlist_to_rss(playlist, rss, base=None, indent=None):
+def playlist_to_rss(
+    playlist: _YtdlPlaylist,
+    rss: _Writer[str],
+    base: str,
+    indent: Optional[str] = None,
+) -> None:
     """
     Convert youtube-dl playlist info object to podcast RSS.
 
@@ -299,7 +376,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
         indent3 = indent * 3
         eol = '\n'
 
-    json_path = playlist.get(_JSON_PATH_KEY)
+    json_path = playlist.get(_JSON_PATH_KEY)  # type: ignore[call-overload]
 
     rss.write(
         '<rss version="2.0"'
@@ -438,7 +515,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     rss.write('</rss>\n')
 
 
-def _load_json(json_path):
+def _load_json(json_path: str) -> Any:
     """Load JSON from a file with a given path."""
     # Note: Binary so load can detect encoding (as in Section 3 of RFC 4627)
     with open(json_path, 'rb') as json_file:
@@ -454,7 +531,7 @@ def _load_json(json_path):
                 raise ex2
 
 
-def entries_to_playlist(entries):
+def entries_to_playlist(entries: list[_YtdlEntry]) -> _YtdlPlaylist:
     """Combine youtube-dl entries into a playlist with common metadata."""
     # entry playlist metadata keys
     keys = {
@@ -483,14 +560,14 @@ def entries_to_playlist(entries):
         playlist = {}
     playlist['_type'] = 'playlist'
     playlist['entries'] = entries
-    return playlist
+    return cast('_YtdlPlaylist', playlist)
 
 
-def _load_info(info_paths):
+def _load_info(info_paths: Iterable[str]) -> _YtdlPlaylist:
     """Load youtube-dl JSON info files into a single playlist object."""
-    entries = []
+    entries: list[_YtdlEntry] = []
     info_count = 0
-    last_playlist = None
+    last_playlist: Optional[_YtdlPlaylist] = None
     for info_path in info_paths:
         info_count += 1
 
@@ -524,15 +601,18 @@ def _load_info(info_paths):
     return entries_to_playlist(entries)
 
 
-def _parse_indent(indent):
+def _parse_indent(indent: str | int) -> str:
     """Parse indent argument to indent string."""
     try:
         return ' ' * int(indent)
     except ValueError:
-        return indent
+        return cast('str', indent)
 
 
-def _parse_args(args, namespace=None):
+def _parse_args(
+        args: Sequence[str],
+        namespace: Optional[dict[Any, Any] | argparse.Namespace] = None
+) -> dict[Any, Any] | argparse.Namespace:
     """
     Parse command-line arguments.
 
@@ -582,7 +662,7 @@ def _parse_args(args, namespace=None):
     return parser.parse_args(args, namespace)
 
 
-def main(*argv):
+def main(*argv: str) -> int:
     r"""
     Entry point for command-line use.
 
@@ -591,7 +671,7 @@ def main(*argv):
     :return: exit code
     :rtype: int
     """
-    args = _parse_args(argv[1:])
+    args = cast('argparse.Namespace', _parse_args(argv[1:]))
 
     if not args.base or not urlparse(args.base).scheme:
         # Note: Not just a spec compliance issue.  Affects real aggregators:
@@ -611,7 +691,8 @@ def main(*argv):
     # (e.g. Apple instructs podcasters to use UTF-8.)
     encoding = 'UTF-8'
     if args.output:
-        writer = io.open(args.output, 'w', encoding=encoding)
+        output = io.open(args.output, 'w', encoding=encoding)
+        writer: _Writer[str] = output
     elif sys.stdout is None:
         sys.stderr.write('Error: stdout is closed and --output is not given\n')
         return 1
@@ -624,13 +705,20 @@ def main(*argv):
             import locale
 
             encoding = locale.getpreferredencoding()
-            writer = codecs.getwriter(encoding)(sys.stdout)
+            writer = cast(
+                '_Writer[str]', codecs.getwriter(encoding)(sys.stdout)
+            )
     elif sys.stdout.encoding and sys.stdout.encoding.upper() == encoding:
         writer = sys.stdout
     elif hasattr(sys.stdout, 'buffer'):
-        writer = codecs.getwriter(encoding)(sys.stdout.buffer)
+        writer = cast(
+            '_Writer[str]', codecs.getwriter(encoding)(sys.stdout.buffer)
+        )
     else:
-        writer = codecs.getwriter(encoding)(sys.stdout)
+        writer = cast(
+            '_Writer[str]',
+            codecs.getwriter(encoding)(cast('IO[bytes]', sys.stdout)),
+        )
 
     try:
         writer.write('<?xml version="1.0" encoding=')
@@ -642,7 +730,7 @@ def main(*argv):
         playlist_to_rss(
             _load_info(args.json_files),
             writer,
-            base=args.base,
+            args.base,
             indent=args.indent,
         )
     except UnicodeEncodeError:
@@ -655,7 +743,7 @@ def main(*argv):
         return 1
     finally:
         if args.output:
-            writer.close()
+            output.close()
 
     return 0
 

@@ -620,7 +620,6 @@ def _parse_args(
     :param namespace: object to take the parsed attributes.
 
     :return: parsed arguments
-    :rtype: argparse.Namespace
     """
     parser = argparse.ArgumentParser(
         usage='%(prog)s [options] <JSON file...>',
@@ -669,7 +668,6 @@ def main(*argv: str) -> int:
     :param \*argv: command-line arguments (usually :py:data:`sys.argv`)
 
     :return: exit code
-    :rtype: int
     """
     args = cast('argparse.Namespace', _parse_args(argv[1:]))
 

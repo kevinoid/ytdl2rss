@@ -661,11 +661,12 @@ def _parse_args(
     return parser.parse_args(args, namespace)
 
 
-def main(*argv: str) -> int:
+# pylint: disable-next=dangerous-default-value
+def main(argv: Sequence[str] = sys.argv) -> int:
     r"""
     Entry point for command-line use.
 
-    :param \*argv: command-line arguments (usually :py:data:`sys.argv`)
+    :param argv: command-line arguments (usually :py:data:`sys.argv`)
 
     :return: exit code
     """
@@ -747,4 +748,4 @@ def main(*argv: str) -> int:
 
 
 if __name__ == '__main__':
-    sys.exit(main(*sys.argv))
+    sys.exit(main())

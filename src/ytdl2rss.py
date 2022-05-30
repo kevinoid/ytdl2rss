@@ -663,7 +663,7 @@ def _parse_args(
 
 # pylint: disable-next=dangerous-default-value
 def main(argv: Sequence[str] = sys.argv) -> int:
-    r"""
+    """
     Entry point for command-line use.
 
     :param argv: command-line arguments (usually :py:data:`sys.argv`)

@@ -8,9 +8,9 @@ ytdl2rss
 .. image:: https://img.shields.io/codecov/c/github/kevinoid/ytdl2rss.svg?style=flat
    :alt: Coverage
    :target: https://codecov.io/github/kevinoid/ytdl2rss?branch=main
-.. image:: https://img.shields.io/david/kevinoid/ytdl2rss.svg?style=flat
+.. image:: https://img.shields.io/librariesio/release/pypi/ytdl2rss.svg?style=flat
    :alt: Dependency Status
-   :target: https://david-dm.org/kevinoid/ytdl2rss
+   :target: https://libraries.io/github/kevinoid/ytdl2rss
 .. image:: https://img.shields.io/pypi/pyversions/ytdl2rss.svg?style=flat
    :alt: Python Versions
    :target: https://pypi.org/project/ytdl2rss/

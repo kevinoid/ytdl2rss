@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# PYTHON_ARGCOMPLETE_OK
 """Create podcast RSS from youtube-dl info JSON."""
 
 import argparse
@@ -27,6 +28,11 @@ from typing import (
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec
+
+try:
+    from argcomplete import autocomplete  # type: ignore
+except ImportError:
+    autocomplete = None
 
 __version__ = '0.1.0'
 
@@ -668,6 +674,17 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     parser = _build_argument_parser(
         prog=os.path.basename(argv[0]),
     )
+
+    if autocomplete:
+        exit_code = None
+
+        def exit_method(code: int = 0) -> None:
+            nonlocal exit_code
+            exit_code = code
+
+        autocomplete(parser, exit_method=exit_method)
+        if exit_code is not None:
+            return exit_code
 
     args = parser.parse_args(args=argv[1:])
 

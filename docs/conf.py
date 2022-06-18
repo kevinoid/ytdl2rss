@@ -202,7 +202,7 @@ texinfo_documents = [
         'ytdl2rss Documentation',
         author,
         'ytdl2rss',
-        'One line description of project.',
+        _description,
         'Miscellaneous',
     )
 ]

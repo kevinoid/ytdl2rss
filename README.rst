@@ -11,6 +11,9 @@ ytdl2rss
 .. image:: https://img.shields.io/librariesio/release/pypi/ytdl2rss.svg?style=flat
    :alt: Dependency Status
    :target: https://libraries.io/github/kevinoid/ytdl2rss
+.. image:: https://readthedocs.org/projects/ytdl2rss/badge/?version=latest
+   :target: https://ytdl2rss.readthedocs.io/en/latest/
+   :alt: Documentation Status
 .. image:: https://img.shields.io/pypi/pyversions/ytdl2rss.svg?style=flat
    :alt: Python Versions
    :target: https://pypi.org/project/ytdl2rss/

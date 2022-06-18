@@ -118,6 +118,14 @@ metadata from `Open Graph Metadata`_ in the playlist HTML.
 .. === End of Sphinx index content ===
 
 
+Documentation
+=============
+
+The `project documentation`_ is hosted on `Read the Docs`_.  See the `CLI
+documentation`_ for command-line options and usage, and the `API documentation`_
+for the Python API.
+
+
 API Docs
 ========
 
@@ -148,10 +156,12 @@ See the `summary at TLDRLegal`_
 
 .. === Begin reference names ===
 
-.. _API documentation: https://kevinoid.github.io/ytdl2rss/api
+.. _API documentation: https://ytdl2rss.readthedocs.io/en/latest/api/modules.html
+.. _CLI documentation: https://ytdl2rss.readthedocs.io/en/latest/cli.html
 .. _MIT License: LICENSE.txt
 .. _Open Graph Metadata: https://ogp.me/
 .. _Podsync: https://github.com/mxpv/podsync
+.. _Read the Docs: https://readthedocs.org/
 .. _RSS: https://en.wikipedia.org/wiki/RSS
 .. _Twitch: https://www.twitch.tv/
 .. _Vimeo: https://vimeo.com/
@@ -160,6 +170,7 @@ See the `summary at TLDRLegal`_
 .. _contributing guidelines: CONTRIBUTING.rst
 .. _cron: https://help.ubuntu.com/community/CronHowto
 .. _pip: https://pip.pypa.io/
+.. _project documentation: https://ytdl2rss.readthedocs.io/
 .. _podcast: https://en.wikipedia.org/wiki/Podcast
 .. _summary at TLDRLegal: https://tldrlegal.com/license/mit-license
 .. _this package: https://pypi.org/project/ytdl2rss/

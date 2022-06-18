@@ -126,12 +126,6 @@ documentation`_ for command-line options and usage, and the `API documentation`_
 for the Python API.
 
 
-API Docs
-========
-
-To use this module as a library, see the generated `API Documentation`_.
-
-
 Contributing
 ============
 

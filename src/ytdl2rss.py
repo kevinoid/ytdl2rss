@@ -37,6 +37,14 @@ except ImportError:
 # Note: Must comply with https://peps.python.org/pep-0440/
 __version__ = '0.1.0'
 
+__all__ = [
+    'entries_to_playlist',
+    'entry_to_rss',
+    'get_entry_media_type',
+    'main',
+    'playlist_to_rss',
+]
+
 _JSON_PATH_KEY = object()
 _VERSION_MESSAGE = (
     '%(prog)s '

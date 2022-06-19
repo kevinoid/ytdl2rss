@@ -152,7 +152,7 @@ See the `summary at TLDRLegal`_
 
 .. _API documentation: https://ytdl2rss.readthedocs.io/en/latest/api/modules.html
 .. _CLI documentation: https://ytdl2rss.readthedocs.io/en/latest/cli.html
-.. _MIT License: LICENSE.txt
+.. _MIT License: https://github.com/kevinoid/ytdl2rss/blob/main/LICENSE.txt
 .. _Open Graph Metadata: https://ogp.me/
 .. _Podsync: https://github.com/mxpv/podsync
 .. _Read the Docs: https://readthedocs.org/
@@ -161,7 +161,7 @@ See the `summary at TLDRLegal`_
 .. _Vimeo: https://vimeo.com/
 .. _YouCast: https://github.com/i3arnon/YouCast
 .. _YouTube: https://www.youtube.com/
-.. _contributing guidelines: CONTRIBUTING.rst
+.. _contributing guidelines: https://github.com/kevinoid/ytdl2rss/blob/main/CONTRIBUTING.rst
 .. _cron: https://help.ubuntu.com/community/CronHowto
 .. _pip: https://pip.pypa.io/
 .. _project documentation: https://ytdl2rss.readthedocs.io/

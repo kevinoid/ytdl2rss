@@ -34,6 +34,7 @@ try:
 except ImportError:
     autocomplete = None
 
+# Note: Must comply with https://peps.python.org/pep-0440/
 __version__ = '0.1.0'
 
 _JSON_PATH_KEY = object()

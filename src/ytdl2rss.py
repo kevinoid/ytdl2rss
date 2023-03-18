@@ -30,9 +30,11 @@ from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec
 
 try:
-    from argcomplete import autocomplete  # type: ignore
+    from argcomplete import autocomplete
+
+    _HAVE_AUTOCOMPLETE = True
 except ImportError:
-    autocomplete = None
+    _HAVE_AUTOCOMPLETE = False
 
 # Note: Must comply with https://peps.python.org/pep-0440/
 __version__ = '0.1.0'
@@ -684,7 +686,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
         prog=os.path.basename(argv[0]),
     )
 
-    if autocomplete:
+    if _HAVE_AUTOCOMPLETE:
         exit_code = None
 
         def exit_method(code: int = 0) -> None:

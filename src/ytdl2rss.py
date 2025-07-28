@@ -673,7 +673,6 @@ def _build_argument_parser(**kwargs: Any) -> argparse.ArgumentParser:
     return parser
 
 
-# pylint: disable-next=dangerous-default-value
 def main(argv: Sequence[str] = sys.argv) -> int:
     """
     Entry point for command-line use.

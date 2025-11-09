@@ -176,3 +176,4 @@ filterwarnings = [
 ]
 markers = [
 ]
+strict = true

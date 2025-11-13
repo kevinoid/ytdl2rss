@@ -4,7 +4,7 @@ ytdl2rss
 
 .. image:: https://img.shields.io/github/actions/workflow/status/kevinoid/ytdl2rss/Tox/main.svg?style=flat&label=build
    :alt: Build Status
-   :target: https://github.com/kevinoid/ytdl2rss/actions?query=branch%3Amain
+   :target: https://github.com/kevinoid/ytdl2rss/actions/workflows/tox.yml?query=branch%3Amain
 .. image:: https://img.shields.io/codecov/c/github/kevinoid/ytdl2rss.svg?style=flat
    :alt: Coverage
    :target: https://codecov.io/github/kevinoid/ytdl2rss?branch=main

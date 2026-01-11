@@ -52,7 +52,7 @@ _VERSION_MESSAGE = (
     + __version__
     + '''
 
-Copyright 2019-2022 Kevin Locke <kevin@kevinlocke.name>
+Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>
 
 %(prog) is free and unencumbered software released into the public domain.
 

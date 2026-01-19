@@ -47,10 +47,7 @@ __all__ = [
 ]
 
 _JSON_PATH_KEY = object()
-_VERSION_MESSAGE = (
-    '%(prog)s '
-    + __version__
-    + '''
+_VERSION_MESSAGE = '%(prog)s ' + __version__ + '''
 
 Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>
 
@@ -59,7 +56,6 @@ Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>
 %(prog) is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE.  See the MIT License for details.'''
-)
 
 
 AnyStr_contra = TypeVar('AnyStr_contra', str, bytes, contravariant=True)

@@ -31,7 +31,7 @@ description = 'Create podcast RSS from youtube-dl info JSON.'
 readme = 'README.rst'
 # license should be a valid SPDX license expression
 # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
-# Is also printed by `./setup.py --license`.  Match classifier where possible.
+# https://spdx.org/licenses/
 license = 'MIT'
 license-files = ['LICENSE.txt']
 authors = [{name = 'Kevin Locke', email = 'kevin@kevinlocke.name'}]

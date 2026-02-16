@@ -11,19 +11,10 @@ import sys
 import time
 import traceback
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 from datetime import datetime
 from email.utils import formatdate
-from typing import (
-    IO,
-    Any,
-    NotRequired,
-    Protocol,
-    Sequence,
-    TypedDict,
-    TypeVar,
-    cast,
-)
+from typing import IO, Any, NotRequired, Protocol, TypedDict, TypeVar, cast
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec

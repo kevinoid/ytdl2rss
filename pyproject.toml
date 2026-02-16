@@ -343,7 +343,6 @@ ignore = [
     'TD003',    # missing-todo-link
 
     # TODO:
-    'D107',
     'FLY002',
     'I001',
     'PLR2004',

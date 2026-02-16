@@ -6,7 +6,6 @@ import argparse
 import codecs
 import json
 import locale
-import os
 import sys
 import time
 import traceback
@@ -14,6 +13,7 @@ import traceback
 from collections.abc import Iterable, Sequence
 from datetime import datetime
 from email.utils import formatdate
+from pathlib import Path
 from typing import IO, Any, NotRequired, Protocol, TypedDict, TypeVar, cast
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
@@ -109,11 +109,11 @@ def _resolve_path(
     path: str, src_path: str, dst_path: str, dst_base: str
 ) -> str:
     """Resolve a path in src_path to a URL in dst_path served at dst_base."""
-    src_dir = os.path.dirname(src_path)
-    cur_path = os.path.join(src_dir, path)
-    dst_dir = os.path.dirname(dst_path)
-    rel_path = os.path.relpath(cur_path, dst_dir)
-    rel_url = pathname2url(rel_path)
+    src_dir = Path(src_path).parent
+    cur_path = src_dir / path
+    dst_dir = Path(dst_path).parent
+    rel_path = cur_path.relative_to(dst_dir)
+    rel_url = pathname2url(rel_path.as_posix())
     return urljoin(dst_base, rel_url)
 
 
@@ -516,7 +516,7 @@ def playlist_to_rss(
 
     rss.write(indent2)
     rss.write('<generator>')
-    rss.write(escape(os.path.basename(__file__) + ' ' + __version__))
+    rss.write(escape(Path(__file__).name + ' ' + __version__))
     rss.write('</generator>')
     rss.write(eol)
 
@@ -676,7 +676,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     :return: exit code
     """
     parser = _build_argument_parser(
-        prog=os.path.basename(argv[0]),
+        prog=Path(argv[0]).name,
     )
 
     if _HAVE_AUTOCOMPLETE:

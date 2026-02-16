@@ -625,7 +625,9 @@ def _parse_indent(indent: str | int) -> str:
         return cast('str', indent)
 
 
-def _build_argument_parser(**kwargs: Any) -> argparse.ArgumentParser:
+def _build_argument_parser(
+    **kwargs: Any,  # noqa: ANN401
+) -> argparse.ArgumentParser:
     """
     Build parser for command line options.
 

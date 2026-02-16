@@ -342,7 +342,8 @@ ignore = [
     'TD002',    # missing-todo-author
     'TD003',    # missing-todo-link
 
-    # TODO:
+    # FIXME: I001 fails on blank line between `import X` and `from Y import Z`
+    # However, it is allowed by isort and ruff format
     'I001',
     'PTH118',
     'PTH119',

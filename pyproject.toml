@@ -346,6 +346,7 @@ inline-quotes = 'single'
 multiline-quotes = 'single'
 
 [tool.ruff.lint.isort]
+known-first-party = ['packagename']
 lines-between-types = 1
 
 [tool.ruff.lint.mccabe]

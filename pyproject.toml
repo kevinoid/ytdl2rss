@@ -32,8 +32,6 @@ lint = [
     # Support for pyproject.toml added in 1.7.1
     # https://github.com/PyCQA/bandit/pull/401
     'bandit[toml] >= 1.7.1',
-    'black',
-    'blacken-docs',
     'flake8',
     'flake8-bugbear',
     'flake8-comprehensions',
@@ -181,12 +179,6 @@ skips = [
     'B606', # start_process_with_no_shell (misleading and not actionable)
     'B607', # start_process_with_partial_path (usually desirable for portability)
 ]
-
-[tool.black]
-line-length = 80
-# Note: Would prefer normalization to single quote strings, double docstrings
-# Not supported:  https://github.com/ambv/black/issues/373
-skip-string-normalization = true
 
 [tool.coverage.run]
 branch = true
@@ -337,9 +329,11 @@ quote-style = 'single'
 [tool.ruff.lint]
 select = ['ALL']
 ignore = [
+    'COM812',   # missing-trailing-comma
     'D203', # incorrect-blank-line-before-class
     'D212', # multi-line-summary-first-line
     'FIX',      # flake8-fixme
+    'Q001',     # bad-quotes-multiline-string
     'PLR0915',  # too-many-statements
     'PTH123',   # builtin-open
     'TD002',    # missing-todo-author

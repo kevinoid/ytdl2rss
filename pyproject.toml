@@ -330,8 +330,8 @@ quote-style = 'single'
 select = ['ALL']
 ignore = [
     'COM812',   # missing-trailing-comma
-    'D203', # incorrect-blank-line-before-class
-    'D212', # multi-line-summary-first-line
+    'D203',     # incorrect-blank-line-before-class
+    'D212',     # multi-line-summary-first-line
     'FIX',      # flake8-fixme
     'Q001',     # bad-quotes-multiline-string
     'PLR0915',  # too-many-statements

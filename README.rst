@@ -19,7 +19,7 @@ ytdl2rss
    :target: https://pypi.org/project/ytdl2rss/
 
 Create podcast_ RSS_ of media downloaded from YouTube_, Vimeo_, Twitch_ or
-any other site supported by youtube-dl_.
+any other site supported by youtube-dl_ (or yt-dlc_, yt-dlp_, or other forks).
 
 
 Introductory Example
@@ -161,3 +161,5 @@ This template is available under the terms of `CC0 1.0 Universal`_.
 .. _GoogleTechTalks: https://www.youtube.com/c/googletechtalks
 .. _Make the Web Faster: https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
 .. _youtube-dl: https://ytdl-org.github.io/youtube-dl/
+.. _yt-dlc: https://github.com/blackjack4494/yt-dlc
+.. _yt-dlp: https://github.com/yt-dlp/yt-dlp

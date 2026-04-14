@@ -609,23 +609,18 @@ def _parse_indent(indent: str | int) -> str:
         return cast('str', indent)
 
 
-def _parse_args(
-        args: Sequence[str],
-        namespace: Optional[dict[Any, Any] | argparse.Namespace] = None
-) -> dict[Any, Any] | argparse.Namespace:
+def _build_argument_parser(**kwargs: Any) -> argparse.ArgumentParser:
     """
-    Parse command-line arguments.
+    Build parser for command line options.
 
-    :param args: command-line arguments (usually :py:data:`sys.argv`)
-    :param namespace: object to take the parsed attributes.
-
-    :return: parsed arguments
+    :return: argument parser
     """
     parser = argparse.ArgumentParser(
         usage='%(prog)s [options] <JSON file...>',
         description=__doc__,
         # Use raw formatter to avoid mangling version text
         formatter_class=argparse.RawDescriptionHelpFormatter,
+        **kwargs,
     )
     # Note: Match name of wget -B/--base option with similar purpose
     parser.add_argument(
@@ -658,7 +653,7 @@ def _parse_args(
         metavar='JSON file...',
         help='youtube-dl .info.json files',
     )
-    return parser.parse_args(args, namespace)
+    return parser
 
 
 # pylint: disable-next=dangerous-default-value
@@ -670,7 +665,11 @@ def main(argv: Sequence[str] = sys.argv) -> int:
 
     :return: exit code
     """
-    args = cast('argparse.Namespace', _parse_args(argv[1:]))
+    parser = _build_argument_parser(
+        prog=os.path.basename(argv[0]),
+    )
+
+    args = parser.parse_args(args=argv[1:])
 
     if not args.base or not urlparse(args.base).scheme:
         # Note: Not just a spec compliance issue.  Affects real aggregators:

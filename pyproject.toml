@@ -102,7 +102,7 @@ classifiers = [
     'Topic :: Multimedia :: Video',
 ]
 # (Optional) Additional keywords used to assist searching.
-keywords = ['podcast rss youtube youtube-dl']
+keywords = ['podcast', 'rss', 'youtube', 'youtube-dl']
 requires-python = '>=3.10'
 dynamic = ['version']
 dependencies = [

@@ -148,7 +148,9 @@ def _ymd_to_rfc2822(datestr: str) -> str:
     ts = time.mktime(tt)
     # Convert to UTC so formatted date is midnight with -0000 (unknown) TZ.
     # https://stackoverflow.com/a/19238551
+    # ruff: disable[DTZ004, DTZ006]
     offset = datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)
+    # ruff: enable[DTZ004, DTZ006]
     return formatdate(ts + offset.total_seconds())
 
 

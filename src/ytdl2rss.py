@@ -18,7 +18,6 @@ from typing import (
     IO,
     Any,
     NotRequired,
-    Optional,
     Protocol,
     Sequence,
     TypedDict,
@@ -160,10 +159,10 @@ def _ymd_to_rfc2822(datestr: str) -> str:
 def get_entry_media_type(entry: _YtdlFormat) -> str:
     """Get media type (i.e. MIME type) from youtube-dl JSON entry info."""
     ext = entry['ext']
-    acodec: Optional[str] = entry.get('acodec')
+    acodec = entry.get('acodec')
     if acodec == 'none':
         acodec = None
-    vcodec: Optional[str] = entry.get('vcodec')
+    vcodec = entry.get('vcodec')
     if vcodec == 'none':
         vcodec = None
 
@@ -251,7 +250,7 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
 
 
 def entry_to_rss(
-    entry: _YtdlEntry, rss: _Writer[str], base: str, indent: Optional[str] = None
+    entry: _YtdlEntry, rss: _Writer[str], base: str, indent: str | None = None
 ) -> None:
     """Convert youtube-dl entry info object to podcast RSS."""
     if indent is None:
@@ -366,7 +365,7 @@ def playlist_to_rss(
     playlist: _YtdlPlaylist,
     rss: _Writer[str],
     base: str,
-    indent: Optional[str] = None,
+    indent: str | None = None,
 ) -> None:
     """
     Convert youtube-dl playlist info object to podcast RSS.
@@ -584,7 +583,7 @@ def _load_info(info_paths: Iterable[str]) -> _YtdlPlaylist:
     """Load youtube-dl JSON info files into a single playlist object."""
     entries: list[_YtdlEntry] = []
     info_count = 0
-    last_playlist: Optional[_YtdlPlaylist] = None
+    last_playlist: _YtdlPlaylist | None = None
     for info_path in info_paths:
         info_count += 1
 

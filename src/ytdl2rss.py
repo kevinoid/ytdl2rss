@@ -6,6 +6,7 @@ import argparse
 import codecs
 import io
 import json
+import locale
 import os
 import sys
 import time
@@ -722,8 +723,6 @@ def main(argv: Sequence[str] = sys.argv) -> int:
             encoding = sys.stdout.encoding
             writer = sys.stdout
         else:
-            import locale
-
             encoding = locale.getpreferredencoding()
             writer = cast(
                 '_Writer[str]', codecs.getwriter(encoding)(sys.stdout)

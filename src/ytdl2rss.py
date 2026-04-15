@@ -533,8 +533,8 @@ def _load_json(json_path: str) -> Any:
     with open(json_path, 'rb') as json_file:
         try:
             return json.load(json_file)
-        except Exception as ex:
-            raise Exception('Error loading ' + json_path) from ex
+        except ValueError as ex:
+            raise ValueError('Error loading ' + json_path) from ex
 
 
 def entries_to_playlist(entries: list[_YtdlEntry]) -> _YtdlPlaylist:

@@ -91,7 +91,7 @@ def entry_type_to_id(entry_type: _YtdlFormatTypePair) -> str:
 
 
 @pytest.mark.parametrize(
-    'entry,media_type',
+    ('entry', 'media_type'),
     entry_types,
     ids=[entry_type_to_id(entry_type) for entry_type in entry_types])
 def test_known(entry: _YtdlFormat, media_type: str) -> None:

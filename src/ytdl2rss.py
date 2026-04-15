@@ -392,9 +392,9 @@ def playlist_to_rss(
 
     rss.write(
         '<rss version="2.0"'
-        + ' xmlns:atom="http://www.w3.org/2005/Atom"'
-        + ' xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"'
-        + '>'
+        ' xmlns:atom="http://www.w3.org/2005/Atom"'
+        ' xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"'
+        '>'
     )
     rss.write(eol)
     rss.write(indent1)

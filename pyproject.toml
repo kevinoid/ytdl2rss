@@ -338,6 +338,7 @@ ignore = [
     'D203', # incorrect-blank-line-before-class
     'D212', # multi-line-summary-first-line
     'FIX',      # flake8-fixme
+    'PLR0915',  # too-many-statements
     'TD002',    # missing-todo-author
     'TD003',    # missing-todo-link
 

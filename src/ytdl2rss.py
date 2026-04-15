@@ -534,13 +534,7 @@ def _load_json(json_path: str) -> Any:
         try:
             return json.load(json_file)
         except Exception as ex:
-            if sys.version_info[0] >= 3:
-                ex2 = Exception('Error loading ' + json_path)
-                exec('raise ex2 from ex')  # nosec
-            else:
-                ex2 = Exception('Error loading ' + json_path + ': ' + str(ex))
-                ex2.__cause__ = ex
-                raise ex2
+            raise Exception('Error loading ' + json_path) from ex
 
 
 def entries_to_playlist(entries: list[_YtdlEntry]) -> _YtdlPlaylist:

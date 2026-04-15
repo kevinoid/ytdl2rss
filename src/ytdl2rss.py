@@ -41,8 +41,6 @@ FOR A PARTICULAR PURPOSE.  See the MIT License for details.'''
 
 def _resolve_path(path, src_path, dst_path, dst_base):
     """Resolve a path in src_path to a URL in dst_path served at dst_base."""
-    if not path:
-        return path
     src_dir = os.path.dirname(src_path)
     cur_path = os.path.join(src_dir, path)
     dst_dir = os.path.dirname(dst_path)

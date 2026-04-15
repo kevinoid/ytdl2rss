@@ -195,7 +195,7 @@ def entry_to_rss(entry, rss, base, indent=None):
         rss.write(eol)
 
     title = entry.get('title')
-    if title is not None:
+    if isinstance(title, str):
         rss.write(indent3)
         rss.write('<title>')
         rss.write(escape(title))
@@ -203,7 +203,7 @@ def entry_to_rss(entry, rss, base, indent=None):
         rss.write(eol)
 
     upload_date = entry.get('upload_date')
-    if upload_date is not None:
+    if isinstance(upload_date, str):
         rss.write(indent3)
         rss.write('<pubDate>')
         rss.write(_ymd_to_rfc2822(upload_date))
@@ -229,7 +229,7 @@ def entry_to_rss(entry, rss, base, indent=None):
     rss.write(eol)
 
     thumbnail = entry.get('thumbnail')
-    if thumbnail is not None:
+    if isinstance(thumbnail, str):
         thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
         rss.write(indent3)
         rss.write('<itunes:image href=')
@@ -246,7 +246,7 @@ def entry_to_rss(entry, rss, base, indent=None):
         rss.write(eol)
 
     age_limit = entry.get('age_limit')
-    if age_limit is not None:
+    if isinstance(age_limit, int):
         rss.write(indent3)
         rss.write('<itunes:explicit>')
         # Note: Spotify wants yes/no/clean for item, yes/clean for channel,
@@ -261,7 +261,7 @@ def entry_to_rss(entry, rss, base, indent=None):
     # or sorted order?
 
     description = entry.get('description')
-    if description is not None:
+    if isinstance(description, str):
         rss.write(indent3)
         rss.write('<description>')
         rss.write(escape(description))
@@ -313,7 +313,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     rss.write(eol)
 
     title = playlist.get('title')
-    if title is not None:
+    if isinstance(title, str):
         rss.write(indent2)
         rss.write('<title>')
         rss.write(escape(title))
@@ -322,7 +322,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
 
     # Not produced by youtube-dl:
     description = playlist.get('description')
-    if description is not None:
+    if isinstance(description, str):
         rss.write(indent2)
         rss.write('<description>')
         rss.write(escape(description))
@@ -330,7 +330,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
         rss.write(eol)
 
     uploader = playlist.get('uploader')
-    if uploader is not None:
+    if isinstance(uploader, str):
         rss.write(indent2)
         rss.write('<itunes:author>')
         rss.write(escape(uploader))
@@ -338,7 +338,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
         rss.write(eol)
 
     webpage_url = playlist.get('webpage_url')
-    if webpage_url is not None:
+    if isinstance(webpage_url, str):
         rss.write(indent2)
         rss.write('<link>')
         rss.write(escape(webpage_url))
@@ -350,7 +350,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
         upload_date = max(
             entry.get('upload_date') for entry in playlist['entries'] if entry
         )
-    if upload_date is not None:
+    if isinstance(upload_date, str):
         rss.write(indent2)
         rss.write('<pubDate>')
         rss.write(_ymd_to_rfc2822(upload_date))
@@ -360,7 +360,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     # Not produced by youtube-dl:
     # https://github.com/ytdl-org/youtube-dl/issues/16130
     thumbnail = playlist.get('thumbnail')
-    if thumbnail is not None:
+    if isinstance(thumbnail, str):
         rss_path = getattr(rss, 'name', '')
         thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
         rss.write(indent2)
@@ -376,14 +376,14 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
         # "Note, in practice the image <title> and <link> should have the
         # same value as the channel's <title> and <link>."
         # https://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
-        if title is not None:
+        if isinstance(title, str):
             rss.write(indent3)
             rss.write('<title>')
             rss.write(escape(title))
             rss.write('</title>')
             rss.write(eol)
 
-        if webpage_url is not None:
+        if isinstance(webpage_url, str):
             rss.write(indent3)
             rss.write('<link>')
             rss.write(escape(webpage_url))

@@ -168,7 +168,7 @@ def get_entry_media_type(entry):
     return media_type
 
 
-def entry_to_rss(entry, rss, base=None, indent=None):
+def entry_to_rss(entry, rss, base, indent=None):
     """Convert youtube-dl entry info object to podcast RSS."""
     if indent is None:
         indent2 = ''
@@ -434,7 +434,7 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     rss.write(eol)
 
     for entry in playlist['entries']:
-        entry_to_rss(entry, rss, base=base, indent=indent)
+        entry_to_rss(entry, rss, base, indent=indent)
 
     rss.write(indent1)
     rss.write('</channel>')
@@ -602,12 +602,13 @@ def main(*argv):
         # Note: Not just a spec compliance issue.  Affects real aggregators:
         # https://github.com/AntennaPod/AntennaPod/issues/2880
         sys.stderr.write(
-            'Warning: URLs in RSS 2.0 must start with a URI scheme per:\n'
+            'Error: URLs in RSS 2.0 must start with a URI scheme per:\n'
             '- https://www.rssboard.org/rss-specification#comments\n'
             '- https://cyber.harvard.edu/rss/rss.html#comments\n'
             'Use -B,--base to specify an absolute URL at which the RSS will '
             'be served.\n'
         )
+        return 1
 
     # Note: Could use default locale.getpreferredencoding().  Many users would
     # "prefer" ISO-8859-1.  UTF-8 is a safer default to support more characters

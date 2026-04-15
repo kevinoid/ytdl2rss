@@ -152,17 +152,12 @@ def _ymd_to_rfc2822(datestr: str) -> str:
     return formatdate(ts + offset.total_seconds())
 
 
-def get_entry_media_type(entry: _YtdlFormat) -> str:
-    """Get media type (i.e. MIME type) from youtube-dl JSON entry info."""
-    ext = entry['ext']
-    acodec = entry.get('acodec')
-    if acodec == 'none':
-        acodec = None
-    vcodec = entry.get('vcodec')
-    if vcodec == 'none':
-        vcodec = None
-
+def _get_base_media_type(  # noqa: C901, PLR0912
+    ext: str, acodec: str | None, vcodec: str | None
+) -> str:
+    """Get media type, without parameters, from youtube-dl JSON entry info."""
     media_type = 'audio/' if acodec and not vcodec else 'video/'
+
     if ext == '3g2':
         media_type += '3gpp2'
     elif ext == '3gp':
@@ -206,7 +201,27 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
         if not vcodec:
             media_type = 'audio/'
         media_type += 'ogg'
-    elif ext == 'opus':
+    elif ext == 'ogv':
+        media_type += 'ogg'
+    elif ext == 'wav':
+        media_type = 'audio/vnd.wave'
+    else:
+        media_type += ext
+
+    return media_type
+
+
+def get_entry_media_type(entry: _YtdlFormat) -> str:
+    """Get media type (i.e. MIME type) from youtube-dl JSON entry info."""
+    ext = entry['ext']
+    acodec = entry.get('acodec')
+    if acodec == 'none':
+        acodec = None
+    vcodec = entry.get('vcodec')
+    if vcodec == 'none':
+        vcodec = None
+
+    if ext == 'opus':
         # Note: ext: opus could be used to refer to "raw" audio/opus.
         # However, this has not been observed on ytdl-supported sites.
         # Since Xiph recommends .opus for Opus-in-Ogg
@@ -217,13 +232,8 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
         ext = 'ogg'
         if acodec is None:
             acodec = 'opus'
-        media_type = 'audio/ogg'
-    elif ext == 'ogv':
-        media_type += 'ogg'
-    elif ext == 'wav':
-        media_type = 'audio/vnd.wave'
-    else:
-        media_type += ext
+
+    media_type = _get_base_media_type(ext, acodec, vcodec)
 
     # Add codecs parameter from https://tools.ietf.org/html/rfc6381
     if (acodec or vcodec) and ext not in ('flv', 'gif', 'mp3'):

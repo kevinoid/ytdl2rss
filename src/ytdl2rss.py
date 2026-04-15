@@ -216,7 +216,8 @@ def entry_to_rss(entry, rss, base=None, indent=None):
         rss.write(eol)
 
     filename = entry['_filename']
-    fileurl = _resolve_path(filename, json_path, rss.name, base)
+    rss_path = getattr(rss, 'name', '')
+    fileurl = _resolve_path(filename, json_path, rss_path, base)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)
     rss.write(indent3)
@@ -234,7 +235,7 @@ def entry_to_rss(entry, rss, base=None, indent=None):
 
     thumbnail = entry.get('thumbnail')
     if thumbnail is not None:
-        thumbnail = _resolve_url(thumbnail, json_path, rss.name, base)
+        thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
         rss.write(indent3)
         rss.write('<itunes:image href=')
         rss.write(quoteattr(thumbnail))
@@ -365,7 +366,8 @@ def playlist_to_rss(playlist, rss, base=None, indent=None):
     # https://github.com/ytdl-org/youtube-dl/issues/16130
     thumbnail = playlist.get('thumbnail')
     if thumbnail is not None:
-        thumbnail = _resolve_url(thumbnail, json_path, rss.name, base)
+        rss_path = getattr(rss, 'name', '')
+        thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
         rss.write(indent2)
         rss.write('<image>')
         rss.write(eol)

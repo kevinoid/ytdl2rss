@@ -754,7 +754,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
             indent=args.indent,
         )
     except UnicodeEncodeError:
-        # FIXME: Should use a proper XML writer which would represent
+        # TODO: Should use a proper XML writer which would represent
         # characters outside the file encoding using XML entities.
         traceback.print_exc()
         sys.stderr.write(

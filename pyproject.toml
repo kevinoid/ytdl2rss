@@ -364,6 +364,9 @@ ignore = [
 inline-quotes = 'single'
 multiline-quotes = 'single'
 
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
 [tool.ruff.lint.per-file-ignores]
 'docs/*' = [
     'INP001',   # implicit-namespace-package, since docs is not a package
@@ -379,3 +382,6 @@ multiline-quotes = 'single'
     # Allow long lines to simplify parameterized data
     'E501',     # line-too-long
 ]
+
+[tool.ruff.lint.pylint]
+max-branches = 15

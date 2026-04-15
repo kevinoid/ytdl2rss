@@ -719,7 +719,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     # (e.g. Apple instructs podcasters to use UTF-8.)
     encoding = 'UTF-8'
     if args.output:
-        output = open(args.output, 'w', encoding=encoding)
+        output = open(args.output, 'w', encoding=encoding)  # noqa: SIM115
         writer: _Writer[str] = output
     elif sys.stdout is None:
         sys.stderr.write('Error: stdout is closed and --output is not given\n')

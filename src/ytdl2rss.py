@@ -537,7 +537,7 @@ def playlist_to_rss(
     rss.write('</rss>\n')
 
 
-def _load_json(json_path: str) -> Any:
+def _load_json(json_path: str) -> Any:  # noqa: ANN401
     """Load JSON from a file with a given path."""
     # Note: Binary so load can detect encoding (as in Section 3 of RFC 4627)
     with open(json_path, 'rb') as json_file:

@@ -12,14 +12,9 @@ import traceback
 
 from datetime import datetime
 from email.utils import formatdate
+from urllib.parse import urljoin, urlparse
+from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec
-
-try:
-    from urllib.parse import urljoin, urlparse
-    from urllib.request import pathname2url, url2pathname
-except ImportError:
-    from urllib import pathname2url, url2pathname
-    from urlparse import urljoin, urlparse
 
 __version__ = '0.1.0'
 

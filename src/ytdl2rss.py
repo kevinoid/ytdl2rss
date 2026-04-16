@@ -612,6 +612,9 @@ def main(*argv):
     encoding = 'UTF-8'
     if args.output:
         writer = io.open(args.output, 'w', encoding=encoding)
+    elif sys.stdout is None:
+        sys.stderr.write('Error: stdout is closed and --output is not given\n')
+        return 1
     elif sys.stdout.isatty():
         # TTY unlikely to interpret XML declaration.  Use Python's encoding.
         if sys.stdout.encoding is not None:

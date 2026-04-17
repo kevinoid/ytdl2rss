@@ -14,6 +14,8 @@ from collections.abc import Iterable, Sequence
 from datetime import datetime
 from email.utils import formatdate
 from pathlib import Path
+
+# pylint: disable-next=unused-import
 from typing import IO, Any, NotRequired, Protocol, TypedDict, TypeVar, cast
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
@@ -56,6 +58,7 @@ FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
 AnyStr_contra = TypeVar('AnyStr_contra', str, bytes, contravariant=True)
 
 
+# pylint: disable-next=too-few-public-methods
 class _Writer(Protocol[AnyStr_contra]):
     """
     Prototol for objects which support writing a string type.
@@ -149,6 +152,7 @@ def _ymd_to_rfc2822(datestr: str) -> str:
     return formatdate(ts + offset.total_seconds())
 
 
+# pylint: disable-next=too-many-branches
 def _get_base_media_type(  # noqa: C901, PLR0912
     ext: str, acodec: str | None, vcodec: str | None
 ) -> str:
@@ -258,6 +262,7 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
     return media_type
 
 
+# pylint: disable-next=too-many-locals,too-many-statements
 def entry_to_rss(
     entry: _YtdlEntry, rss: _Writer[str], base: str, indent: str | None = None
 ) -> None:
@@ -377,6 +382,7 @@ def entry_to_rss(
     rss.write(eol)
 
 
+# pylint: disable-next=too-many-branches,too-many-locals,too-many-statements
 def playlist_to_rss(
     playlist: _YtdlPlaylist,
     rss: _Writer[str],
@@ -695,6 +701,7 @@ def _build_argument_parser(
     return parser
 
 
+# pylint: disable-next=too-many-branches
 def main(argv: Sequence[str] = sys.argv) -> int:
     """
     Entry point for command-line use.
@@ -738,6 +745,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     # (e.g. Apple instructs podcasters to use UTF-8.)
     encoding = 'UTF-8'
     if args.output:
+        # pylint: disable-next=consider-using-with
         output = open(args.output, 'w', encoding=encoding)  # noqa: SIM115
         writer: _Writer[str] = output
     elif sys.stdout is None:
@@ -746,6 +754,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     elif sys.stdout.isatty():
         # TTY unlikely to interpret XML declaration.  Use Python's encoding.
         if sys.stdout.encoding is not None:
+            # pylint: disable-next=redefined-variable-type
             encoding = sys.stdout.encoding
             writer = sys.stdout
         else:

@@ -11,6 +11,7 @@ _YtdlFormatTypePair: TypeAlias = tuple[_YtdlFormat, str]
 
 # Allow long lines for fixture data so it can be one test per line
 # pylint: disable=line-too-long
+# fmt: off
 
 entry_types: Sequence[_YtdlFormatTypePair] = (
     ({'ext': '3g2', 'vcodec': 'none', 'acodec': 'mp4a.40.2'}, 'audio/3gpp2; codecs=mp4a.40.2'),
@@ -73,6 +74,7 @@ entry_types: Sequence[_YtdlFormatTypePair] = (
     ({'ext': 'webm', 'vcodec': 'vp9', 'acodec': 'none'}, 'video/webm; codecs=vp9'),
 )
 
+# fmt: on
 # pylint: enable=line-too-long
 
 
@@ -85,29 +87,44 @@ def entry_type_to_id(entry_type: _YtdlFormatTypePair) -> str:
     :return: a string which identifies the pair for tests.
     """
     entry = entry_type[0]
-    return (entry['ext']
-            + '_' + str(entry.get('vcodec'))
-            + '_' + str(entry.get('acodec')))
+    return (
+        entry['ext']
+        + '_'
+        + str(entry.get('vcodec'))
+        + '_'
+        + str(entry.get('acodec'))
+    )
 
 
 @pytest.mark.parametrize(
     ('entry', 'media_type'),
     entry_types,
-    ids=[entry_type_to_id(entry_type) for entry_type in entry_types])
+    ids=[entry_type_to_id(entry_type) for entry_type in entry_types],
+)
 def test_known(entry: _YtdlFormat, media_type: str) -> None:
     assert get_entry_media_type(entry) == media_type
 
 
 def test_avi_includes_unknown_vcodec() -> None:
-    assert get_entry_media_type({
-        'ext': 'avi',
-        'vcodec': 'foo',
-    }) == 'video/vnd.avi; codecs=foo'
+    assert (
+        get_entry_media_type(
+            {
+                'ext': 'avi',
+                'vcodec': 'foo',
+            }
+        )
+        == 'video/vnd.avi; codecs=foo'
+    )
 
 
 def test_video_for_no_codec() -> None:
     """If neither vcodec nor acodec is known, use video type."""
-    # pylint: disable=line-too-long
-    assert get_entry_media_type({'ext': 'mp4', 'vcodec': 'none', 'acodec': 'none'}) == 'video/mp4'
-    assert get_entry_media_type({'ext': 'mp4', 'vcodec': None, 'acodec': None}) == 'video/mp4'
+    assert (
+        get_entry_media_type({'ext': 'mp4', 'vcodec': 'none', 'acodec': 'none'})
+        == 'video/mp4'
+    )
+    assert (
+        get_entry_media_type({'ext': 'mp4', 'vcodec': None, 'acodec': None})
+        == 'video/mp4'
+    )
     assert get_entry_media_type({'ext': 'mp4'}) == 'video/mp4'

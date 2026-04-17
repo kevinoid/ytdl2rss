@@ -209,7 +209,13 @@ def _get_base_media_type(  # noqa: C901, PLR0912
 
 
 def get_entry_media_type(entry: _YtdlFormat) -> str:
-    """Get media type (i.e. MIME type) from youtube-dl JSON entry info."""
+    """
+    Get media type (i.e. MIME type) from youtube-dl JSON entry info.
+
+    :param entry: Entry or format for which to get a media type.
+
+    :return: Media type suitable for ``entry``
+    """
     ext = entry['ext']
     acodec = entry.get('acodec')
     if acodec == 'none':
@@ -255,7 +261,14 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
 def entry_to_rss(
     entry: _YtdlEntry, rss: _Writer[str], base: str, indent: str | None = None
 ) -> None:
-    """Convert youtube-dl entry info object to podcast RSS."""
+    """
+    Convert youtube-dl entry info object to podcast RSS.
+
+    :param entry: Entry for which to generate RSS.
+    :param rss: Stream to which RSS will be written.
+    :param base: Base URL of RSS.
+    :param indent: Indent to apply to each nesting level of RSS.
+    """
     if indent is None:
         indent2 = ''
         indent3 = ''
@@ -383,6 +396,11 @@ def playlist_to_rss(
     https://support.google.com/podcast-publishers/answer/9476656
     https://podcasters.spotify.com/terms/Spotify_Podcast_Delivery_Specification_v1.6.pdf
     https://validator.w3.org/feed/
+
+    :param playlist: Playlist for which to generate RSS.
+    :param rss: Stream to which RSS will be written.
+    :param base: Base URL of RSS.
+    :param indent: Indent to apply to each nesting level of RSS.
     """
     if indent is None:
         indent1 = ''
@@ -545,7 +563,13 @@ def _load_json(json_path: str) -> Any:  # noqa: ANN401
 
 
 def entries_to_playlist(entries: list[_YtdlEntry]) -> _YtdlPlaylist:
-    """Combine youtube-dl entries into a playlist with common metadata."""
+    """
+    Combine youtube-dl entries into a playlist with common metadata.
+
+    :param entries: Entries to combine into a playlist.
+
+    :return: A playlist with entries from ``entries``.
+    """
     # entry playlist metadata keys
     keys = {
         'playlist_id',

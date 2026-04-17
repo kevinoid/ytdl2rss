@@ -60,7 +60,7 @@ from cron_.  Using ``--download-archive`` is recommended.  For example, to
 update the introductory example daily at 5 a.m., the following can be added to
 ``crontab``:
 
-.. code:: crontab
+.. code::
 
    0 5 * * * cd path/to/podcast && youtube-dl --download-archive ytdl-archive.txt --write-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4 && ytdl2rss *.info.json >|podcast.rss
 

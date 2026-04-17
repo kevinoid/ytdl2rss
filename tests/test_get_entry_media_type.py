@@ -96,6 +96,7 @@ def test_avi_includes_unknown_vcodec():
 
 def test_video_for_no_codec():
     """If neither vcodec nor acodec is known, use video type."""
+    # pylint: disable=line-too-long
     assert get_entry_media_type({'ext': 'mp4', 'vcodec': 'none', 'acodec': 'none'}) == 'video/mp4'
     assert get_entry_media_type({'ext': 'mp4', 'vcodec': None, 'acodec': None}) == 'video/mp4'
     assert get_entry_media_type({'ext': 'mp4'}) == 'video/mp4'

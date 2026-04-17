@@ -1,13 +1,13 @@
 """ytdl2rss.get_entry_media_type unit tests."""
 
 from collections.abc import Sequence
-from typing import Tuple, TypeAlias
+from typing import TypeAlias
 
 import pytest
 
 from ytdl2rss import _YtdlFormat, get_entry_media_type
 
-_YtdlFormatTypePair: TypeAlias = Tuple[_YtdlFormat, str]
+_YtdlFormatTypePair: TypeAlias = tuple[_YtdlFormat, str]
 
 # Allow long lines for fixture data so it can be one test per line
 # pylint: disable=line-too-long

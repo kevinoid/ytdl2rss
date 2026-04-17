@@ -72,7 +72,13 @@ entry_types = (
 
 
 def entry_type_to_id(entry_type):
-    """Convert entry/type pair to a test ID."""
+    """
+    Convert entry/type pair to a test ID.
+
+    :param entry_type: an entry/media type pair.
+
+    :return: a string which identifies the pair for tests.
+    """
     entry = entry_type[0]
     return (entry['ext']
             + '_' + str(entry.get('vcodec'))

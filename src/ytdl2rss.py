@@ -10,13 +10,13 @@ import sys
 import time
 import traceback
 
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from datetime import datetime
 from email.utils import formatdate
 from pathlib import Path
 
 # pylint: disable-next=unused-import
-from typing import IO, Any, NotRequired, Protocol, TypedDict, TypeVar, cast
+from typing import IO, Any, NotRequired, TypedDict, cast
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec
@@ -53,21 +53,6 @@ Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
 )
-
-
-AnyStr_contra = TypeVar('AnyStr_contra', str, bytes, contravariant=True)
-
-
-# pylint: disable-next=too-few-public-methods
-class _Writer(Protocol[AnyStr_contra]):
-    """
-    Prototol for objects which support writing a string type.
-
-    Based on https://github.com/python/typing/issues/564
-    """
-
-    def write(self, s: AnyStr_contra) -> int:
-        pass
 
 
 class _YtdlFormat(TypedDict):
@@ -270,7 +255,7 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
 # pylint: disable-next=too-many-locals,too-many-statements
 def entry_to_rss(
     entry: _YtdlEntry,
-    rss: _Writer[str],
+    write: Callable[[str], Any],
     base: str,
     rss_path: str | None = None,
     indent: str | None = None,
@@ -279,7 +264,7 @@ def entry_to_rss(
     Convert youtube-dl entry info object to podcast RSS.
 
     :param entry: Entry for which to generate RSS.
-    :param rss: Stream to which RSS will be written.
+    :param write: Function called to write RSS data.
     :param base: Base URL of RSS.
     :param rss_path: Path to RSS file being written.
     :param indent: Indent to apply to each nesting level of RSS.
@@ -295,84 +280,84 @@ def entry_to_rss(
 
     json_path = entry[_JSON_PATH_KEY]  # type: ignore[literal-required]
 
-    rss.write(indent2)
-    rss.write('<item>')
-    rss.write(eol)
+    write(indent2)
+    write('<item>')
+    write(eol)
 
     webpage_url = entry.get('webpage_url')
     if webpage_url:
-        rss.write(indent3)
-        rss.write('<guid isPermaLink="true">')
-        rss.write(escape(webpage_url))
-        rss.write('</guid>')
-        rss.write(eol)
+        write(indent3)
+        write('<guid isPermaLink="true">')
+        write(escape(webpage_url))
+        write('</guid>')
+        write(eol)
     else:
-        rss.write(indent3)
-        rss.write('<guid>')
-        rss.write(escape(entry['id']))
-        rss.write('</guid>')
-        rss.write(eol)
+        write(indent3)
+        write('<guid>')
+        write(escape(entry['id']))
+        write('</guid>')
+        write(eol)
 
     title = entry.get('title')
     if isinstance(title, str):
-        rss.write(indent3)
-        rss.write('<title>')
-        rss.write(escape(title))
-        rss.write('</title>')
-        rss.write(eol)
+        write(indent3)
+        write('<title>')
+        write(escape(title))
+        write('</title>')
+        write(eol)
 
     upload_date = entry.get('upload_date')
     if isinstance(upload_date, str):
-        rss.write(indent3)
-        rss.write('<pubDate>')
-        rss.write(_ymd_to_rfc2822(upload_date))
-        rss.write('</pubDate>')
-        rss.write(eol)
+        write(indent3)
+        write('<pubDate>')
+        write(_ymd_to_rfc2822(upload_date))
+        write('</pubDate>')
+        write(eol)
 
     filename = entry['_filename']
     fileurl = _resolve_path(filename, json_path, rss_path, base)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)
-    rss.write(indent3)
-    rss.write('<enclosure')
+    write(indent3)
+    write('<enclosure')
     if media_type is not None:
-        rss.write(' type=')
-        rss.write(quoteattr(media_type))
+        write(' type=')
+        write(quoteattr(media_type))
     if filesize is not None:
-        rss.write(' length=')
-        rss.write(quoteattr(str(filesize)))
-    rss.write(' url=')
-    rss.write(quoteattr(fileurl))
-    rss.write('/>')
-    rss.write(eol)
+        write(' length=')
+        write(quoteattr(str(filesize)))
+    write(' url=')
+    write(quoteattr(fileurl))
+    write('/>')
+    write(eol)
 
     thumbnail = entry.get('thumbnail')
     if isinstance(thumbnail, str):
         thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
-        rss.write(indent3)
-        rss.write('<itunes:image href=')
-        rss.write(quoteattr(thumbnail))
-        rss.write('/>')
-        rss.write(eol)
+        write(indent3)
+        write('<itunes:image href=')
+        write(quoteattr(thumbnail))
+        write('/>')
+        write(eol)
 
     duration = entry['duration']
     if duration is not None:
-        rss.write(indent3)
-        rss.write('<itunes:duration>')
-        rss.write(str(duration))
-        rss.write('</itunes:duration>')
-        rss.write(eol)
+        write(indent3)
+        write('<itunes:duration>')
+        write(str(duration))
+        write('</itunes:duration>')
+        write(eol)
 
     age_limit = entry.get('age_limit')
     if isinstance(age_limit, int):
-        rss.write(indent3)
-        rss.write('<itunes:explicit>')
+        write(indent3)
+        write('<itunes:explicit>')
         # Note: Spotify wants yes/no/clean for item, yes/clean for channel,
         # Google wants yes or absent, Apple wants true/false,
         # W3C Feed Validator wants yes/no/clean
-        rss.write('yes' if age_limit > 0 else 'clean')
-        rss.write('</itunes:explicit>')
-        rss.write(eol)
+        write('yes' if age_limit > 0 else 'clean')
+        write('</itunes:explicit>')
+        write(eol)
 
     # TODO: <itunes:order> from autonumber (not in .info.json)
     # or playlist_index (may not be relevant/sequential for single file)
@@ -380,21 +365,21 @@ def entry_to_rss(
 
     description = entry.get('description')
     if isinstance(description, str):
-        rss.write(indent3)
-        rss.write('<description>')
-        rss.write(escape(description))
-        rss.write('</description>')
-        rss.write(eol)
+        write(indent3)
+        write('<description>')
+        write(escape(description))
+        write('</description>')
+        write(eol)
 
-    rss.write(indent2)
-    rss.write('</item>')
-    rss.write(eol)
+    write(indent2)
+    write('</item>')
+    write(eol)
 
 
 # pylint: disable-next=too-many-branches,too-many-locals,too-many-statements
 def playlist_to_rss(
     playlist: _YtdlPlaylist,
-    rss: _Writer[str],
+    write: Callable[[str], Any],
     base: str,
     rss_path: str | None = None,
     indent: str | None = None,
@@ -414,7 +399,7 @@ def playlist_to_rss(
     https://validator.w3.org/feed/
 
     :param playlist: Playlist for which to generate RSS.
-    :param rss: Stream to which RSS will be written.
+    :param write: Function called to write RSS data.
     :param base: Base URL of RSS.
     :param rss_path: Path to RSS file being written.
     :param indent: Indent to apply to each nesting level of RSS.
@@ -432,49 +417,49 @@ def playlist_to_rss(
 
     json_path = playlist.get(_JSON_PATH_KEY)  # type: ignore[call-overload]
 
-    rss.write(
+    write(
         '<rss version="2.0"'
         ' xmlns:atom="http://www.w3.org/2005/Atom"'
         ' xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"'
         '>'
     )
-    rss.write(eol)
-    rss.write(indent1)
-    rss.write('<channel>')
-    rss.write(eol)
+    write(eol)
+    write(indent1)
+    write('<channel>')
+    write(eol)
 
     title = playlist.get('title')
     if isinstance(title, str):
-        rss.write(indent2)
-        rss.write('<title>')
-        rss.write(escape(title))
-        rss.write('</title>')
-        rss.write(eol)
+        write(indent2)
+        write('<title>')
+        write(escape(title))
+        write('</title>')
+        write(eol)
 
     # Not produced by youtube-dl:
     description = playlist.get('description')
     if isinstance(description, str):
-        rss.write(indent2)
-        rss.write('<description>')
-        rss.write(escape(description))
-        rss.write('</description>')
-        rss.write(eol)
+        write(indent2)
+        write('<description>')
+        write(escape(description))
+        write('</description>')
+        write(eol)
 
     uploader = playlist.get('uploader')
     if isinstance(uploader, str):
-        rss.write(indent2)
-        rss.write('<itunes:author>')
-        rss.write(escape(uploader))
-        rss.write('</itunes:author>')
-        rss.write(eol)
+        write(indent2)
+        write('<itunes:author>')
+        write(escape(uploader))
+        write('</itunes:author>')
+        write(eol)
 
     webpage_url = playlist.get('webpage_url')
     if isinstance(webpage_url, str):
-        rss.write(indent2)
-        rss.write('<link>')
-        rss.write(escape(webpage_url))
-        rss.write('</link>')
-        rss.write(eol)
+        write(indent2)
+        write('<link>')
+        write(escape(webpage_url))
+        write('</link>')
+        write(eol)
 
     upload_date = playlist.get('upload_date')
     if upload_date is None:
@@ -482,90 +467,90 @@ def playlist_to_rss(
             entry.get('upload_date') for entry in playlist['entries'] if entry
         )
     if isinstance(upload_date, str):
-        rss.write(indent2)
-        rss.write('<pubDate>')
-        rss.write(_ymd_to_rfc2822(upload_date))
-        rss.write('</pubDate>')
-        rss.write(eol)
+        write(indent2)
+        write('<pubDate>')
+        write(_ymd_to_rfc2822(upload_date))
+        write('</pubDate>')
+        write(eol)
 
     # Not produced by youtube-dl:
     # https://github.com/ytdl-org/youtube-dl/issues/16130
     thumbnail = playlist.get('thumbnail')
     if isinstance(thumbnail, str):
         thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
-        rss.write(indent2)
-        rss.write('<image>')
-        rss.write(eol)
+        write(indent2)
+        write('<image>')
+        write(eol)
 
-        rss.write(indent3)
-        rss.write('<url>')
-        rss.write(escape(thumbnail))
-        rss.write('</url>')
-        rss.write(eol)
+        write(indent3)
+        write('<url>')
+        write(escape(thumbnail))
+        write('</url>')
+        write(eol)
 
         # "Note, in practice the image <title> and <link> should have the
         # same value as the channel's <title> and <link>."
         # https://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
         if isinstance(title, str):
-            rss.write(indent3)
-            rss.write('<title>')
-            rss.write(escape(title))
-            rss.write('</title>')
-            rss.write(eol)
+            write(indent3)
+            write('<title>')
+            write(escape(title))
+            write('</title>')
+            write(eol)
 
         if isinstance(webpage_url, str):
-            rss.write(indent3)
-            rss.write('<link>')
-            rss.write(escape(webpage_url))
-            rss.write('</link>')
-            rss.write(eol)
+            write(indent3)
+            write('<link>')
+            write(escape(webpage_url))
+            write('</link>')
+            write(eol)
 
-        rss.write(indent2)
-        rss.write('</image>')
-        rss.write(eol)
+        write(indent2)
+        write('</image>')
+        write(eol)
 
         # Apple instructs podcasters to use <itunes:image>, doesn't document
         # standardized <image>.  Include both.
-        rss.write(indent2)
-        rss.write('<itunes:image href=')
-        rss.write(quoteattr(thumbnail))
-        rss.write('/>')
-        rss.write(eol)
+        write(indent2)
+        write('<itunes:image href=')
+        write(quoteattr(thumbnail))
+        write('/>')
+        write(eol)
 
     age_limits = [entry.get('age_limit') for entry in playlist['entries']]
     if age_limits and None not in age_limits:
-        rss.write(indent2)
-        rss.write('<itunes:explicit>')
+        write(indent2)
+        write('<itunes:explicit>')
         # Note: Spotify wants yes/no/clean for item, yes/clean for channel,
         # Google wants yes or absent, Apple wants true/false,
         # W3C Feed Validator wants yes/no/clean
-        rss.write('yes' if max(age_limits) > 0 else 'clean')
-        rss.write('</itunes:explicit>')
-        rss.write(eol)
+        write('yes' if max(age_limits) > 0 else 'clean')
+        write('</itunes:explicit>')
+        write(eol)
 
     # Provide self link, as recommended
     # https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html
     if base:
-        rss.write(indent2)
-        rss.write('<atom:link rel="self" type="application/rss+xml" href=')
-        rss.write(quoteattr(base))
-        rss.write('/>')
-        rss.write(eol)
+        write(indent2)
+        write('<atom:link rel="self" type="application/rss+xml" href=')
+        write(quoteattr(base))
+        write('/>')
+        write(eol)
 
-    rss.write(indent2)
-    rss.write('<generator>')
-    rss.write(escape(Path(__file__).name + ' ' + __version__))
-    rss.write('</generator>')
-    rss.write(eol)
+    write(indent2)
+    write('<generator>')
+    write(escape(Path(__file__).name + ' ' + __version__))
+    write('</generator>')
+    write(eol)
 
     for entry in playlist['entries']:
-        entry_to_rss(entry, rss, base, rss_path, indent=indent)
+        entry_to_rss(entry, write, base, rss_path, indent=indent)
 
-    rss.write(indent1)
-    rss.write('</channel>')
-    rss.write(eol)
+    write(indent1)
+    write('</channel>')
+    write(eol)
 
-    rss.write('</rss>\n')
+    write('</rss>\n')
 
 
 def _load_json(json_path: str) -> Any:  # noqa: ANN401
@@ -757,7 +742,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     if args.output:
         # pylint: disable-next=consider-using-with
         output = open(args.output, 'w', encoding=encoding)  # noqa: SIM115
-        writer: _Writer[str] = output
+        write: Callable[[str], Any] = output.write
     elif sys.stdout is None:
         sys.stderr.write('Error: stdout is closed and --output is not given\n')
         return 1
@@ -766,34 +751,27 @@ def main(argv: Sequence[str] = sys.argv) -> int:
         if sys.stdout.encoding is not None:
             # pylint: disable-next=redefined-variable-type
             encoding = sys.stdout.encoding
-            writer = sys.stdout
+            write = sys.stdout.write
         else:
             encoding = locale.getpreferredencoding()
-            writer = cast(
-                '_Writer[str]', codecs.getwriter(encoding)(sys.stdout)
-            )
+            write = codecs.getwriter(encoding)(sys.stdout).write
     elif sys.stdout.encoding and sys.stdout.encoding.upper() == encoding:
-        writer = sys.stdout
+        write = sys.stdout.write
     elif hasattr(sys.stdout, 'buffer'):
-        writer = cast(
-            '_Writer[str]', codecs.getwriter(encoding)(sys.stdout.buffer)
-        )
+        write = codecs.getwriter(encoding)(sys.stdout.buffer).write
     else:
-        writer = cast(
-            '_Writer[str]',
-            codecs.getwriter(encoding)(cast('IO[bytes]', sys.stdout)),
-        )
+        write = codecs.getwriter(encoding)(cast('IO[bytes]', sys.stdout)).write
 
     try:
-        writer.write('<?xml version="1.0" encoding=')
-        writer.write(quoteattr(encoding))
-        writer.write('?>')
+        write('<?xml version="1.0" encoding=')
+        write(quoteattr(encoding))
+        write('?>')
         if args.indent is not None:
-            writer.write('\n')
+            write('\n')
 
         playlist_to_rss(
             _load_info(args.json_files),
-            writer,
+            write,
             args.base,
             args.output,
             indent=args.indent,

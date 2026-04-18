@@ -5,15 +5,15 @@ from typing import TypeAlias
 
 import pytest
 
-from ytdl2rss import _YtdlFormat, get_entry_media_type
+from ytdl2rss import YtdlFormat, get_entry_media_type
 
-_YtdlFormatTypePair: TypeAlias = tuple[_YtdlFormat, str]
+YtdlFormatTypePair: TypeAlias = tuple[YtdlFormat, str]
 
 # Allow long lines for fixture data so it can be one test per line
 # pylint: disable=line-too-long
 # fmt: off
 
-entry_types: Sequence[_YtdlFormatTypePair] = (
+entry_types: Sequence[YtdlFormatTypePair] = (
     ({'ext': '3g2', 'vcodec': 'none', 'acodec': 'mp4a.40.2'}, 'audio/3gpp2; codecs=mp4a.40.2'),
     ({'ext': '3g2', 'vcodec': 'avc1.64001F', 'acodec': 'mp4a.40.2'}, 'video/3gpp2; codecs="avc1.64001F, mp4a.40.2"'),
 
@@ -78,7 +78,7 @@ entry_types: Sequence[_YtdlFormatTypePair] = (
 # pylint: enable=line-too-long
 
 
-def entry_type_to_id(entry_type: _YtdlFormatTypePair) -> str:
+def entry_type_to_id(entry_type: YtdlFormatTypePair) -> str:
     """
     Convert entry/type pair to a test ID.
 
@@ -101,7 +101,7 @@ def entry_type_to_id(entry_type: _YtdlFormatTypePair) -> str:
     entry_types,
     ids=[entry_type_to_id(entry_type) for entry_type in entry_types],
 )
-def test_known(entry: _YtdlFormat, media_type: str) -> None:
+def test_known(entry: YtdlFormat, media_type: str) -> None:
     assert get_entry_media_type(entry) == media_type
 
 

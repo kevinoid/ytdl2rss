@@ -32,6 +32,9 @@ except ImportError:
 __version__ = '0.1.0'
 
 __all__ = [
+    'YtdlEntry',
+    'YtdlFormat',
+    'YtdlPlaylist',
     'entries_to_playlist',
     'entry_to_rss',
     'get_entry_media_type',
@@ -55,7 +58,7 @@ FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
 )
 
 
-class _YtdlFormat(TypedDict):
+class YtdlFormat(TypedDict):
     """
     Type of formats in JSON produced by --write-info-json for a video.
 
@@ -68,7 +71,7 @@ class _YtdlFormat(TypedDict):
     filesize: NotRequired[int]
 
 
-class _YtdlEntry(_YtdlFormat):
+class YtdlEntry(YtdlFormat):
     """
     Type of JSON produced by --write-info-json for a video.
 
@@ -82,19 +85,19 @@ class _YtdlEntry(_YtdlFormat):
     duration: int
     age_limit: int
     description: str
-    formats: list[_YtdlFormat]
+    formats: list[YtdlFormat]
     thumbnail: str
     _filename: NotRequired[str]
 
 
-class _YtdlPlaylist(TypedDict):
+class YtdlPlaylist(TypedDict):
     """
     Type of JSON produced by --write-info-json for a playlist.
 
     Note: Only includes attributes used in this script.
     """
 
-    entries: list[_YtdlEntry]
+    entries: list[YtdlEntry]
 
 
 def _resolve_path(
@@ -202,7 +205,7 @@ def _get_base_media_type(  # noqa: C901, PLR0912
     return media_type
 
 
-def get_entry_media_type(entry: _YtdlFormat) -> str:
+def get_entry_media_type(entry: YtdlFormat) -> str:
     """
     Get media type (i.e. MIME type) from youtube-dl JSON entry info.
 
@@ -254,7 +257,7 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
 
 # pylint: disable-next=too-many-locals,too-many-statements
 def entry_to_rss(
-    entry: _YtdlEntry,
+    entry: YtdlEntry,
     write: Callable[[str], Any],
     base: str,
     rss_path: str | None = None,
@@ -378,7 +381,7 @@ def entry_to_rss(
 
 # pylint: disable-next=too-many-branches,too-many-locals,too-many-statements
 def playlist_to_rss(
-    playlist: _YtdlPlaylist,
+    playlist: YtdlPlaylist,
     write: Callable[[str], Any],
     base: str,
     rss_path: str | None = None,
@@ -563,7 +566,7 @@ def _load_json(json_path: str) -> Any:  # noqa: ANN401
             raise ValueError('Error loading ' + json_path) from ex
 
 
-def entries_to_playlist(entries: list[_YtdlEntry]) -> _YtdlPlaylist:
+def entries_to_playlist(entries: list[YtdlEntry]) -> YtdlPlaylist:
     """
     Combine youtube-dl entries into a playlist with common metadata.
 
@@ -598,14 +601,14 @@ def entries_to_playlist(entries: list[_YtdlEntry]) -> _YtdlPlaylist:
         playlist = {}
     playlist['_type'] = 'playlist'
     playlist['entries'] = entries
-    return cast('_YtdlPlaylist', playlist)
+    return cast('YtdlPlaylist', playlist)
 
 
-def _load_info(info_paths: Iterable[str]) -> _YtdlPlaylist:
+def _load_info(info_paths: Iterable[str]) -> YtdlPlaylist:
     """Load youtube-dl JSON info files into a single playlist object."""
-    entries: list[_YtdlEntry] = []
+    entries: list[YtdlEntry] = []
     info_count = 0
-    last_playlist: _YtdlPlaylist | None = None
+    last_playlist: YtdlPlaylist | None = None
     for info_path in info_paths:
         info_count += 1
 

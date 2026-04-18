@@ -113,18 +113,23 @@ class _YtdlPlaylist(TypedDict):
 
 
 def _resolve_path(
-    path: str, src_path: str, dst_path: str, dst_base: str
+    path: str, src_path: str, dst_path: str | None, dst_base: str
 ) -> str:
     """Resolve a path in src_path to a URL in dst_path served at dst_base."""
     src_dir = Path(src_path).parent
     cur_path = src_dir / path
-    dst_dir = Path(dst_path).parent
+    dst_dir = Path(dst_path or '.').parent
     rel_path = cur_path.relative_to(dst_dir)
     rel_url = pathname2url(rel_path.as_posix())
     return urljoin(dst_base, rel_url)
 
 
-def _resolve_url(url: str, src_path: str, dst_path: str, dst_base: str) -> str:
+def _resolve_url(
+    url: str,
+    src_path: str,
+    dst_path: str | None,
+    dst_base: str,
+) -> str:
     """Resolve a URL in src_path to a URL in dst_path served at dst_base."""
     url_parts = urlparse(url)
     if url_parts.scheme:

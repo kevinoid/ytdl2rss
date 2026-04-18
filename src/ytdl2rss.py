@@ -269,7 +269,11 @@ def get_entry_media_type(entry: _YtdlFormat) -> str:
 
 # pylint: disable-next=too-many-locals,too-many-statements
 def entry_to_rss(
-    entry: _YtdlEntry, rss: _Writer[str], base: str, indent: str | None = None
+    entry: _YtdlEntry,
+    rss: _Writer[str],
+    base: str,
+    rss_path: str | None = None,
+    indent: str | None = None,
 ) -> None:
     """
     Convert youtube-dl entry info object to podcast RSS.
@@ -277,6 +281,7 @@ def entry_to_rss(
     :param entry: Entry for which to generate RSS.
     :param rss: Stream to which RSS will be written.
     :param base: Base URL of RSS.
+    :param rss_path: Path to RSS file being written.
     :param indent: Indent to apply to each nesting level of RSS.
     """
     if indent is None:
@@ -325,7 +330,6 @@ def entry_to_rss(
         rss.write(eol)
 
     filename = entry['_filename']
-    rss_path = getattr(rss, 'name', '')
     fileurl = _resolve_path(filename, json_path, rss_path, base)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)
@@ -392,6 +396,7 @@ def playlist_to_rss(
     playlist: _YtdlPlaylist,
     rss: _Writer[str],
     base: str,
+    rss_path: str | None = None,
     indent: str | None = None,
 ) -> None:
     """
@@ -411,6 +416,7 @@ def playlist_to_rss(
     :param playlist: Playlist for which to generate RSS.
     :param rss: Stream to which RSS will be written.
     :param base: Base URL of RSS.
+    :param rss_path: Path to RSS file being written.
     :param indent: Indent to apply to each nesting level of RSS.
     """
     if indent is None:
@@ -486,7 +492,6 @@ def playlist_to_rss(
     # https://github.com/ytdl-org/youtube-dl/issues/16130
     thumbnail = playlist.get('thumbnail')
     if isinstance(thumbnail, str):
-        rss_path = getattr(rss, 'name', '')
         thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
         rss.write(indent2)
         rss.write('<image>')
@@ -554,7 +559,7 @@ def playlist_to_rss(
     rss.write(eol)
 
     for entry in playlist['entries']:
-        entry_to_rss(entry, rss, base, indent=indent)
+        entry_to_rss(entry, rss, base, rss_path, indent=indent)
 
     rss.write(indent1)
     rss.write('</channel>')
@@ -790,6 +795,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
             _load_info(args.json_files),
             writer,
             args.base,
+            args.output,
             indent=args.indent,
         )
     except UnicodeEncodeError:

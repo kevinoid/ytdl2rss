@@ -214,7 +214,7 @@ texinfo_documents = [
 
 # -- Options for apidoc extension --------------------------------------------
 
-apidoc_module_dir = '../src/packagename'
+apidoc_module_dir = '../src'
 
 # -- Options for intersphinx extension ---------------------------------------
 

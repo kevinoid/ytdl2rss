@@ -58,6 +58,10 @@ FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
 )
 
 
+class InvalidBaseUriError(ValueError):
+    """Exception raised when the provided Base URI is invalid."""
+
+
 class YtdlFormat(TypedDict):
     """
     Type of formats in JSON produced by --write-info-json for a video.
@@ -642,6 +646,78 @@ def _load_info(info_paths: Iterable[str]) -> YtdlPlaylist:
     return entries_to_playlist(entries)
 
 
+def info_to_rss(
+    info_paths: Iterable[str],
+    base: str,
+    rss_path: str | None = None,
+    indent: str | None = None,
+) -> None:
+    """
+    Convert youtube-dl info JSON files to podcast RSS.
+
+    :param info_paths: Path to youtube-dl info JSON files.
+    :param base: Base URL of generated RSS.
+    :param rss_path: Path of RSS file to produce.
+    :param indent: Indent to apply to each nesting level of RSS.
+
+    :raises InvalidBaseUriError: if ``base`` doesn't start with a URI scheme.
+    :raises ValueError: if ``rss_path`` and ``sys.stdout`` are ``None``
+    """
+    if not base or not urlparse(base).scheme:
+        # Note: Not just a spec compliance issue.  Affects real aggregators:
+        # https://github.com/AntennaPod/AntennaPod/issues/2880
+        raise InvalidBaseUriError(
+            'URLs in RSS 2.0 must start with a URI scheme per:\n'
+            '- https://www.rssboard.org/rss-specification#comments\n'
+            '- https://cyber.harvard.edu/rss/rss.html#comments\n'
+        )
+
+    # Note: Could use default locale.getpreferredencoding().  Many users would
+    # "prefer" ISO-8859-1.  UTF-8 is a safer default to support more characters
+    # and for wider podcast distributor/aggregator support.
+    # (e.g. Apple instructs podcasters to use UTF-8.)
+    encoding = 'UTF-8'
+    if rss_path:
+        # pylint: disable-next=consider-using-with
+        output = open(rss_path, 'w', encoding=encoding)  # noqa: SIM115
+        write: Callable[[str], Any] = output.write
+    elif sys.stdout is None:
+        raise ValueError('stdout is closed')
+    elif sys.stdout.isatty():
+        # TTY unlikely to interpret XML declaration.  Use Python's encoding.
+        if sys.stdout.encoding is not None:
+            # pylint: disable-next=redefined-variable-type
+            encoding = sys.stdout.encoding
+            write = sys.stdout.write
+        else:
+            encoding = locale.getpreferredencoding()
+            write = codecs.getwriter(encoding)(sys.stdout).write
+    elif sys.stdout.encoding and sys.stdout.encoding.upper() == encoding:
+        write = sys.stdout.write
+    elif hasattr(sys.stdout, 'buffer'):
+        write = codecs.getwriter(encoding)(sys.stdout.buffer).write
+    else:
+        write = codecs.getwriter(encoding)(cast('IO[bytes]', sys.stdout)).write
+
+    try:
+        write('<?xml version="1.0" encoding=')
+        write(quoteattr(encoding))
+        write('?>')
+        if indent is not None:
+            write('\n')
+
+        playlist_to_rss(
+            _load_info(info_paths),
+            write,
+            base,
+            rss_path,
+            indent=indent,
+        )
+    finally:
+        if rss_path:
+            output.close()
+
+
 def _parse_indent(indent: str | int) -> str:
     """Parse indent argument to indent string."""
     try:
@@ -699,7 +775,6 @@ def _build_argument_parser(
     return parser
 
 
-# pylint: disable-next=too-many-branches
 def main(argv: Sequence[str] = sys.argv) -> int:
     """
     Entry point for command-line use.
@@ -725,60 +800,18 @@ def main(argv: Sequence[str] = sys.argv) -> int:
 
     args = parser.parse_args(args=argv[1:])
 
-    if not args.base or not urlparse(args.base).scheme:
-        # Note: Not just a spec compliance issue.  Affects real aggregators:
-        # https://github.com/AntennaPod/AntennaPod/issues/2880
+    try:
+        info_to_rss(
+            args.json_files, args.base, rss_path=args.output, indent=args.indent
+        )
+    except InvalidBaseUriError as ex:
         sys.stderr.write(
-            'Error: URLs in RSS 2.0 must start with a URI scheme per:\n'
-            '- https://www.rssboard.org/rss-specification#comments\n'
-            '- https://cyber.harvard.edu/rss/rss.html#comments\n'
-            'Use -B,--base to specify an absolute URL at which the RSS will '
+            'Error: '
+            + str(ex)
+            + 'Use -B,--base to specify an absolute URL at which the RSS will '
             'be served.\n'
         )
         return 1
-
-    # Note: Could use default locale.getpreferredencoding().  Many users would
-    # "prefer" ISO-8859-1.  UTF-8 is a safer default to support more characters
-    # and for wider podcast distributor/aggregator support.
-    # (e.g. Apple instructs podcasters to use UTF-8.)
-    encoding = 'UTF-8'
-    if args.output:
-        # pylint: disable-next=consider-using-with
-        output = open(args.output, 'w', encoding=encoding)  # noqa: SIM115
-        write: Callable[[str], Any] = output.write
-    elif sys.stdout is None:
-        sys.stderr.write('Error: stdout is closed and --output is not given\n')
-        return 1
-    elif sys.stdout.isatty():
-        # TTY unlikely to interpret XML declaration.  Use Python's encoding.
-        if sys.stdout.encoding is not None:
-            # pylint: disable-next=redefined-variable-type
-            encoding = sys.stdout.encoding
-            write = sys.stdout.write
-        else:
-            encoding = locale.getpreferredencoding()
-            write = codecs.getwriter(encoding)(sys.stdout).write
-    elif sys.stdout.encoding and sys.stdout.encoding.upper() == encoding:
-        write = sys.stdout.write
-    elif hasattr(sys.stdout, 'buffer'):
-        write = codecs.getwriter(encoding)(sys.stdout.buffer).write
-    else:
-        write = codecs.getwriter(encoding)(cast('IO[bytes]', sys.stdout)).write
-
-    try:
-        write('<?xml version="1.0" encoding=')
-        write(quoteattr(encoding))
-        write('?>')
-        if args.indent is not None:
-            write('\n')
-
-        playlist_to_rss(
-            _load_info(args.json_files),
-            write,
-            args.base,
-            args.output,
-            indent=args.indent,
-        )
     except UnicodeEncodeError:
         # TODO: Should use a proper XML writer which would represent
         # characters outside the file encoding using XML entities.
@@ -787,9 +820,6 @@ def main(argv: Sequence[str] = sys.argv) -> int:
             'Consider specifying a different encoding in PYTHONIOENCODING.\n'
         )
         return 1
-    finally:
-        if args.output:
-            output.close()
 
     return 0
 

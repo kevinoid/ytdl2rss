@@ -86,7 +86,7 @@ class YtdlEntry(YtdlFormat):
     webpage_url: str
     title: str
     upload_date: str
-    duration: int
+    duration: NotRequired[int]
     age_limit: int
     description: str
     formats: list[YtdlFormat]
@@ -347,7 +347,7 @@ def entry_to_rss(
         write('/>')
         write(eol)
 
-    duration = entry['duration']
+    duration = entry.get('duration')
     if duration is not None:
         write(indent3)
         write('<itunes:duration>')

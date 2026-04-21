@@ -33,7 +33,7 @@ Faster`_ playlist:
 
 .. code:: sh
 
-   youtube-dl --write-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
+   youtube-dl --write-info-json --no-clean-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
    ytdl2rss *.info.json >podcast.rss
 
 
@@ -72,7 +72,7 @@ update the introductory example daily at 5 a.m., the following can be added to
 
 .. code::
 
-   0 5 * * * cd path/to/podcast && youtube-dl --download-archive ytdl-archive.txt --write-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4 && ytdl2rss *.info.json >|podcast.rss
+   0 5 * * * cd path/to/podcast && youtube-dl --download-archive ytdl-archive.txt --write-info-json --no-clean-info-json -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4 && ytdl2rss *.info.json >|podcast.rss
 
 Hosted Thumbnails
 -----------------
@@ -84,7 +84,7 @@ downloaded thumbnails:
 
 .. code:: sh
 
-   youtube-dl --write-info-json --write-thumbnail -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
+   youtube-dl --write-info-json --no-clean-info-json --write-thumbnail -f bestaudio https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4
    for info in *.info.json; do
        jq --arg t "${info%.info.json}.webp" '.thumbnail = $t' "$info" >"$info.new"
        mv -f "$info.new" "$info"

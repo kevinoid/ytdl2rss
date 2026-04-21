@@ -18,12 +18,11 @@ import codecs
 import json
 import locale
 import sys
-import time
 import traceback
 
 from collections.abc import Callable, Iterable, Sequence
 from datetime import datetime
-from email.utils import formatdate
+from email.utils import format_datetime
 from pathlib import Path
 
 # pylint: disable-next=unused-import
@@ -150,14 +149,7 @@ def _resolve_url(
 
 def _ymd_to_rfc2822(datestr: str) -> str:
     """Convert a date in YYYYMMDD format to RFC 2822 for RSS."""
-    tt = time.strptime(datestr, '%Y%m%d')
-    ts = time.mktime(tt)
-    # Convert to UTC so formatted date is midnight with -0000 (unknown) TZ.
-    # https://stackoverflow.com/a/19238551
-    # ruff: disable[DTZ004, DTZ006]
-    offset = datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)
-    # ruff: enable[DTZ004, DTZ006]
-    return formatdate(ts + offset.total_seconds())
+    return format_datetime(datetime.strptime(datestr, '%Y%m%d'))  # noqa: DTZ007
 
 
 # pylint: disable-next=too-many-branches

@@ -101,6 +101,7 @@ class YtdlEntry(YtdlFormat):
     description: str
     formats: list[YtdlFormat]
     thumbnail: str
+    fulltitle: str
     _filename: NotRequired[str]
 
 
@@ -262,6 +263,17 @@ def get_entry_media_type(entry: YtdlFormat) -> str:
     return media_type
 
 
+def _guess_entry_filename(entry: YtdlEntry) -> str:
+    """
+    Guess the file name to which youtube-dl would download a JSON entry.
+
+    :param entry: Entry for which to guess the file name.
+
+    :return: A file name to which ``entry`` would be saved by youtube-dl.
+    """
+    return f'{entry["fulltitle"]}-{entry["id"]}.{entry["ext"]}'
+
+
 # pylint: disable-next=too-many-locals,too-many-statements
 def entry_to_rss(
     entry: YtdlEntry,
@@ -324,7 +336,7 @@ def entry_to_rss(
         write('</pubDate>')
         write(eol)
 
-    filename = entry['_filename']
+    filename = entry.get('_filename') or _guess_entry_filename(entry)
     fileurl = _resolve_path(filename, json_path, rss_path, base)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)

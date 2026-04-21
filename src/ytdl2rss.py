@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 # PYTHON_ARGCOMPLETE_OK
-"""Create podcast RSS from youtube-dl info JSON."""
+"""
+Create podcast RSS from youtube-dl info JSON.
+
+The info JSON produced by youtube-dl is not formally specified, although
+attempts have been made to do so, such as
+https://github.com/ytdl-org/youtube-dl/pull/21822
+Functions in this module expect inputs to follow this proposed schema, although
+reasonable attempts will be made to accommodate files encountered in practice.
+
+Values which are null or missing will be omitted from RSS output where
+possible.
+"""
 
 import argparse
 import codecs
@@ -393,11 +404,6 @@ def playlist_to_rss(
 ) -> None:
     """
     Convert youtube-dl playlist info object to podcast RSS.
-
-    Playlist is expected to follow the schema defined in
-    https://github.com/ytdl-org/youtube-dl/pull/21822
-    Values which are null or missing will be omitted from RSS output where
-    possible.
 
     :param playlist: Playlist for which to generate RSS.
     :param write: Function called to write RSS data.

@@ -399,12 +399,6 @@ def playlist_to_rss(
     Values which are null or missing will be omitted from RSS output where
     possible.
 
-    Attempts to comply with guidelines from:
-    https://help.apple.com/itc/podcasts_connect/#/itcb54353390
-    https://support.google.com/podcast-publishers/answer/9476656
-    https://podcasters.spotify.com/terms/Spotify_Podcast_Delivery_Specification_v1.6.pdf
-    https://validator.w3.org/feed/
-
     :param playlist: Playlist for which to generate RSS.
     :param write: Function called to write RSS data.
     :param base: Base URL of RSS.

@@ -674,6 +674,7 @@ def info_to_rss(
             'URLs in RSS 2.0 must be absolute (i.e. start with a scheme) per:\n'
             '- https://www.rssboard.org/rss-specification#comments\n'
             '- https://cyber.harvard.edu/rss/rss.html#comments\n'
+            '- https://validator.w3.org/feed/docs/error/InvalidURLAttribute.html\n'
         )
 
     # Note: Could use default locale.getpreferredencoding().  Many users would

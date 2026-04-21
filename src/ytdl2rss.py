@@ -68,8 +68,8 @@ FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
 )
 
 
-class InvalidBaseUriError(ValueError):
-    """Exception raised when the provided Base URI is invalid."""
+class InvalidSelfUrlError(ValueError):
+    """Exception raised when the provided self URL is invalid."""
 
 
 class YtdlFormat(TypedDict):
@@ -116,24 +116,24 @@ class YtdlPlaylist(TypedDict):
 
 
 def _resolve_path(
-    path: str, src_path: str, dst_path: str | None, dst_base: str
+    path: str, src_path: str, dst_path: str | None, dst_url: str
 ) -> str:
-    """Resolve a path in src_path to a URL in dst_path served at dst_base."""
+    """Resolve a path in src_path to a URL in dst_path served at dst_url."""
     src_dir = Path(src_path).parent
     cur_path = src_dir / path
     dst_dir = Path(dst_path or '.').parent
     rel_path = cur_path.relative_to(dst_dir)
     rel_url = pathname2url(rel_path.as_posix())
-    return urljoin(dst_base, rel_url)
+    return urljoin(dst_url, rel_url)
 
 
 def _resolve_url(
     url: str,
     src_path: str,
     dst_path: str | None,
-    dst_base: str,
+    dst_url: str,
 ) -> str:
-    """Resolve a URL in src_path to a URL in dst_path served at dst_base."""
+    """Resolve a URL in src_path to a URL in dst_path served at dst_url."""
     url_parts = urlparse(url)
     if url_parts.scheme:
         # url is absolute
@@ -141,11 +141,11 @@ def _resolve_url(
 
     if url_parts.netloc:
         # url is scheme-relative
-        return urljoin(dst_base, url)
+        return urljoin(dst_url, url)
 
     # Resolve url from containing file
     url_path = url2pathname(url)
-    return _resolve_path(url_path, src_path, dst_path, dst_base)
+    return _resolve_path(url_path, src_path, dst_path, dst_url)
 
 
 def _ymd_to_rfc2822(datestr: str) -> str:
@@ -278,7 +278,7 @@ def _guess_entry_filename(entry: YtdlEntry) -> str:
 def entry_to_rss(
     entry: YtdlEntry,
     write: Callable[[str], Any],
-    base: str,
+    rss_url: str,
     rss_path: str | None = None,
     indent: str | None = None,
 ) -> None:
@@ -287,7 +287,7 @@ def entry_to_rss(
 
     :param entry: Entry for which to generate RSS.
     :param write: Function called to write RSS data.
-    :param base: Base URL of RSS.
+    :param rss_url: URL of RSS file being written.
     :param rss_path: Path to RSS file being written.
     :param indent: Indent to apply to each nesting level of RSS.
     """
@@ -337,7 +337,7 @@ def entry_to_rss(
         write(eol)
 
     filename = entry.get('_filename') or _guess_entry_filename(entry)
-    fileurl = _resolve_path(filename, json_path, rss_path, base)
+    fileurl = _resolve_path(filename, json_path, rss_path, rss_url)
     filesize = entry.get('filesize')
     media_type = get_entry_media_type(entry)
     write(indent3)
@@ -355,7 +355,7 @@ def entry_to_rss(
 
     thumbnail = entry.get('thumbnail')
     if isinstance(thumbnail, str):
-        thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
+        thumbnail = _resolve_url(thumbnail, json_path, rss_path, rss_url)
         write(indent3)
         write('<itunes:image href=')
         write(quoteattr(thumbnail))
@@ -402,7 +402,7 @@ def entry_to_rss(
 def playlist_to_rss(
     playlist: YtdlPlaylist,
     write: Callable[[str], Any],
-    base: str,
+    rss_url: str,
     rss_path: str | None = None,
     indent: str | None = None,
 ) -> None:
@@ -411,7 +411,7 @@ def playlist_to_rss(
 
     :param playlist: Playlist for which to generate RSS.
     :param write: Function called to write RSS data.
-    :param base: Base URL of RSS.
+    :param rss_url: URL of RSS file being written.
     :param rss_path: Path to RSS file being written.
     :param indent: Indent to apply to each nesting level of RSS.
     """
@@ -488,7 +488,7 @@ def playlist_to_rss(
     # https://github.com/ytdl-org/youtube-dl/issues/16130
     thumbnail = playlist.get('thumbnail')
     if isinstance(thumbnail, str):
-        thumbnail = _resolve_url(thumbnail, json_path, rss_path, base)
+        thumbnail = _resolve_url(thumbnail, json_path, rss_path, rss_url)
         write(indent2)
         write('<image>')
         write(eol)
@@ -541,10 +541,10 @@ def playlist_to_rss(
 
     # Provide self link, as recommended
     # https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html
-    if base:
+    if rss_url:
         write(indent2)
         write('<atom:link rel="self" type="application/rss+xml" href=')
-        write(quoteattr(base))
+        write(quoteattr(rss_url))
         write('/>')
         write(eol)
 
@@ -555,7 +555,7 @@ def playlist_to_rss(
     write(eol)
 
     for entry in playlist['entries']:
-        entry_to_rss(entry, write, base, rss_path, indent=indent)
+        entry_to_rss(entry, write, rss_url, rss_path, indent=indent)
 
     write(indent1)
     write('</channel>')
@@ -652,7 +652,7 @@ def _load_info(info_paths: Iterable[str]) -> YtdlPlaylist:
 
 def info_to_rss(
     info_paths: Iterable[str],
-    base: str,
+    rss_url: str,
     rss_path: str | None = None,
     indent: str | None = None,
 ) -> None:
@@ -660,18 +660,18 @@ def info_to_rss(
     Convert youtube-dl info JSON files to podcast RSS.
 
     :param info_paths: Path to youtube-dl info JSON files.
-    :param base: Base URL of generated RSS.
+    :param rss_url: URL of RSS file being written.
     :param rss_path: Path of RSS file to produce.
     :param indent: Indent to apply to each nesting level of RSS.
 
-    :raises InvalidBaseUriError: if ``base`` doesn't start with a URI scheme.
+    :raises InvalidSelfUrlError: if ``rss_url`` doesn't start with a URL scheme.
     :raises ValueError: if ``rss_path`` and ``sys.stdout`` are ``None``
     """
-    if not base or not urlparse(base).scheme:
+    if not rss_url or not urlparse(rss_url).scheme:
         # Note: Not just a spec compliance issue.  Affects real aggregators:
         # https://github.com/AntennaPod/AntennaPod/issues/2880
-        raise InvalidBaseUriError(
-            'URLs in RSS 2.0 must start with a URI scheme per:\n'
+        raise InvalidSelfUrlError(
+            'URLs in RSS 2.0 must be absolute (i.e. start with a scheme) per:\n'
             '- https://www.rssboard.org/rss-specification#comments\n'
             '- https://cyber.harvard.edu/rss/rss.html#comments\n'
         )
@@ -713,7 +713,7 @@ def info_to_rss(
         playlist_to_rss(
             _load_info(info_paths),
             write,
-            base,
+            rss_url,
             rss_path,
             indent=indent,
         )
@@ -745,12 +745,6 @@ def _build_argument_parser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         **kwargs,
     )
-    # Note: Match name of wget -B/--base option with similar purpose
-    parser.add_argument(
-        '-B',
-        '--base',
-        help='URL from which files will be served, to resolve relative URLs',
-    )
     parser.add_argument(
         '-i',
         '--indent',
@@ -762,6 +756,11 @@ def _build_argument_parser(
         '-o',
         '--output',
         help='Output RSS file.',
+    )
+    parser.add_argument(
+        '-S',
+        '--self-url',
+        help='URL of generated RSS, to resolve relative URLs',
     )
     parser.add_argument(
         '-V',
@@ -806,14 +805,17 @@ def main(argv: Sequence[str] = sys.argv) -> int:
 
     try:
         info_to_rss(
-            args.json_files, args.base, rss_path=args.output, indent=args.indent
+            args.json_files,
+            args.self_url,
+            rss_path=args.output,
+            indent=args.indent,
         )
-    except InvalidBaseUriError as ex:
+    except InvalidSelfUrlError as ex:
         sys.stderr.write(
             'Error: '
             + str(ex)
-            + 'Use -B,--base to specify an absolute URL at which the RSS will '
-            'be served.\n'
+            + 'Use -S,--self-url to specify an absolute URL at which the RSS '
+            'will be served.\n'
         )
         return 1
     except UnicodeEncodeError:

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.pbs.org/video/october-11-2020-pbs-newshour-weekend-full-episode-1602448516/</guid>
+      <title>PBS NewsHour - October 11, 2020 - PBS NewsHour Weekend full episode</title>
+      <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/PBS%20NewsHour%20-%20October%2011%2C%202020%20-%20PBS%20NewsHour%20Weekend%20full%20episode-3047646160.mp4"/>
+      <itunes:image href="https://image.pbs.org/video-assets/MtjekHB-asset-mezzanine-16x9-ZjFTZHg.png"/>
+      <itunes:duration>1532</itunes:duration>
+      <description>October 11, 2020 - PBS NewsHour Weekend full episode</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.byutv.org/player/8d25e27f-2b09-4aff-91bb-8bc22480284d/dwight-in-shining-armor-another-slice-of-pilot</guid>
+      <title>dwight-in-shining-armor-another-slice-of-pilot</title>
+      <enclosure type='video/mp4; codecs="avc1.4d001f, mp4a.40.5"' url="https://example.com/dwight-in-shining-armor-another-slice-of-pilot-8d25e27f-2b09-4aff-91bb-8bc22480284d.mp4"/>
+    </item>
+  </channel>
+</rss>

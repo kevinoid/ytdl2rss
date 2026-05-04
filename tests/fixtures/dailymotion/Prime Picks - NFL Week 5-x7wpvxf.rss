@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>clean</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.dailymotion.com/video/x7wpvxf</guid>
+      <title>Prime Picks - NFL Week 5</title>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/Prime%20Picks%20-%20NFL%20Week%205-x7wpvxf.mp4"/>
+      <itunes:image href="https://s2.dmcdn.net/v/SWGdZ1VX3UKdjCpBr/x1080"/>
+      <itunes:duration>273</itunes:duration>
+      <itunes:explicit>clean</itunes:explicit>
+      <description>Deion Sanders | 21st and Prime</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>clean</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.dailymotion.com/video/x7wpvlt</guid>
+      <title>Can You Get The 'Antibody Cocktail' The President Got For COVID?</title>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/Can%20You%20Get%20The%20%27Antibody%20Cocktail%27%20The%20President%20Got%20For%20COVID-x7wpvlt.mp4"/>
+      <itunes:image href="https://s1.dmcdn.net/v/SWGX11VWuT4zOCCfd/x1080"/>
+      <itunes:duration>162</itunes:duration>
+      <itunes:explicit>clean</itunes:explicit>
+      <description>Coronavirus "antibody cocktails" are experimental right now, and typically only patients participating in a clinical trial can get them.</description>
+    </item>
+  </channel>
+</rss>

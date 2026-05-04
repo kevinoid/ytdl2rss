@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Mon, 05 Oct 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>clean</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.dailymotion.com/video/x7wnb9r</guid>
+      <title>A to Z with the Cast of 'Emily in Paris'</title>
+      <pubDate>Mon, 05 Oct 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="avc1.64001f, mp4a.40.2"' url="https://example.com/A%20to%20Z%20with%20the%20Cast%20of%20%27Emily%20in%20Paris%27-x7wnb9r.mp4"/>
+      <itunes:image href="https://s2.dmcdn.net/v/SVpJF1VWv5pp-3G1-/x1080"/>
+      <itunes:duration>371</itunes:duration>
+      <itunes:explicit>clean</itunes:explicit>
+      <description>Lily Collins, Lucas Bravo and Ashley Park celebrate their new Netflix series 'Emily in Paris' by rewriting the alphabet.</description>
+    </item>
+  </channel>
+</rss>

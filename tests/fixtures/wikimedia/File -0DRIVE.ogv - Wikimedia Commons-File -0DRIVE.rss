@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>File:0DRIVE.ogv - Wikimedia Commons</title>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://commons.wikimedia.org/wiki/File:0DRIVE.ogv</guid>
+      <title>File:0DRIVE.ogv - Wikimedia Commons</title>
+      <enclosure type="audio/webm; codecs=opus" url="https://example.com/File%20-0DRIVE.ogv%20-%20Wikimedia%20Commons-File%20-0DRIVE.webm"/>
+      <itunes:image href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/0DRIVE.ogv/480px--0DRIVE.ogv.jpg"/>
+    </item>
+  </channel>
+</rss>

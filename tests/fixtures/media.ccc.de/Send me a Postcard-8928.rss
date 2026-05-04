@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>State of the Map 2020</title>
+    <pubDate>Sat, 04 Jul 2020 00:00:00 -0000</pubDate>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://media.ccc.de/v/sotm2020-4363-send-me-a-postcard</guid>
+      <title>Send me a Postcard</title>
+      <pubDate>Sat, 04 Jul 2020 00:00:00 -0000</pubDate>
+      <enclosure type="video/webm" length="955252736" url="https://example.com/Send%20me%20a%20Postcard-8928.webm"/>
+      <itunes:image href="https://static.media.ccc.de/media/events/sotm/2020/4363-hd.jpg"/>
+      <itunes:duration>2219</itunes:duration>
+      <description>Want a postcard? Looking for somebody to send a postcard to? Me too! Let's discuss how people in OpenStreetMap come together, which pleasant and otherwise experiences we had meeting other mappers, and how to express gratitude and make people feel a bit closer to each other — with postcards.
+
+Each time I visit a SotM conference far from home, I'm collecting postal addresses from everyone who follows my news channel. And I send postcards: "Hello from Aizuwakamatsu!" We rely on digital too much: nothing we can touch, nothing we can put on a shelf. Virtual maps, virtual gratitude. With this project, OSM postcrossing, I plan to give every mapper a chance to have something tangible as an outcome of participating in our project. But to get there, we must think of what brings us here, and what experiences we have as members of the community.
+
+The premise is simple: ask somebody for their postal address. Except people are reluctant to give it: the address is a private information, and privacy is important. Have you tried to upload a gpx trace, to see how we value it? A lot. So what do you do? Do you send a postcard to a random mapper? Do you publish your address for everyone to see? Should you stay back from the official real-world services and back away to the comfort of virtuality?</description>
+    </item>
+  </channel>
+</rss>

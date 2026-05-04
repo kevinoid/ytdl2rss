@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <title>Our cats make me happy, I hope they can make you happy too!</title>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">http://imgur.com/DDFbi8t</guid>
+      <title>Imgur</title>
+      <enclosure type="video/mp4" url="https://example.com/Imgur-DDFbi8t.mp4"/>
+    </item>
+  </channel>
+</rss>

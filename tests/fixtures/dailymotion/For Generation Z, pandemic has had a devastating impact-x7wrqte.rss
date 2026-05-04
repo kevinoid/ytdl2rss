@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Mon, 12 Oct 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>clean</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.dailymotion.com/video/x7wrqte</guid>
+      <title>For Generation Z, pandemic has had a devastating impact</title>
+      <pubDate>Mon, 12 Oct 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="avc1.64001f, mp4a.40.2"' url="https://example.com/For%20Generation%20Z%2C%20pandemic%20has%20had%20a%20devastating%20impact-x7wrqte.mp4"/>
+      <itunes:image href="https://s1.dmcdn.net/v/SWbo21VX2HPSUMtIL/x1080"/>
+      <itunes:duration>165</itunes:duration>
+      <itunes:explicit>clean</itunes:explicit>
+      <description>For many Gen Zers and Millennials, the coronavirus pandemic has not only affected their financial stability, but has had a devastating impact on their health and families as well. CNN's Kyung Lah reports.</description>
+    </item>
+  </channel>
+</rss>

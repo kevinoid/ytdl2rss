@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.democracynow.org/2020/10/12/charles_allen_white_house_domestic_staff</guid>
+      <title>&amp;#8220;I Feel for Them&amp;#8221;: Son of Former White House Butler Says Trump Endangered Health of Residence Staff</title>
+      <enclosure type="video/mp4" url="https://example.com/%26%238220%3BI%20Feel%20for%20Them%26%238221%3B%20-%20Son%20of%20Former%20White%20House%20Butler%20Says%20Trump%20Endangered%20Health%20of%20Residence%20Staff-2020-1012.mp4"/>
+      <itunes:image href="https://www.democracynow.org/images/story/04/54904/splash/seg2-trump-eugene.jpg"/>
+      <description>Charles Allen, whose father Eugene Allen worked as a butler at the White House for 34 years, says President Trump’s reckless actions following his COVID-19 hospitalization are threatening the health of the domestic staff at the White House. “As my dad used to say, they were the little people that made it possible for the big people to do what they did,” he says. Eugene Allen, who served eight presidents, from Harry Truman to Ronald Reagan, died in 2010, but his life story became the basis of the 2013 film “The Butler,” starring Forest Whitaker.</description>
+    </item>
+  </channel>
+</rss>

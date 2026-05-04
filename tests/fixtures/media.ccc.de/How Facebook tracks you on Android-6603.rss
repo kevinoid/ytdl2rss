@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Fri, 28 Dec 2018 00:00:00 -0000</pubDate>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://media.ccc.de/v/35c3-9941-how_facebook_tracks_you_on_android</guid>
+      <title>How Facebook tracks you on Android</title>
+      <pubDate>Fri, 28 Dec 2018 00:00:00 -0000</pubDate>
+      <enclosure type="video/webm" length="603979776" url="https://example.com/How%20Facebook%20tracks%20you%20on%20Android-6603.webm"/>
+      <itunes:image href="https://static.media.ccc.de/media/congress/2018/9941-hd.jpg"/>
+      <itunes:duration>2616</itunes:duration>
+      <description>&lt;p&gt;In this talk, we’re looking at third party tracking on Android. We’ve captured and decrypted data in transit between our own devices and Facebook servers. It turns out that some apps routinely send Facebook  information about your device and usage patterns - the second the app is opened. We’ll walk you through the technical part of our analysis and end with a call to action: We believe that both Facebook and developers can do more to avoid oversharing, profiling and damaging the privacy of their users.&lt;/p&gt;
+
+&lt;p&gt;In this talk, we’re looking at third party tracking on Android. We’ve captured and decrypted data in transit between our own devices and Facebook servers. It turns out that some apps routinely send Facebook  information about your device and usage patterns - the second the app is opened. We’ll walk you through the technical part of our analysis and end with a call to action: We believe that both Facebook and developers can do more to avoid oversharing, profiling and damaging the privacy of their users.&lt;/p&gt;
+
+&lt;a href="https://privacyinternational.org/types-abuse/facebook"&gt;https://privacyinternational.org/types-abuse/facebook&lt;/a&gt;
+
+&lt;a href="https://privacyinternational.org"&gt;https://privacyinternational.org&lt;/a&gt;
+
+&lt;a href="https://privacyintyqcroe.onion"&gt;https://privacyintyqcroe.onion&lt;/a&gt;</description>
+    </item>
+  </channel>
+</rss>

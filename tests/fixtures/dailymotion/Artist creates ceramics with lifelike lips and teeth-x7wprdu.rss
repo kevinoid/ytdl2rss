@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Thu, 08 Oct 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>clean</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.dailymotion.com/video/x7wprdu</guid>
+      <title>Artist creates ceramics with lifelike lips and teeth</title>
+      <pubDate>Thu, 08 Oct 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="avc1.64001f, mp4a.40.2"' url="https://example.com/Artist%20creates%20ceramics%20with%20lifelike%20lips%20and%20teeth-x7wprdu.mp4"/>
+      <itunes:image href="https://s2.dmcdn.net/v/SWFBY1VWqdQcSFW7a/x1080"/>
+      <itunes:duration>100</itunes:duration>
+      <itunes:explicit>clean</itunes:explicit>
+      <description>Tatiana Cardona is the ceramist behind Female Alchemy. She sculpts and paints vases, mugs, and homewares with lips and teeth.</description>
+    </item>
+  </channel>
+</rss>

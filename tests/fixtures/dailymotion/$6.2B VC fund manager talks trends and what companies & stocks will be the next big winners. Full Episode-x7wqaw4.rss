@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>clean</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.dailymotion.com/video/x7wqaw4</guid>
+      <title>$6.2B VC fund manager talks trends and what companies &amp; stocks will be the next big winners. Full Episode</title>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/%246.2B%20VC%20fund%20manager%20talks%20trends%20and%20what%20companies%20%26%20stocks%20will%20be%20the%20next%20big%20winners.%20Full%20Episode-x7wqaw4.mp4"/>
+      <itunes:image href="https://s2.dmcdn.net/v/SWLMa1VW__sQoQsvw/x1080"/>
+      <itunes:duration>2628</itunes:duration>
+      <itunes:explicit>clean</itunes:explicit>
+      <description>GGV Capital's Jeff Richards joins Social Leverage's Howard Lindzon to talk the state of the market, creator economy, industries ripe for innovation and clothing brands.
+
+GGV Capital is a $6.2B global venture capital firm across 15+ funds. GGV has invested early in companies like Alibaba Group, DraftKings, and Peloton.
+
+Jeff focuses on enterprise/cloud and marketplace investments, and led GGV’s investments in BigCommerce (NASDAQ: BIGC), BlueKai (acq by Oracle), Boxed, Brightwheel, Buddy Media (acq by Salesforce), Coinbase, Electric.ai, Evolv OnDemand (acq by Cornerstone), Flipboard, Gladly, Handshake, HotelTonight (acq by Airbnb), Lambda School, Namely, People.ai, PlushCare, Slice, Stream, Tala, Tile, Vic.ai, WorkBoard, and Zylo.
+Jeff has also been actively involved in GGV’s investments in Domo, Opendoor, Square, and Wish.</description>
+    </item>
+  </channel>
+</rss>

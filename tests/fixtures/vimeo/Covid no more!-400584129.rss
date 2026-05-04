@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Wed, 25 Mar 2020 00:00:00 -0000</pubDate>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://vimeo.com/400584129</guid>
+      <title>Covid no more!</title>
+      <pubDate>Wed, 25 Mar 2020 00:00:00 -0000</pubDate>
+      <enclosure type='video/mp4; codecs="av01.0.09M.08.0.111.01.01.01.0, mp4a.40.2"' url="https://example.com/Covid%20no%20more%21-400584129.mp4"/>
+      <itunes:image href="https://i.vimeocdn.com/filter/overlay?src0=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F869033992_1280x720.jpg&amp;src1=https%3A%2F%2Ff.vimeocdn.com%2Fimages_v6%2Fshare%2Fplay_icon_overlay.png"/>
+      <itunes:duration>217</itunes:duration>
+      <description>Here's a fun little video I cut amongst these strange weird times we're in.</description>
+    </item>
+  </channel>
+</rss>

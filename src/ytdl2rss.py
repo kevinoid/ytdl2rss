@@ -286,17 +286,20 @@ def _write_explicit_for_age_limit(
 
     Currently this function considers any age limit to be explicit.
 
-    Standards differ over valid itunes:explicit values:
+    Standards have differed over valid itunes:explicit values:
 
-    - Spotify wants yes/no/clean for item, yes/clean for channel.
-    - Google wants yes or absent, Apple wants true/false.
-    - W3C Feed Validator wants yes/no/clean.
+    - Spotify 1.6 wanted yes/no/clean for item, yes/clean for channel.
+    - Spotify 1.10 wants clean/yes/no/true/false.
+    - Google wanted yes or absent.
+    - Apple wants true/false,
+    - W3C Feed Validator wanted yes/no/clean, now true/false
+    - https://github.com/w3c/feedvalidator/issues/112
 
     :param write: Function called to write RSS data.
     :param age_limit: Age limit from youtube-dl info.
     """
     write('<itunes:explicit>')
-    write('yes' if age_limit > 0 else 'clean')
+    write('true' if age_limit > 0 else 'false')
     write('</itunes:explicit>')
 
 

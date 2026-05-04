@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <pubDate>Tue, 06 Oct 2020 00:00:00 -0000</pubDate>
-    <itunes:explicit>clean</itunes:explicit>
+    <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
     <generator>ytdl2rss.py 0.1.0</generator>
     <item>
@@ -12,7 +12,7 @@
       <enclosure type='video/mp4; codecs="avc1.64001f, mp4a.40.2"' url="https://example.com/The%20Watts%20Family%20Murders%20-%205%20Facts%20To%20Know-x7wo0l1.mp4"/>
       <itunes:image href="https://s2.dmcdn.net/v/SVxJr1VWwVLVdfYAK/x1080"/>
       <itunes:duration>194</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>Chris Watts attended a birthday party with his daughters where he said they had an "epic time" just hours before the unthinkable murders.</description>
     </item>
   </channel>

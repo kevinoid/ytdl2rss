@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
-    <itunes:explicit>clean</itunes:explicit>
+    <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
     <generator>ytdl2rss.py 0.1.0</generator>
     <item>
@@ -12,7 +12,7 @@
       <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/%246.2B%20VC%20fund%20manager%20talks%20trends%20and%20what%20companies%20%26%20stocks%20will%20be%20the%20next%20big%20winners.%20Full%20Episode-x7wqaw4.mp4"/>
       <itunes:image href="https://s2.dmcdn.net/v/SWLMa1VW__sQoQsvw/x1080"/>
       <itunes:duration>2628</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>GGV Capital's Jeff Richards joins Social Leverage's Howard Lindzon to talk the state of the market, creator economy, industries ripe for innovation and clothing brands.
 
 GGV Capital is a $6.2B global venture capital firm across 15+ funds. GGV has invested early in companies like Alibaba Group, DraftKings, and Peloton.

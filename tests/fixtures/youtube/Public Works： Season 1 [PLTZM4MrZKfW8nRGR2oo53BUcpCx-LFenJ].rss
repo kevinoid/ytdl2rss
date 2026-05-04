@@ -6,7 +6,7 @@
     <itunes:author>Practical Engineering</itunes:author>
     <link>https://www.youtube.com/playlist?list=PLTZM4MrZKfW8nRGR2oo53BUcpCx-LFenJ</link>
     <pubDate>Tue, 27 Aug 2019 00:00:00 -0000</pubDate>
-    <itunes:explicit>clean</itunes:explicit>
+    <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
     <generator>ytdl2rss.py 0.1.0</generator>
     <item>
@@ -16,7 +16,7 @@
       <enclosure type='video/webm; codecs="av01.0.08M.08, opus"' url="https://example.com/How%20Water%20Towers%20Work-yZwfcMSDBHs.webm"/>
       <itunes:image href="https://i.ytimg.com/vi/yZwfcMSDBHs/maxresdefault.jpg"/>
       <itunes:duration>659</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>Purpose and function of elevated water storage tanks.
 
 The job of finding enough water, making it safe to use, and then reliably distributing it to the system customers with almost no downtime is a monumental task that requires a lot of infrastructure. And, probably the most visible component of a public water system is the elevated storage tank, also known as a water tower. I’m Grady Hillhouse and this is Public Works, my video series on infrastructure and the humanmade world around us.
@@ -39,7 +39,7 @@ Source: https://www.youtube.com/watch?v=U6fBPdu8w9U</description>
       <enclosure type='video/webm; codecs="av01.0.08M.08, opus"' url="https://example.com/How%20Do%20Traffic%20Signals%20Work%3F-DP62ogEZgkI.webm"/>
       <itunes:image href="https://i.ytimg.com/vi/DP62ogEZgkI/maxresdefault.jpg"/>
       <itunes:duration>757</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>Traffic management in dense urban areas is an extremely complex problem with a host of conflicting goals and challenges. One of the most fundamental of those challenges happens at an intersection, where multiple streams of traffic - including vehicles, bikes and pedestrians - need to safely, and with any luck, efficiently, cross each others’ paths. However we accommodate it now or in future, traffic will continue to be one of the biggest challenges in our urban areas and traffic signals will continue to be one of its solutions.
 
 Watch this video and the entire Practical Engineering catalog ad-free on Nebula: https://go.nebula.tv/practical-engineering
@@ -59,7 +59,7 @@ This video is sponsored by Squarespace.</description>
       <enclosure type='video/webm; codecs="av01.0.08M.08, opus"' url="https://example.com/How%20Do%20Substations%20Work%3F-7Q-aVBv7PWM.webm"/>
       <itunes:image href="https://i.ytimg.com/vi/7Q-aVBv7PWM/maxresdefault.jpg"/>
       <itunes:duration>758</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>Untangling the various equipment you might see in an electrical substation.
 
 In many ways, the grid is a one-size-fits-all system - a gigantic machine to which we all connect spinning in perfect synchrony across, in some cases, an entire continent. On the other hand, our electricity needs, including when we need it, how much we need, and how reliably it should be delivered vary widely. Substations play a critical role in controlling and protecting the power grid.

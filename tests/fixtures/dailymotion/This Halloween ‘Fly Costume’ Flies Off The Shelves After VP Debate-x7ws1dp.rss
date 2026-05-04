@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <pubDate>Mon, 12 Oct 2020 00:00:00 -0000</pubDate>
-    <itunes:explicit>clean</itunes:explicit>
+    <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
     <generator>ytdl2rss.py 0.1.0</generator>
     <item>
@@ -12,7 +12,7 @@
       <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/This%20Halloween%20%E2%80%98Fly%20Costume%E2%80%99%20Flies%20Off%20The%20Shelves%20After%20VP%20Debate-x7ws1dp.mp4"/>
       <itunes:image href="https://s1.dmcdn.net/v/SWf7z1VX5DIv0eLbj/x1080"/>
       <itunes:duration>80</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>The most famous housefly in the world just became the most popular Halloween costume for this holiday season! Buzz60’s Maria Mercedes Galuppo has more.</description>
     </item>
   </channel>

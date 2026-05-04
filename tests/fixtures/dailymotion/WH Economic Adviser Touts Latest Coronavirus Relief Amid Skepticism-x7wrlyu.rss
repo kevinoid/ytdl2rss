@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <pubDate>Sun, 11 Oct 2020 00:00:00 -0000</pubDate>
-    <itunes:explicit>clean</itunes:explicit>
+    <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
     <generator>ytdl2rss.py 0.1.0</generator>
     <item>
@@ -12,7 +12,7 @@
       <enclosure type='video/mp4; codecs="avc1.640028, mp4a.40.2"' url="https://example.com/WH%20Economic%20Adviser%20Touts%20Latest%20Coronavirus%20Relief%20Amid%20Skepticism-x7wrlyu.mp4"/>
       <itunes:image href="https://s1.dmcdn.net/v/SWaFs1VWzn2VshR18/x1080"/>
       <itunes:duration>110</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>White House official says another relief bill is still on the table, though chances are seen as slim amid pushback from Pelosi, GOP-led Senate.</description>
     </item>
   </channel>

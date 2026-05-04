@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
   <channel>
     <pubDate>Sun, 15 Sep 2019 00:00:00 -0000</pubDate>
-    <itunes:explicit>clean</itunes:explicit>
+    <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
     <generator>ytdl2rss.py 0.1.0</generator>
     <item>
@@ -12,7 +12,7 @@
       <enclosure type='video/webm; codecs="vp9, mp4a.40.2"' url="https://example.com/%27Performance%20Matters%27%20by%20Emery%20Berger-r-TLSBdHe1A.webm"/>
       <itunes:image href="https://i.ytimg.com/vi_webp/r-TLSBdHe1A/maxresdefault.webp"/>
       <itunes:duration>2535</itunes:duration>
-      <itunes:explicit>clean</itunes:explicit>
+      <itunes:explicit>false</itunes:explicit>
       <description>Performance clearly matters to users. For example, the most common software update on the AppStore is "Bug fixes and performance enhancements." Now that Moore's Law has ended, programmers have to work hard to get high performance for their applications. But why is performance hard to deliver?
 
 I will first explain why current approaches to evaluating and optimizing performance don't work, especially on modern hardware and for modern applications. I then present two systems that address these challenges. Stabilizer is a tool that enables statistically sound performance evaluation, making it possible to understand the impact of optimizations and conclude things like the fact that the -O2 and -O3 optimization levels are indistinguishable from noise (sadly true).

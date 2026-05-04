@@ -277,6 +277,29 @@ def _guess_entry_filename(entry: YtdlEntry) -> str:
     return f'{entry["fulltitle"]}-{entry["id"]}.{entry["ext"]}'
 
 
+def _write_explicit_for_age_limit(
+    write: Callable[[str], Any],
+    age_limit: int,
+) -> None:
+    """
+    Write an appropriate <itunes:explicit> tag based on age_limit.
+
+    Currently this function considers any age limit to be explicit.
+
+    Standards differ over valid itunes:explicit values:
+
+    - Spotify wants yes/no/clean for item, yes/clean for channel.
+    - Google wants yes or absent, Apple wants true/false.
+    - W3C Feed Validator wants yes/no/clean.
+
+    :param write: Function called to write RSS data.
+    :param age_limit: Age limit from youtube-dl info.
+    """
+    write('<itunes:explicit>')
+    write('yes' if age_limit > 0 else 'clean')
+    write('</itunes:explicit>')
+
+
 # pylint: disable-next=too-many-locals,too-many-statements
 def entry_to_rss(
     entry: YtdlEntry,
@@ -376,12 +399,7 @@ def entry_to_rss(
     age_limit = entry.get('age_limit')
     if isinstance(age_limit, int):
         write(indent3)
-        write('<itunes:explicit>')
-        # Note: Spotify wants yes/no/clean for item, yes/clean for channel,
-        # Google wants yes or absent, Apple wants true/false,
-        # W3C Feed Validator wants yes/no/clean
-        write('yes' if age_limit > 0 else 'clean')
-        write('</itunes:explicit>')
+        _write_explicit_for_age_limit(write, age_limit)
         write(eol)
 
     # TODO: <itunes:order> from autonumber (not in .info.json)
@@ -534,12 +552,7 @@ def playlist_to_rss(
     age_limits = [entry.get('age_limit') for entry in playlist['entries']]
     if age_limits and None not in age_limits:
         write(indent2)
-        write('<itunes:explicit>')
-        # Note: Spotify wants yes/no/clean for item, yes/clean for channel,
-        # Google wants yes or absent, Apple wants true/false,
-        # W3C Feed Validator wants yes/no/clean
-        write('yes' if max(age_limits) > 0 else 'clean')
-        write('</itunes:explicit>')
+        _write_explicit_for_age_limit(write, max(age_limits))
         write(eol)
 
     # Provide self link, as recommended

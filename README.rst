@@ -42,7 +42,7 @@ Features
 
 * Attempts to produce RSS which complies with guidelines from:
   * `Apple <https://help.apple.com/itc/podcasts_connect/#/itcb54353390>`_
-  * `Spotify <https://podcasters.spotify.com/terms/Spotify_Podcast_Delivery_Specification_v1.6.pdf>`_
+  * `Spotify <https://providersupport.spotify.com/article/podcast-delivery-specification-1-9>`_
   * `W3C <https://validator.w3.org/feed/>`_
 
 

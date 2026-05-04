@@ -26,10 +26,13 @@ from email.utils import format_datetime
 from pathlib import Path
 
 # pylint: disable-next=unused-import
-from typing import IO, Any, NotRequired, TypedDict, cast
+from typing import IO, TYPE_CHECKING, Any, NotRequired, TypedDict, cast
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname
 from xml.sax.saxutils import escape, quoteattr  # nosec
+
+if TYPE_CHECKING:
+    from io import TextIOBase
 
 try:
     from argcomplete import autocomplete
@@ -682,6 +685,7 @@ def info_to_rss(
     # and for wider podcast distributor/aggregator support.
     # (e.g. Apple instructs podcasters to use UTF-8.)
     encoding = 'UTF-8'
+    output: TextIOBase | None = None
     if rss_path:
         # pylint: disable-next=consider-using-with
         output = open(rss_path, 'w', encoding=encoding)  # noqa: SIM115
@@ -719,7 +723,7 @@ def info_to_rss(
             indent=indent,
         )
     finally:
-        if rss_path:
+        if output:
             output.close()
 
 

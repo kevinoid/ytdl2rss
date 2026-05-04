@@ -653,11 +653,13 @@ def _load_info(info_paths: Iterable[str]) -> YtdlPlaylist:
     return entries_to_playlist(entries)
 
 
+# pylint: disable-next=too-many-branches
 def info_to_rss(
     info_paths: Iterable[str],
     rss_url: str,
     rss_path: str | None = None,
     indent: str | None = None,
+    write: Callable[[str], Any] | None = None,
 ) -> None:
     """
     Convert youtube-dl info JSON files to podcast RSS.
@@ -666,6 +668,7 @@ def info_to_rss(
     :param rss_url: URL of RSS file being written.
     :param rss_path: Path of RSS file to produce.
     :param indent: Indent to apply to each nesting level of RSS.
+    :param write: Function called to write RSS data, instead of using rss_path.
 
     :raises InvalidSelfUrlError: if ``rss_url`` doesn't start with a URL scheme.
     :raises ValueError: if ``rss_path`` and ``sys.stdout`` are ``None``
@@ -686,10 +689,12 @@ def info_to_rss(
     # (e.g. Apple instructs podcasters to use UTF-8.)
     encoding = 'UTF-8'
     output: TextIOBase | None = None
-    if rss_path:
+    if write:
+        pass
+    elif rss_path:
         # pylint: disable-next=consider-using-with
         output = open(rss_path, 'w', encoding=encoding)  # noqa: SIM115
-        write: Callable[[str], Any] = output.write
+        write = output.write
     elif sys.stdout is None:
         raise ValueError('stdout is closed')
     elif sys.stdout.isatty():

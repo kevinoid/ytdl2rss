@@ -11,6 +11,7 @@ recursive-include src py.typed
 recursive-include .vulture *.py
 recursive-include docs *.py *.rst
 recursive-include tests *.py *.rst *.txt
+include generate_golden.py
 include tox.ini
 
 # Include .gitignore as .ignore for ruff, since it will only use .gitignore if

@@ -155,6 +155,11 @@ namespaces = false
 ytdl2rss = [
     # Mark as containing inline type information
     # https://peps.python.org/pep-0561/#packaging-type-information
+    #
+    # FIXME: This doesn't work for single-file modules, since there's no
+    # package directory for py.typed to be copied into.
+    # https://github.com/python/typing/discussions/1297#discussioncomment-4255646
+    # https://github.com/python/typing/issues/1333
     'py.typed',
 ]
 

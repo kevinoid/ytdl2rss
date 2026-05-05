@@ -424,6 +424,40 @@ def entry_to_rss(
     write(eol)
 
 
+def _playlist_to_rss_language(
+    playlist: YtdlPlaylist,
+    write: Callable[[str], Any],
+    indent: str | None = None,
+) -> None:
+    """
+    Write language RSS tag for youtube-dl playlist info object.
+
+    :param playlist: Playlist for which to generate RSS.
+    :param write: Function called to write RSS data.
+    :param indent: Indent to apply to each nesting level of RSS.
+    """
+    if indent is None:
+        indent2 = ''
+        eol = ''
+    else:
+        indent2 = indent * 2
+        eol = '\n'
+
+    languages = {
+        entry.get('language')
+        for entry in playlist['entries']
+        if entry.get('language') is not None
+    }
+    if len(languages) == 1:
+        for language in languages:
+            if isinstance(language, str):
+                write(indent2)
+                write('<language>')
+                write(language)
+                write('</language>')
+                write(eol)
+
+
 # pylint: disable-next=too-many-branches,too-many-locals,too-many-statements
 def playlist_to_rss(
     playlist: YtdlPlaylist,
@@ -553,6 +587,8 @@ def playlist_to_rss(
         write(quoteattr(thumbnail))
         write('/>')
         write(eol)
+
+    _playlist_to_rss_language(playlist, write, indent)
 
     age_limits = [entry.get('age_limit') for entry in playlist['entries']]
     if age_limits and None not in age_limits:

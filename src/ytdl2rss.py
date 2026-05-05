@@ -102,7 +102,7 @@ class YtdlEntry(YtdlFormat):
     webpage_url: str
     title: str
     upload_date: str
-    duration: NotRequired[int]
+    duration: NotRequired[int | float]
     age_limit: int
     description: str
     formats: list[YtdlFormat]
@@ -340,7 +340,7 @@ def _write_explicit_for_age_limit(
     write('</itunes:explicit>')
 
 
-# pylint: disable-next=too-many-locals,too-many-statements
+# pylint: disable-next=too-many-branches,too-many-locals,too-many-statements
 def entry_to_rss(
     entry: YtdlEntry,
     write: Callable[[str], Any],
@@ -429,9 +429,15 @@ def entry_to_rss(
         write(eol)
 
     duration = entry.get('duration')
-    if duration is not None:
+    if isinstance(duration, float):
+        # W3C Feed Validation Service complains about fractional duration:
+        # https://validator.w3.org/feed/docs/error/InvalidDuration.html
+        duration = round(duration)
+    if isinstance(duration, int):
         write(indent3)
         write('<itunes:duration>')
+        # Spotify: "Different duration formats are accepted however it is
+        # recommended to convert the length of the episode into seconds."
         write(str(duration))
         write('</itunes:duration>')
         write(eol)

@@ -154,19 +154,19 @@ If you are looking for an all-in-one podcast media download, conversion, and hos
 License
 =======
 
-This project is available under the terms of the `MIT License`_.
-See the `summary at TLDRLegal`_
+This project is available under the terms of the `Unlicense`_, like youtube-dl_,
+yt-dlc_, yt-dlp_, or other forks.  See the `summary at TLDRLegal`_.
 
 .. === Begin reference names ===
 
 .. _API documentation: https://ytdl2rss.readthedocs.io/en/latest/api/modules.html
 .. _CLI documentation: https://ytdl2rss.readthedocs.io/en/latest/cli.html
-.. _MIT License: https://github.com/kevinoid/ytdl2rss/blob/main/LICENSE.txt
 .. _Open Graph Metadata: https://ogp.me/
 .. _Podsync: https://github.com/mxpv/podsync
 .. _Read the Docs: https://readthedocs.org/
 .. _RSS: https://en.wikipedia.org/wiki/RSS
 .. _Twitch: https://www.twitch.tv/
+.. _Unlicense: https://unlicense.org/
 .. _Vimeo: https://vimeo.com/
 .. _YouCast: https://github.com/i3arnon/YouCast
 .. _YouTube: https://www.youtube.com/
@@ -175,7 +175,7 @@ See the `summary at TLDRLegal`_
 .. _pip: https://pip.pypa.io/
 .. _project documentation: https://ytdl2rss.readthedocs.io/
 .. _podcast: https://en.wikipedia.org/wiki/Podcast
-.. _summary at TLDRLegal: https://tldrlegal.com/license/mit-license
+.. _summary at TLDRLegal: https://www.tldrlegal.com/license/unlicense
 .. _this package: https://pypi.org/project/ytdl2rss/
 .. _GoogleTechTalks: https://www.youtube.com/c/googletechtalks
 .. _Make the Web Faster: https://www.youtube.com/playlist?list=PLE0E03DF19D90B5F4

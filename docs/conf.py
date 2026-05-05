@@ -35,11 +35,6 @@ version = _version_match.group(0)
 # -- General configuration ---------------------------------------------------
 
 project = 'ytdl2rss'
-# pylint: disable=redefined-builtin
-# ruff: disable[A001]
-copyright = 'Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>'
-# ruff: enable[A001]
-# pylint: enable=redefined-builtin
 
 # Load configuration from pyproject.toml
 _pyproject_path = _project_path / 'pyproject.toml'

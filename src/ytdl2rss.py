@@ -63,13 +63,11 @@ _VERSION_MESSAGE = (
     + __version__
     + """
 
-Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>
-
 %(prog) is free and unencumbered software released into the public domain.
 
 %(prog) is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
+FOR A PARTICULAR PURPOSE.  See the Unlicense for details."""
 )
 _XML_TAG_RE = re.compile('<[^>]+>')
 

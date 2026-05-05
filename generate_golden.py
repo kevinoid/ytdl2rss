@@ -31,6 +31,27 @@ def _raise(ex: Exception) -> NoReturn:
     raise ex
 
 
+def generate_test_fixture(info_path: Path) -> None:
+    """
+    Generate an RSS file for a given info JSON file.
+
+    :param info_path: path info JSON file.
+    """
+    info_file = info_path.name
+    rss_file = info_file[: -len(INFO_EXT)] + RSS_EXT
+    rss_path = info_path.parent / rss_file
+
+    _logger.info('Generating %s from %s...', rss_path, info_path)
+
+    # pylint: disable-next=duplicate-code
+    info_to_rss(
+        (str(info_path),),
+        TEST_SELF_URL,
+        str(rss_path),
+        TEST_INDENT,
+    )
+
+
 def generate_test_fixtures(fixtures_path: Path) -> None:
     """
     Generate RSS files for each info JSON file in ``fixtures_path``.
@@ -41,17 +62,7 @@ def generate_test_fixtures(fixtures_path: Path) -> None:
         dirpath_path = Path(dirpath)
         for file in files:
             if file.endswith(INFO_EXT):
-                rss_file = file[: -len(INFO_EXT)] + RSS_EXT
-                info_path = dirpath_path / file
-                rss_path = dirpath_path / rss_file
-                _logger.info('Generating %s from %s...', rss_path, info_path)
-                # pylint: disable-next=duplicate-code
-                info_to_rss(
-                    (str(info_path),),
-                    TEST_SELF_URL,
-                    str(rss_path),
-                    TEST_INDENT,
-                )
+                generate_test_fixture(dirpath_path / file)
 
 
 def main(argv: Sequence[str] = sys.argv) -> int:

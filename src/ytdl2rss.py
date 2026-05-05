@@ -299,6 +299,8 @@ def _write_explicit_for_age_limit(
     :param age_limit: Age limit from youtube-dl info.
     """
     write('<itunes:explicit>')
+    # Note: newgrounds has 13 (t/teen/PG-13) and 17 (m/mature/R)
+    # Both probably qualify as explicit on iTunes
     write('true' if age_limit > 0 else 'false')
     write('</itunes:explicit>')
 

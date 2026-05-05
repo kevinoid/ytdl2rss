@@ -152,7 +152,7 @@ namespaces = false
 #
 # If all files included in the sdist should be included in the bdist, consider
 # setting include-package-data = true in [tool.setuptools]
-packagename = [
+ytdl2rss = [
     # Mark as containing inline type information
     # https://peps.python.org/pep-0561/#packaging-type-information
     'py.typed',
@@ -321,7 +321,7 @@ addopts = [
 # Note: matches before python -W options passed in pytest invocation
 filterwarnings = [
     # Treat warnings caused by this module (or submodules) as errors
-    'error:::packagename(\.|$)',
+    'error:::ytdl2rss(\.|$)',
     # Treat warnings caused by the tests module (or submodules) as errors
     'error:::tests(\.|$)',
 ]
@@ -360,7 +360,7 @@ inline-quotes = 'single'
 multiline-quotes = 'double'
 
 [tool.ruff.lint.isort]
-known-first-party = ['packagename']
+known-first-party = ['ytdl2rss']
 lines-between-types = 1
 
 [tool.ruff.lint.mccabe]

@@ -8,6 +8,7 @@ import sys
 from collections.abc import Sequence
 from pathlib import Path
 from typing import NoReturn
+from xml.parsers.expat import ParserCreate
 
 # Add src to sys.path so ytdl2rss can be imported
 _project_path = Path(__file__).resolve().parent
@@ -33,7 +34,7 @@ def _raise(ex: Exception) -> NoReturn:
 
 def generate_test_fixture(info_path: Path) -> None:
     """
-    Generate an RSS file for a given info JSON file.
+    Generate (and validate) an RSS file for a given info JSON file.
 
     :param info_path: path info JSON file.
     """
@@ -43,13 +44,25 @@ def generate_test_fixture(info_path: Path) -> None:
 
     _logger.info('Generating %s from %s...', rss_path, info_path)
 
-    # pylint: disable-next=duplicate-code
-    info_to_rss(
-        (str(info_path),),
-        TEST_SELF_URL,
-        str(rss_path),
-        TEST_INDENT,
-    )
+    # Validate XML during creation
+    parser = ParserCreate()
+    with open(rss_path, 'w', encoding='UTF-8') as output:
+
+        def write_both(xml: str) -> None:
+            parser.Parse(xml)
+            output.write(xml)
+
+        # pylint: disable-next=duplicate-code
+        info_to_rss(
+            (str(info_path),),
+            TEST_SELF_URL,
+            str(rss_path),
+            TEST_INDENT,
+            write_both,
+        )
+
+    # Signal to the parser that input has ended
+    parser.Parse('', True)  # noqa: FBT003
 
 
 def generate_test_fixtures(fixtures_path: Path) -> None:

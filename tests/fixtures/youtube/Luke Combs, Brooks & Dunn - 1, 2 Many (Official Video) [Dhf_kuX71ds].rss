@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Thu, 12 Sep 2019 00:00:00 -0000</pubDate>
+    <itunes:explicit>false</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.youtube.com/watch?v=Dhf_kuX71ds</guid>
+      <title>Luke Combs, Brooks &amp; Dunn - 1, 2 Many (Official Video)</title>
+      <pubDate>Thu, 12 Sep 2019 00:00:00 -0000</pubDate>
+      <enclosure type='video/webm; codecs="av01.0.08M.08, opus"' url="https://example.com/Luke%20Combs%2C%20Brooks%20%26%20Dunn%20-%201%2C%202%20Many%20%28Official%20Video%29%20%5BDhf_kuX71ds%5D.webm"/>
+      <itunes:image href="https://i.ytimg.com/vi/Dhf_kuX71ds/maxresdefault.jpg"/>
+      <itunes:duration>196</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+      <description>Listen to “1, 2 Many” from Luke Combs’ album, ‘What You See Is What You Get’, available now: http://smarturl.it/WYSIWYG?IQid=youtube
+ 
+Spotify: http://smarturl.it/WYSIWYG/spotify?IQid=youtube
+Apple Music: http://smarturl.it/WYSIWYG/applemusic?IQid=youtube
+Amazon Music: http://smarturl.it/WYSIWYG/az?IQid=youtube
+iTunes: http://smarturl.it/WYSIWYG/itunes?IQid=youtube
+YouTube Music: http://smarturl.it/WYSIWYG/youtubemusic?IQid=youtube
+Pandora: http://smarturl.it/WYSIWYG/pandora?IQid=youtube
+All retailers: http://smarturl.it/WYSIWYG?IQid=youtube
+ 
+Connect With Luke: 
+Instagram: http://instagram.com/lukecombs
+Facebook: http://facebook.com/lukecombs
+Twitter: http://twitter.com/lukecombs
+Subscribe: http://smarturl.it/LCYTsub?IQid=youtube
+Website: http://www.lukecombs.com   
+ 
+#LukeCombs #12Many #WhatYouSeeIsWhatYouGet</description>
+    </item>
+  </channel>
+</rss>

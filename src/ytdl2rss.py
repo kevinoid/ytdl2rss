@@ -17,6 +17,7 @@ import argparse
 import codecs
 import json
 import locale
+import re
 import sys
 import traceback
 
@@ -70,6 +71,7 @@ Copyright 2019-2026 Kevin Locke <kevin@kevinlocke.name>
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE.  See the MIT License for details."""
 )
+_XML_TAG_RE = re.compile('<[^>]+>')
 
 
 class InvalidSelfUrlError(ValueError):
@@ -119,9 +121,9 @@ class YtdlPlaylist(TypedDict):
     entries: list[YtdlEntry]
 
 
-def _to_xml_fragment(text_or_html: str) -> str:
+def _to_xml_text(text_or_html: str) -> str:
     """
-    Convert input text/HTML into a valid XML fragment for use in RSS.
+    Convert input text/HTML into XML text content for use in RSS.
 
     Parsers are inconsistent about whether title/description is HTML or plain
     text.  Golden files includes examples of both.  To handle these cases,
@@ -129,8 +131,6 @@ def _to_xml_fragment(text_or_html: str) -> str:
 
     FIXME: Should escape based on extractor used, so that HTML-like strings in
     plain text titles are escaped and not treated as HTML.
-
-    TODO: title should not contain HTML, meaning tags should be stripped.
 
     :param text_or_html: Text to escape, if not already valid XML.
 
@@ -147,8 +147,10 @@ def _to_xml_fragment(text_or_html: str) -> str:
         # text_or_html is not a valid XML fragment.  Escape it.
         return escape(text_or_html)
 
-    # text_or_html is a valid XML fragment.  Return as-is.
-    return text_or_html
+    # text_or_html is a valid XML fragment.
+    # strip tags, which are not allowed in title:
+    # https://validator.w3.org/feed/docs/warning/ContainsHTML.html
+    return _XML_TAG_RE.sub('', text_or_html)
 
 
 def _resolve_path(
@@ -388,7 +390,7 @@ def entry_to_rss(
     if isinstance(title, str):
         write(indent3)
         write('<title>')
-        write(_to_xml_fragment(title))
+        write(_to_xml_text(title))
         write('</title>')
         write(eol)
 
@@ -536,7 +538,7 @@ def playlist_to_rss(
     if isinstance(title, str):
         write(indent2)
         write('<title>')
-        write(_to_xml_fragment(title))
+        write(_to_xml_text(title))
         write('</title>')
         write(eol)
 
@@ -598,7 +600,7 @@ def playlist_to_rss(
         if isinstance(title, str):
             write(indent3)
             write('<title>')
-            write(_to_xml_fragment(title))
+            write(_to_xml_text(title))
             write('</title>')
             write(eol)
 

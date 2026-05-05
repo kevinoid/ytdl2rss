@@ -540,7 +540,8 @@ def playlist_to_rss(
     if isinstance(title, str):
         write(indent2)
         write('<title>')
-        write(_to_xml_text(title))
+        title_xml = _to_xml_text(title)
+        write(title_xml)
         write('</title>')
         write(eol)
 
@@ -567,7 +568,8 @@ def playlist_to_rss(
     if isinstance(webpage_url, str):
         write(indent2)
         write('<link>')
-        write(escape(webpage_url))
+        webpage_url_xml = escape(webpage_url)
+        write(webpage_url_xml)
         write('</link>')
         write(eol)
 
@@ -604,14 +606,14 @@ def playlist_to_rss(
         if isinstance(title, str):
             write(indent3)
             write('<title>')
-            write(_to_xml_text(title))
+            write(title_xml)
             write('</title>')
             write(eol)
 
         if isinstance(webpage_url, str):
             write(indent3)
             write('<link>')
-            write(escape(webpage_url))
+            write(webpage_url_xml)
             write('</link>')
             write(eol)
 

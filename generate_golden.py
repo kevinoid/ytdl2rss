@@ -9,8 +9,20 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import NoReturn
 
-from tests.test_golden import INFO_EXT, RSS_EXT, TEST_INDENT, TEST_SELF_URL
-from ytdl2rss import info_to_rss
+# Add src to sys.path so ytdl2rss can be imported
+_project_path = Path(__file__).resolve().parent
+sys.path.insert(0, str(_project_path / 'src'))
+
+# pylint: disable-next=wrong-import-position
+from tests.test_golden import (  # noqa: E402
+    INFO_EXT,
+    RSS_EXT,
+    TEST_INDENT,
+    TEST_SELF_URL,
+)
+
+# pylint: disable-next=wrong-import-position
+from ytdl2rss import info_to_rss  # noqa: E402
 
 _logger = logging.getLogger(__name__)
 

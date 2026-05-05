@@ -138,10 +138,10 @@ include-package-data = false
 # tombi: lint.rules.key-empty.disabled = true
 '' = 'src'
 
-#[tool.setuptools.packages.find]
-#exclude = ['tests']
-#where = ['src']
-#namespaces = false
+[tool.setuptools.packages.find]
+exclude = ['tests']
+where = ['src']
+namespaces = false
 
 [tool.setuptools.package-data]
 # Additional data files to include in the package

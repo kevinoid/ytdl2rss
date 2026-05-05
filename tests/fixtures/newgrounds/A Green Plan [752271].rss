@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+  <channel>
+    <pubDate>Sat, 11 Apr 2020 00:00:00 -0000</pubDate>
+    <itunes:explicit>true</itunes:explicit>
+    <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
+    <generator>ytdl2rss.py 0.1.0</generator>
+    <item>
+      <guid isPermaLink="true">https://www.newgrounds.com/portal/view/752271</guid>
+      <title>A Green Plan</title>
+      <pubDate>Sat, 11 Apr 2020 00:00:00 -0000</pubDate>
+      <enclosure type="video/mp4" url="https://example.com/A%20Green%20Plan%20%5B752271%5D.mp4"/>
+      <itunes:image href="https://img.ngfiles.com/defaults/adult-social-media-card.jpg"/>
+      <itunes:explicit>true</itunes:explicit>
+      <description>There's this weird thing that happens when I'm at a restaurant with someone and I pull out the silverware I brought, and they pull out their bamboo knife and fork. I'm hoping this animation reflects that feeling.
+
+
+Socials: @sanbles
+Sanbles.com</description>
+    </item>
+  </channel>
+</rss>

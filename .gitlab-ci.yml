@@ -42,27 +42,11 @@ test:primary:
   image: python:slim
   script: $PYTHON -m tox -vv -e lint,docs,py3
 
-# Test with earliest/latest supported version of Python 2
-test:py27:
-  stage: test:secondary
-  image: python:2.7-slim
-  variables:
-    PYTHON: python
-  script: $PYTHON -m tox -vv -e py27
-
 # Test with earliest supported version of Python 3
 test:py310:
   stage: test:secondary
   image: python:3.10-slim
   script: $PYTHON -m tox -vv -e py310
-
-# Test with earliest supported version of PyPy 2
-test:pypy:
-  stage: test:secondary
-  image: pypy:2.7-slim
-  variables:
-    PYTHON: pypy
-  script: $PYTHON -m tox -vv -e pypy
 
 # Test with latest supported version of PyPy 3
 test:pypy3:

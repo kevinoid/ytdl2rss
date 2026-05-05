@@ -450,6 +450,8 @@ def entry_to_rss(
     if isinstance(description, str):
         write(indent3)
         write('<description>')
+        # Note: HTML is allowed in item-level descriptions:
+        # https://cyber.harvard.edu/rss/encodingDescriptions.html
         write(escape(description))
         write('</description>')
         write(eol)
@@ -547,7 +549,9 @@ def playlist_to_rss(
     if isinstance(description, str):
         write(indent2)
         write('<description>')
-        write(escape(description))
+        # Note: Although HTML is allowed in item-level descriptions, W3C Feed
+        # Validation warns it is not allowed in channel-level descriptions.
+        write(_to_xml_text(description))
         write('</description>')
         write(eol)
 

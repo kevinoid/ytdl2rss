@@ -160,7 +160,7 @@ yt-dlc_, yt-dlp_, or other forks.  See the `summary at TLDRLegal`_.
 
 .. === Begin reference names ===
 
-.. _API documentation: https://ytdl2rss.readthedocs.io/en/latest/api/modules.html
+.. _API documentation: https://ytdl2rss.readthedocs.io/en/latest/api/ytdl2rss.html
 .. _CLI documentation: https://ytdl2rss.readthedocs.io/en/latest/cli.html
 .. _Open Graph Metadata: https://ogp.me/
 .. _Podsync: https://github.com/mxpv/podsync

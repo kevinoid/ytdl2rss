@@ -26,8 +26,6 @@ from collections.abc import Callable, Iterable, Sequence
 from datetime import datetime
 from email.utils import format_datetime
 from pathlib import Path
-
-# pylint: disable-next=unused-import
 from typing import IO, TYPE_CHECKING, Any, NotRequired, TypedDict, cast
 from urllib.parse import urljoin, urlparse
 from urllib.request import pathname2url, url2pathname

@@ -50,7 +50,8 @@ Features
 Installation
 ============
 
-`This package`_ can be installed using pip_, by running:
+`This package`_ can be installed using Python package managers (pip_, pipx_,
+uv_, conda_, pixi_, etc.), in the usual ways.  For example, by running:
 
 .. code:: sh
 
@@ -171,9 +172,12 @@ yt-dlc_, yt-dlp_, or other forks.  See the `summary at TLDRLegal`_.
 .. _Vimeo: https://vimeo.com/
 .. _YouCast: https://github.com/i3arnon/YouCast
 .. _YouTube: https://www.youtube.com/
+.. _conda: https://docs.conda.io/
 .. _contributing guidelines: https://github.com/kevinoid/ytdl2rss/blob/main/CONTRIBUTING.rst
 .. _cron: https://help.ubuntu.com/community/CronHowto
 .. _pip: https://pip.pypa.io/
+.. _pipx: https://pipx.pypa.io/
+.. _pixi: https://pixi.prefix.dev/
 .. _project documentation: https://ytdl2rss.readthedocs.io/
 .. _podcast: https://en.wikipedia.org/wiki/Podcast
 .. _summary at TLDRLegal: https://www.tldrlegal.com/license/unlicense
@@ -183,3 +187,4 @@ yt-dlc_, yt-dlp_, or other forks.  See the `summary at TLDRLegal`_.
 .. _youtube-dl: https://ytdl-org.github.io/youtube-dl/
 .. _yt-dlc: https://github.com/blackjack4494/yt-dlc
 .. _yt-dlp: https://github.com/yt-dlp/yt-dlp
+.. _uv: https://docs.astral.sh/uv/

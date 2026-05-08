@@ -17,6 +17,7 @@ import argparse
 import codecs
 import json
 import locale
+import logging
 import re
 import sys
 import traceback
@@ -70,6 +71,8 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
 FOR A PARTICULAR PURPOSE.  See the Unlicense for details."""
 )
 _XML_TAG_RE = re.compile('<[^>]+>')
+
+_logger = logging.getLogger('ytdl2rss')
 
 
 class InvalidSelfUrlError(ValueError):
@@ -867,9 +870,21 @@ def _build_argument_parser(
         help='Output RSS file.',
     )
     parser.add_argument(
+        '-q',
+        '--quiet',
+        action='count',
+        help='Decrease verbosity (less detailed output)',
+    )
+    parser.add_argument(
         '-S',
         '--self-url',
         help='URL of generated RSS, to resolve relative URLs',
+    )
+    parser.add_argument(
+        '-v',
+        '--verbose',
+        action='count',
+        help='Increase verbosity (more detailed output)',
     )
     parser.add_argument(
         '-V',
@@ -911,6 +926,13 @@ def main(argv: Sequence[str] = sys.argv) -> int:
             return exit_code
 
     args = parser.parse_args(args=argv[1:])
+
+    # Set log level based on verbosity requested (default of INFO)
+    verbosity = (args.quiet or 0) - (args.verbose or 0)
+    logging.basicConfig(level=logging.INFO + verbosity * 10)
+
+    # Log version to aid debugging
+    _logger.debug('ytdl2rss %s', __version__)
 
     try:
         info_to_rss(

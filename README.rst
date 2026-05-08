@@ -57,7 +57,8 @@ uv_, conda_, pixi_, etc.), in the usual ways.  For example, by running:
 
    pip install ytdl2rss
 
-Or by saving ytdl2rss.py as an executable file in ``$PATH``.
+Or by saving `<src/ytdl2rss/__init__.py>`_ as ``ytdl2rss.py`` in ``$PATH`` and,
+on Unix-like platforms, making it executable (``chmod +x ytdl2rss.py``).
 
 
 Recipes

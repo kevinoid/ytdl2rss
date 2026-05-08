@@ -75,10 +75,6 @@ _XML_TAG_RE = re.compile('<[^>]+>')
 _logger = logging.getLogger('ytdl2rss')
 
 
-class InvalidSelfUrlError(ValueError):
-    """Exception raised when the provided self URL is invalid."""
-
-
 class YtdlFormat(TypedDict):
     """
     Type of formats in JSON produced by --write-info-json for a video.
@@ -155,7 +151,10 @@ def _to_xml_text(text_or_html: str) -> str:
 
 
 def _resolve_path(
-    path: str, src_path: str, dst_path: str | None, dst_url: str
+    path: str,
+    src_path: str,
+    dst_path: str | None = None,
+    dst_url: str | None = None,
 ) -> str:
     """Resolve a path in src_path to a URL in dst_path served at dst_url."""
     src_dir = Path(src_path).parent
@@ -163,14 +162,14 @@ def _resolve_path(
     dst_dir = Path(dst_path or '.').parent
     rel_path = cur_path.relative_to(dst_dir)
     rel_url = pathname2url(rel_path.as_posix())
-    return urljoin(dst_url, rel_url)
+    return urljoin(dst_url, rel_url) if dst_url else rel_url
 
 
 def _resolve_url(
     url: str,
     src_path: str,
-    dst_path: str | None,
-    dst_url: str,
+    dst_path: str | None = None,
+    dst_url: str | None = None,
 ) -> str:
     """Resolve a URL in src_path to a URL in dst_path served at dst_url."""
     url_parts = urlparse(url)
@@ -180,6 +179,8 @@ def _resolve_url(
 
     if url_parts.netloc:
         # url is scheme-relative
+        if not dst_url:
+            raise ValueError("Can't resolve scheme-relative URL without base")
         return urljoin(dst_url, url)
 
     # Resolve url from containing file
@@ -345,7 +346,7 @@ def _write_explicit_for_age_limit(
 def entry_to_rss(
     entry: YtdlEntry,
     write: Callable[[str], Any],
-    rss_url: str,
+    rss_url: str | None = None,
     rss_path: str | None = None,
     indent: str | None = None,
 ) -> None:
@@ -506,7 +507,7 @@ def _playlist_to_rss_language(
 def playlist_to_rss(
     playlist: YtdlPlaylist,
     write: Callable[[str], Any],
-    rss_url: str,
+    rss_url: str | None = None,
     rss_path: str | None = None,
     indent: str | None = None,
 ) -> None:
@@ -758,7 +759,7 @@ def _load_info(info_paths: Iterable[str]) -> YtdlPlaylist:
 # pylint: disable-next=too-many-branches
 def info_to_rss(
     info_paths: Iterable[str],
-    rss_url: str,
+    rss_url: str | None = None,
     rss_path: str | None = None,
     indent: str | None = None,
     write: Callable[[str], Any] | None = None,
@@ -772,17 +773,18 @@ def info_to_rss(
     :param indent: Indent to apply to each nesting level of RSS.
     :param write: Function called to write RSS data, instead of using rss_path.
 
-    :raises InvalidSelfUrlError: if ``rss_url`` doesn't start with a URL scheme.
     :raises ValueError: if ``rss_path`` and ``sys.stdout`` are ``None``
     """
     if not rss_url or not urlparse(rss_url).scheme:
         # Note: Not just a spec compliance issue.  Affects real aggregators:
         # https://github.com/AntennaPod/AntennaPod/issues/2880
-        raise InvalidSelfUrlError(
+        _logger.warning(
             'URLs in RSS 2.0 must be absolute (i.e. start with a scheme) per:\n'
             '- https://www.rssboard.org/rss-specification#comments\n'
             '- https://cyber.harvard.edu/rss/rss.html#comments\n'
             '- https://validator.w3.org/feed/docs/error/InvalidURLAttribute.html\n'
+            'The provided self URL (%s) is not.',
+            rss_url,
         )
 
     # Note: Could use default locale.getpreferredencoding().  Many users would
@@ -941,14 +943,6 @@ def main(argv: Sequence[str] = sys.argv) -> int:
             rss_path=args.output,
             indent=args.indent,
         )
-    except InvalidSelfUrlError as ex:
-        sys.stderr.write(
-            'Error: '
-            + str(ex)
-            + 'Use -S,--self-url to specify an absolute URL at which the RSS '
-            'will be served.\n'
-        )
-        return 1
     except UnicodeEncodeError:
         # TODO: Should use a proper XML writer which would represent
         # characters outside the file encoding using XML entities.

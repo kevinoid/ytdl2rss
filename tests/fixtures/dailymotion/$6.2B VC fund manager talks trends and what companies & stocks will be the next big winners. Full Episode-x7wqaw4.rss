@@ -4,7 +4,7 @@
     <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
     <itunes:explicit>false</itunes:explicit>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
-    <generator>ytdl2rss.py 0.1.0</generator>
+    <generator>ytdl2rss 0.1.0</generator>
     <item>
       <guid isPermaLink="true">https://www.dailymotion.com/video/x7wqaw4</guid>
       <title>$6.2B VC fund manager talks trends and what companies &amp; stocks will be the next big winners. Full Episode</title>

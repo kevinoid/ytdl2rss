@@ -3,7 +3,7 @@
   <channel>
     <pubDate>Fri, 09 Oct 2020 00:00:00 -0000</pubDate>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
-    <generator>ytdl2rss.py 0.1.0</generator>
+    <generator>ytdl2rss 0.1.0</generator>
     <item>
       <guid isPermaLink="true">https://channel9.msdn.com/Shows/Azure-Friday/Using-Azure-Container-Registry-for-building-and-deploying-NET-Core-Apps</guid>
       <title>Using Azure Container Registry for building and deploying .NET Core Apps</title>

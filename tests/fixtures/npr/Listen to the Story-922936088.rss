@@ -3,7 +3,7 @@
   <channel>
     <title>Gen. Mark Milley Says The Military Plays 'No Role' In Elections</title>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
-    <generator>ytdl2rss.py 0.1.0</generator>
+    <generator>ytdl2rss 0.1.0</generator>
     <item>
       <guid isPermaLink="true">https://www.npr.org/2020/10/11/922827554/gen-mark-milley-says-the-military-plays-no-role-in-elections</guid>
       <title>Listen to the Story</title>

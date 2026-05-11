@@ -3,7 +3,7 @@
   <channel>
     <title>Our cats make me happy, I hope they can make you happy too!</title>
     <atom:link rel="self" type="application/rss+xml" href="https://example.com/podcasts"/>
-    <generator>ytdl2rss.py 0.1.0</generator>
+    <generator>ytdl2rss 0.1.0</generator>
     <item>
       <guid isPermaLink="true">http://imgur.com/DDFbi8t</guid>
       <title>Imgur</title>

@@ -70,7 +70,7 @@ FOR A PARTICULAR PURPOSE.  See the Unlicense for details."""
 )
 _XML_TAG_RE = re.compile('<[^>]+>')
 
-_logger = logging.getLogger('ytdl2rss')
+_logger = logging.getLogger(__name__)
 
 
 class YtdlFormat(TypedDict):

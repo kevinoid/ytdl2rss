@@ -855,7 +855,6 @@ def _build_argument_parser(
     """
     parser = argparse.ArgumentParser(
         usage='%(prog)s [options] <JSON file...>',
-        prog=_PROG_NAME,
         description=__doc__,
         # Use raw formatter to avoid mangling version text
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -915,7 +914,7 @@ def main(argv: Sequence[str] = sys.argv) -> int:
     :return: exit code
     """
     parser = _build_argument_parser(
-        prog=Path(argv[0]).name,
+        prog=_PROG_NAME,
     )
 
     if _HAVE_AUTOCOMPLETE:

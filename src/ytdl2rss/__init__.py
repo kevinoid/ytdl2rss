@@ -57,6 +57,9 @@ __all__ = [
 ]
 
 _JSON_PATH_KEY = object()
+# User-visible program name.
+# Must be stable and reliable.  Not deduced from __name__, __file__, or argv[0].
+_PROG_NAME = 'ytdl2rss'
 _VERSION_MESSAGE = (
     '%(prog)s '
     + __version__
@@ -654,7 +657,7 @@ def playlist_to_rss(
 
     write(indent2)
     write('<generator>')
-    write(escape(Path(__file__).name + ' ' + __version__))
+    write(escape(_PROG_NAME + ' ' + __version__))
     write('</generator>')
     write(eol)
 
@@ -852,6 +855,7 @@ def _build_argument_parser(
     """
     parser = argparse.ArgumentParser(
         usage='%(prog)s [options] <JSON file...>',
+        prog=_PROG_NAME,
         description=__doc__,
         # Use raw formatter to avoid mangling version text
         formatter_class=argparse.RawDescriptionHelpFormatter,

@@ -805,7 +805,6 @@ def info_to_rss(
     elif sys.stdout.isatty():
         # TTY unlikely to interpret XML declaration.  Use Python's encoding.
         if sys.stdout.encoding is not None:
-            # pylint: disable-next=redefined-variable-type
             encoding = sys.stdout.encoding
             write = sys.stdout.write
         else:
